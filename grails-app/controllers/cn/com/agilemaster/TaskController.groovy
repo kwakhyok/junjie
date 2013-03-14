@@ -12,15 +12,19 @@ class TaskController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-
-
-
-
- /********************  below is scaffolding codes *****/
-
     def index() {
-        redirect(action: "list", params: params)
+        def works = Workbreakdown.list(params)
+        def pbs = Projectbreakdown.list(params)
+        [WBSList:works, PBSList:pbs]
     }
+
+    def ajaxDemo(){
+        render params
+    }
+
+
+    /********************  below is scaffolding codes *****/
+
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)

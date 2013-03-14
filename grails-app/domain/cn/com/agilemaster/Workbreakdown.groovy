@@ -1,19 +1,20 @@
 package cn.com.agilemaster
 
 /**
- * Project
+ * Workbreakdown
  * A domain class describes the data object and it's mapping to the database
  */
-class Project {
+class Workbreakdown {
+
+
+
 
 	/* Default (injected) attributes of GORM */
 //	Long	id
 //	Long	version
 
-    String name
-    String description
-    User author
-
+    String code
+    String title // e.g. 2009-xxxx-WBS
 
 	/* Automatic timestamping of GORM */
 //	Date	dateCreated
@@ -21,16 +22,15 @@ class Project {
 	
 //	static belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
-	static hasMany		= [tasks:Task, subProjects:Project]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
+	static hasMany		= [tasks:Task]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
 //	static mappedBy		= []	// specifies which property should be used in a mapping 
 	
     static mapping = {
     }
     
 	static constraints = {
-        name(blank: false)
-        description(size: 1..5000, nullable: true)
-        author(nullable: true)
+        code(size: 1..20, nullable: false)
+        title(size: 1..20, nullable: false)
     }
 	
 	/*
@@ -38,6 +38,6 @@ class Project {
 	 */
 //	@Override	// Override toString for a nicer / more descriptive UI 
 	public String toString() {
-		return "${name}";
+		return "${code} ${title}";
 	}
 }

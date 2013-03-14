@@ -9,8 +9,16 @@
 * You can buy this theme on WrapBootstrap: https://wrapbootstrap.com/theme/acme-dashboard-bootstrap-admin-template-WB0JLR295
 */
 
+/* Created By Yi Guo
+ ===================================================================*/
 
+.highlightRow{
+    background-color:#a5a5a5;
+}
 
+.clickableRow{
+    cursor: pointer;
+}
 
 /* Basic
 =================================================================== */

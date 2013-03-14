@@ -1,16 +1,12 @@
 package cn.com.agilemaster
 
 class Role {
+    String name
 
-    String authority
-
-
-
-    static mapping = {
-        cache true
-    }
+    static hasMany = [ users: User, permissions: String ]
+    static belongsTo = User
 
     static constraints = {
-        authority blank: false, unique: true
+        name(nullable: false, blank: false, unique: true)
     }
 }

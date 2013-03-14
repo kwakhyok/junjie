@@ -101,10 +101,13 @@ log4j = {
 }
 
 grails.config.defaults.locations = [KickstartResources, JunjieResources]
-// Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'cn.com.agilemaster.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'cn.com.agilemaster.UserRole'
-grails.plugins.springsecurity.authority.className = 'cn.com.agilemaster.Role'
 
 
+//shared constraints
+grails.gorm.default.constraints = {
+    taskStatus(inList: ['drafted','planned','processing','completed'],blank: false)
+    endDate (blank:false, validator: {val,obj ->
+        return val.after(obj.startDate)
+    })
+}
 

@@ -13,7 +13,7 @@
 
         <div class="modal-body">
 
-            <g:form action="createActivity" class="form-horizontal">
+            <g:form controller="activity" action="createActivity" class="form-horizontal">
                 <fieldset class="form">
                     <g:render template="/activity/form" model="[organization:organization]"/>
                 </fieldset>

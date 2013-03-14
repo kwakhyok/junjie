@@ -3,7 +3,7 @@
 <div id="sidebar-left" class="span1">
     <div class="nav-collapse sidebar-nav">
         <ul class="nav nav-tabs nav-stacked main-menu">
-            <li class="active"><g:link controller="home"><i class="fa-icon-bar-chart"></i><span class="hidden-tablet"> 主页</span></g:link></li>
+            <li><g:link controller="home"><i class="fa-icon-bar-chart"></i><span class="hidden-tablet"> 主页</span></g:link></li>
             <li><g:link controller="information"><i class="fa-icon-folder-open"></i><span class="hidden-tablet"> 信息</span></g:link></li>
             <li><g:link controller="message"><i class="fa-icon-envelope"></i><span class="hidden-tablet"> 沟通</span></g:link></li>
             <li><g:link controller="task"><i class="fa-icon-tasks"></i><span class="hidden-tablet"> 范围</span></g:link></li>

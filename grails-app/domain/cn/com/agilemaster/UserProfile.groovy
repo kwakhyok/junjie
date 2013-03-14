@@ -16,6 +16,7 @@ class UserProfile {
     String email
     String fax
     String memo
+    boolean enabled
 
     /* Automatic timestamping of GORM */
 //	Date	dateCreated
@@ -37,6 +38,7 @@ class UserProfile {
         email email: true
         fax nullable: true
         memo size: 0..100, nullable: true
+
     }
 
     /*

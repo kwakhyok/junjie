@@ -30,6 +30,38 @@
         <webroots>
           <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/kickstart-with-bootstrap-0.8.9/src/templates/war" relative="/WEB-INF" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/fields-1.3/src/groovy" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/fields-1.3/grails-app/services" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/fields-1.3/grails-app/taglib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/full-calendar-1.5.1.0/grails-app/i18n" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/full-calendar-1.5.1.0/grails-app/taglib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-1.7.1/src/groovy" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-1.7.1/grails-app/i18n" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-1.7.1/grails-app/services" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-1.7.1/grails-app/taglib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-ui-1.8.24/grails-app/i18n" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-ui-1.8.24/grails-app/taglib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/kickstart-with-bootstrap-0.8.9/src/groovy" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/kickstart-with-bootstrap-0.8.9/grails-app/i18n" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/kickstart-with-bootstrap-0.8.9/grails-app/controllers" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/kickstart-with-bootstrap-0.8.9/grails-app/domain" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/kickstart-with-bootstrap-0.8.9/grails-app/taglib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/profiler-0.4/src/java" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/profiler-0.4/grails-app/taglib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/resources-1.1.6/src/java" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/resources-1.1.6/src/groovy" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/resources-1.1.6/grails-app/i18n" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/resources-1.1.6/grails-app/taglib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/src/java" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/src/groovy" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/i18n" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/controllers" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/services" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.2.2/grails-app/i18n" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.2.2/grails-app/taglib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/webxml-1.4.1/src/groovy" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>
@@ -79,6 +111,13 @@
       <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/i18n" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/controllers" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/services" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/grails-app/taglib" isTestSource="false" />
     </content>
     <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/tomcat-2.0.4" />
     <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.2.2">
@@ -179,6 +218,14 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.8.2.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.ant/ant/jars/ant-1.8.2.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/xalan/serializer/jars/serializer-2.7.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-spring/bundles/shiro-spring-1.2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-ehcache/bundles/shiro-ehcache-1.2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.jasig.cas.client/cas-client-core/jars/cas-client-core-3.2.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-cas/bundles/shiro-cas-1.2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.opensymphony.quartz/quartz/jars/quartz-1.6.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-quartz/bundles/shiro-quartz-1.2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-core/bundles/shiro-core-1.2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-web/bundles/shiro-web-1.2.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

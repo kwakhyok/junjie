@@ -1,46 +1,14 @@
 package cn.com.agilemaster
 
 class User {
-
-
     String username
-    String password
-    UserProfile profile
+    String passwordHash
 
-    boolean enabled
-    boolean accountExpired
-    boolean accountLocked
-    boolean passwordExpired
+    UserProfile profile
+    
+    static hasMany = [ roles: Role, permissions: String ]
 
     static constraints = {
-        username blank: false, unique: true
-        password blank: false
-        profile(nullable: true)
+        username(nullable: false, blank: false, unique: true)
     }
-
-    //static hasOne = []
-
-    static mapping = {
-        password column: '`password`'
-    }
-
-    Set<Role> getAuthorities() {
-        UserRole.findAllByUser(this).collect { it.role } as Set
-    }
-
-    def beforeInsert() {
-        encodePassword()
-    }
-
-    def beforeUpdate() {
-        if (isDirty('password')) {
-            encodePassword()
-        }
-    }
-
-    protected void encodePassword() {
-        //password = springSecurityService.encodePassword(password)
-    }
-
-
 }

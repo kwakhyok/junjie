@@ -2,45 +2,48 @@ import cn.com.agilemaster.UserRole
 import cn.com.agilemaster.Role
 import cn.com.agilemaster.User
 import cn.com.agilemaster.Organization
-import cn.com.agilemaster.Task
 import cn.com.agilemaster.BidSection
 import cn.com.agilemaster.Project
 import cn.com.agilemaster.Investment
 import cn.com.agilemaster.Design
 import cn.com.agilemaster.DesignCategory
 import cn.com.agilemaster.UserProfile
+import cn.com.agilemaster.Workbreakdown
+import cn.com.agilemaster.Projectbreakdown
 
 class BootStrap {
 
-    def grailsApplication
-
+def shiroSecurityService
     def init = { servletContext ->
 
-        def adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true)
-        def userRole = new Role(authority: 'ROLE_USER').save(flush: true)
+        def adminRole =Role.findByName('ROLE_ADMIN')?: new Role(name: 'ROLE_ADMIN').save(flush: true, failOnError: true)
+        def userRole =Role.findByName('ROLE_USER') ?: new Role(name: 'ROLE_USER').save(flush: true, failOnError: true)
 
-        def testUser = new User(username: 'me',
-                enabled: true,
-                password: 'password',
+        def testUser = User.findByUsername('me')?: new User(username: 'me',
+                passwordHash: shiroSecurityService.encodePassword('password'),
                 profile: new UserProfile(firstName: '三',
                         lastName: '李',
                         position: '计划科科长',
                         telephone: '18801123464',
-                        email: 'pangyu@email.com')
+                        email: 'pangyu@email.com',
+                        enabled: true)
         ).save(failOnError: true)
 
-        def meUser = new User(username: 'admin', enabled: true, password: 'password',
+        def adminUser = User.findByUsername('admin')?: new User(username: 'admin',
+                passwordHash: shiroSecurityService.encodePassword('password'),
                 profile: new UserProfile(firstName: '四',
                         lastName: '张',
                         position: '项目部负责人',
                         telephone: '18801123464',
-                        email: 'yupangyu@email.com')).save(failOnError: true)
+                        email: 'yupangyu@email.com',
+                        enabled: true)).save(failOnError: true)
 
 
-        UserRole.create testUser, adminRole, true
-        UserRole.create meUser, adminRole, true
+        assert adminUser.addToRoles(adminRole).addToRoles(userRole).save(failOnError: true)
+        assert testUser.addToRoles(userRole).save(failOnError: true)
 
-        createDemoData()
+        //   createDemoData()
+        createWbsAndPbs()
 
     }
     def destroy = {
@@ -63,5 +66,15 @@ class BootStrap {
                 .save(failOnError: true)
         /* organization demo */
         def org = new Organization(name: '烟台幕墙工程设备有限公司', address: '雁领路38号', contact: '董卿', user: User.get(1)).save()
+    }
+
+    void createWbsAndPbs(){
+        def prj = new Project(name: '滨州医学院烟台附属医院项目', description: '项目的简单描述',author: User.get(1)).save(failOnError: true)
+        (1..5).each{
+            new Workbreakdown(code: it.toString(), title: "201${it}度" ).save(failOnError: true)
+        }
+        (1..5).each{
+            new Projectbreakdown(code: it.toString(), title: "201${it}度", project: prj).save(failOnError: true)
+        }
     }
 }
