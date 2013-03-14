@@ -92,9 +92,9 @@
                         <td class="center clickableRow">${pbs.title}</td>
                         <td class="center clickableRow">${pbs.tasks?.size()}</td>
                         <td class="center clickableRow">
-                        <g:if test="${pbs.status == 0}">
-                             <span class="label label-important">尚未完成</span>
-                        </g:if><g:else>
+                            <g:if test="${pbs.status == 0}">
+                                <span class="label label-important">尚未完成</span>
+                            </g:if><g:else>
                             <span class="label label-success">已完成</span>
                         </g:else>
                         </td>
@@ -129,30 +129,44 @@
     </div> <!-- /span-->
 </div>  <!-- /row -->
 <div id="taskList">tasklist</div>
+
 <div id="errors">errors</div>
+
+<g:render template="modals/demoModal"/>
+<g:render template="modals/testAjax"/>
+
 </body>
 
 <r:script>
+
+    function remoteUpdateMe(myValue){
+            ${remoteFunction(controller: 'task', action: 'ajaxListTasks', update: [success: 'taskListDiv', failure: 'errors'],
+              params: '\'wbsId=\'+myValue')}
+        }
+
     $('.clickableRow').click(function () {
-        //$(this).closest("tr").siblings().removeClass("highlightRow");
-        var wbsId = $(this).siblings('.hidden-id').text();
-        $('.highlightRow').removeClass("highlightRow");
+    //$(this).closest("tr").siblings().removeClass("highlightRow");
+    var wbsId = $(this).siblings('.hidden-id').text();
+    $('.highlightRow').removeClass("highlightRow");
 
-        $(this).parents("tr").toggleClass("highlightRow", this.clicked);
-        if ($(this).closest("table").attr('id') === 'pbsTable') {
-            $('#tasksTitle').text($(this).text() + " PBS工作分解-- 任务列表");
-        } else if ($(this).closest("table").attr('id') === 'wbsTable') {
-            $('#tasksTitle').text($(this).text() + " WBS工作分解-- 任务列表");
-        }
-        //console.log(wbsId);
-
-        function remoteUpdateMe(myValue){
-            ${remoteFunction(controller:'task', action:'ajaxListTasks', update:[success:'taskListDiv', failure:'errors'],
-                params:'\'wbsId=\'+myValue')}
-        }
-        remoteUpdateMe(wbsId);
-        var alertMe = function(me){alert(me)};
+    $(this).parents("tr").toggleClass("highlightRow", this.clicked);
+    if ($(this).closest("table").attr('id') === 'pbsTable') {
+        $('#tasksTitle').text($(this).text() + " PBS工作分解-- 任务列表");
+    } else if ($(this).closest("table").attr('id') === 'wbsTable') {
+           $('#tasksTitle').text($(this).text() + " WBS工作分解-- 任务列表");
+    }
+    //console.log(wbsId);
+    remoteUpdateMe(wbsId);
+    var alertMe = function(me){alert(me)};
     });
+
+    $('.ajax-modal').live('click', function(){
+        var url = $(this).attr('href');
+        $('#myAjaxModal').load(url,function(){
+            $(this).modal({show:true});
+        });
+    });
+
 </r:script>
 
 </html>

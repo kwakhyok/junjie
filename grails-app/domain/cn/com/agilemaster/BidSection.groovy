@@ -34,8 +34,8 @@ class BidSection extends Task{
         organization(nullable: true)
         estimateSum min: 0, max: 10000
         subSectionSum min: 0, max: 10
-
         description size: 1..500, nullable: true
+
     }
 
     /*

@@ -41,6 +41,7 @@ class Investment extends Task{
         organization nullable: true
         percentage min: 0, max: 100
         description nullable: true
+
     }
 
     /*

@@ -12,6 +12,8 @@ class TaskController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    static ajaxify = ['test']
+
     def index() {
         def works = Workbreakdown.list(params)
         def pbss = Projectbreakdown.list(params)
@@ -42,6 +44,11 @@ class TaskController {
 
         [WBSList: works, PBSList: pbss]
     }
+    def test(){
+
+    }
+
+
 
     def ajaxListTasks() {
         def wbsId = params?.wbsId
@@ -53,12 +60,17 @@ class TaskController {
            wbs = Workbreakdown.find("from Workbreakdown as wbs order by wbs.dateCreated asc")
         }
 
-        def tasks = wbs.tasks;
+        def tasks = wbs.tasks.sort{it.code}
+
         render(template: 'taskList', model: [taskList:tasks])
 
     }
 
-    /********************  below is scaffolding codes *****/
+    def editAjax(){
+
+    }
+
+    /********************  below is scaffolding codes ***************************************************/
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count()]
