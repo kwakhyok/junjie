@@ -106,6 +106,7 @@ grails.config.defaults.locations = [KickstartResources, JunjieResources]
 //shared constraints
 grails.gorm.default.constraints = {
     taskStatus(inList: ['drafted','planned','processing','completed'],blank: false)
+    startDate(blank: false)
     endDate (blank:false, validator: {val,obj ->
         return val.after(obj.startDate)
     })

@@ -16,10 +16,6 @@ package cn.com.agilemaster
     String description
     String status
 
-
-    Date startDate
-    Date endDate
-
   //  static TaskCategory  category = TaskCategory.GENERIC
 
     /* Automatic timestamping of GORM */
@@ -37,14 +33,10 @@ package cn.com.agilemaster
     }
 
     static constraints = {
-        code(size: 1..10, nullable: true)
-        title(size: 1..30, nullable: true)
+        code(size: 1..10, nullable: false)
+        title(size: 1..30, nullable: false)
         status(shared: 'taskStatus')
         description( nullable: true)
-        startDate (blank:false)
-        endDate (blank:false, validator: {val,obj ->
-            return val.after(obj.startDate)
-        })
     }
 
 

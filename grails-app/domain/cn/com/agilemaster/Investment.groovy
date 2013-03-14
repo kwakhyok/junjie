@@ -40,13 +40,7 @@ class Investment extends Task{
         contact nullable: true
         organization nullable: true
         percentage min: 0, max: 100
-
         description nullable: true
-
-        startDate (blank:false)
-        endDate (blank:false, validator: {val,obj ->
-            return val.after(obj.startDate)
-        })
     }
 
     /*

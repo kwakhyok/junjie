@@ -35,13 +35,6 @@ class BidSection extends Task{
         estimateSum min: 0, max: 10000
         subSectionSum min: 0, max: 10
 
-        startDate (blank:false)
-
-        endDate (blank:false, validator: {val,obj ->
-            return val.after(obj.startDate)
-        })
-
-
         description size: 1..500, nullable: true
     }
 

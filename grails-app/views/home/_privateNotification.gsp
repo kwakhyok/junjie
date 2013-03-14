@@ -8,7 +8,7 @@
         </li>
         <li>
             <a href="#">
-                <span class="avatar"><img src="acm/img/avatar.jpg" alt="Avatar"></span>
+                <span class="avatar"><img src="/acm/img/avatar.jpg" alt="Avatar"></span>
                 <span class="header">
                     <span class="from">
                         Łukasz Holeczek
@@ -24,7 +24,7 @@
         </li>
         <li>
             <a href="#">
-                <span class="avatar"><img src="acm/img/avatar2.jpg" alt="Avatar"></span>
+                <span class="avatar"><img src="/acm/img/avatar2.jpg" alt="Avatar"></span>
                 <span class="header">
                     <span class="from">
                         Megan Abott
@@ -40,7 +40,7 @@
         </li>
         <li>
             <a href="#">
-                <span class="avatar"><img src="acm/img/avatar3.jpg" alt="Avatar"></span>
+                <span class="avatar"><img src="/acm/img/avatar3.jpg" alt="Avatar"></span>
                 <span class="header">
                     <span class="from">
                         Kate Ross
@@ -56,7 +56,7 @@
         </li>
         <li>
             <a href="#">
-                <span class="avatar"><img src="acm/img/avatar4.jpg" alt="Avatar"></span>
+                <span class="avatar"><img src="/acm/img/avatar4.jpg" alt="Avatar"></span>
                 <span class="header">
                     <span class="from">
                         Julie Blank
@@ -72,7 +72,7 @@
         </li>
         <li>
             <a href="#">
-                <span class="avatar"><img src="acm/img/avatar5.jpg" alt="Avatar"></span>
+                <span class="avatar"><img src="/acm/img/avatar5.jpg" alt="Avatar"></span>
                 <span class="header">
                     <span class="from">
                         Jane Sanders

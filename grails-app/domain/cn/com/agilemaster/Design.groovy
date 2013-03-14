@@ -42,10 +42,6 @@ class Design extends Task {
         memo nullable: true
         designFee min: 0.0, max: 200000.0
 
-        startDate (blank:false)
-        endDate (blank:false, validator: {val,obj ->
-            return val.after(obj.startDate)
-        })
     }
 
     /*

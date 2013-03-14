@@ -10,6 +10,7 @@ import cn.com.agilemaster.DesignCategory
 import cn.com.agilemaster.UserProfile
 import cn.com.agilemaster.Workbreakdown
 import cn.com.agilemaster.Projectbreakdown
+import cn.com.agilemaster.Task
 
 class BootStrap {
 
@@ -42,39 +43,35 @@ def shiroSecurityService
         assert adminUser.addToRoles(adminRole).addToRoles(userRole).save(failOnError: true)
         assert testUser.addToRoles(userRole).save(failOnError: true)
 
-        //   createDemoData()
+
         createWbsAndPbs()
 
     }
     def destroy = {
     }
 
-    void createDemoData() {
-        /* projects */
-        def today = new Date()
-        new Project(name: '滨州医学院烟台附属医院项目', description: '项目的简单描述', startDate: today - 100,
-                endDate: today + 100, author: User.get(1))
-                .addToTasks(
-                new BidSection(code: '01BD', title: '标段1', description: '示范标段1', startDate:
-                        today - 20, endDate: today + 20, subSectionSum: 2, estimateSum: 100))
-                .addToTasks(
-                new Investment(title: '投资实例1', projectName: '幕墙项目', projectSum: 100, isPaid: false,
-                        startDate: today - 20, endDate: today + 20, percentage: 20))
-                .addToTasks(
-                new Design(title: '幕墙设计', designRequirement: '设计要求', delivery: '交付物',
-                        startDate: today - 30, endDate: today + 10, designFee: 100.00, category: DesignCategory.DRINKING_WATER))
-                .save(failOnError: true)
-        /* organization demo */
-        def org = new Organization(name: '烟台幕墙工程设备有限公司', address: '雁领路38号', contact: '董卿', user: User.get(1)).save()
-    }
+
 
     void createWbsAndPbs(){
-        def prj = new Project(name: '滨州医学院烟台附属医院项目', description: '项目的简单描述',author: User.get(1)).save(failOnError: true)
-        (1..5).each{
-            new Workbreakdown(code: it.toString(), title: "201${it}度" ).save(failOnError: true)
+        def prjName = "滨州医学院烟台附属医院项目"
+        def prj =Project.findByName(prjName) ?: new Project(name: prjName, description: '项目的简单描述',author: User.get(1)).save(failOnError: true)
+        (1..5).each{ j ->
+            def wbs = new Workbreakdown(code: j.toString(), title: "201${j}度" ).save(failOnError: true)
+            (1..3).each{i ->
+                wbs.addToTasks(new Task(project: prj,
+                                                title: "DemoTask${i}",
+                                                code: "${j}.${i}",
+                                                status: "drafted").save(failOnError: true))
+            }
         }
-        (1..5).each{
-            new Projectbreakdown(code: it.toString(), title: "201${it}度", project: prj).save(failOnError: true)
+        (1..5).each{ j ->
+            def pbs = new Projectbreakdown(code: j.toString(), title: "201${j}度", project: prj).save(failOnError: true)
+            (1..6).each{i ->
+                pbs.addToTasks(new Task(project: prj,
+                        title: "ProjectDemoTask${i}",
+                        code: "${j}.${i}",
+                        status: "drafted").save(failOnError: true))
+            }
         }
     }
 }

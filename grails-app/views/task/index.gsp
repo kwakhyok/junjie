@@ -32,6 +32,7 @@
             <table class="table" id="wbsTable">
                 <thead>
                 <tr>
+                    <th class="hidden">ID</th>
                     <g:sortableColumn property="code" title="编号"/>
                     <g:sortableColumn property="title" title="年限|标记"/>
                     <th>任务总数</th>
@@ -41,10 +42,17 @@
                 <tbody>
                 <g:each in="${WBSList}" var="wbs">
                     <tr>
-                        <td class="center clickableRow">${wbs?.code}</td>
-                        <td class="center clickableRow">${wbs?.title}</td>
-                        <td class="center clickableRow">${wbs?.code}</td>
-                        <td class="center clickableRow">${wbs?.code}</td>
+                        <td class="hidden hidden-id">${wbs.id}</td>
+                        <td class="center clickableRow">${wbs.code}</td>
+                        <td class="center clickableRow">${wbs.title}</td>
+                        <td class="center clickableRow">${wbs.tasks.size()}</td>
+                        <td class="center clickableRow">
+                            <g:if test="${wbs.status == 0}">
+                                <span class="label label-important">尚未完成</span>
+                            </g:if><g:else>
+                            <span class="label label-success">已完成</span>
+                        </g:else>
+                        </td>
                     </tr>
                 </g:each>
                 </tbody>
@@ -69,6 +77,7 @@
             <table class="table" id="pbsTable">
                 <thead>
                 <tr>
+                    <th class="hidden">ID</th>
                     <g:sortableColumn property="code" title="编号"/>
                     <g:sortableColumn property="title" title="年限|标记"/>
                     <th>任务总数</th>
@@ -78,10 +87,18 @@
                 <tbody>
                 <g:each in="${PBSList}" var="pbs">
                     <tr>
-                        <td class="center clickableRow">${pbs?.code}</td>
-                        <td class="center clickableRow">${pbs?.title}</td>
-                        <td class="center clickableRow">${pbs?.code}</td>
-                        <td class="center clickableRow">${pbs?.code}</td>
+                        <td class="hidden hidden-id">${pbs.id}</td>
+                        <td class="center clickableRow">${pbs.code}</td>
+                        <td class="center clickableRow">${pbs.title}</td>
+                        <td class="center clickableRow">${pbs.tasks?.size()}</td>
+                        <td class="center clickableRow">
+                        <g:if test="${pbs.status == 0}">
+                             <span class="label label-important">尚未完成</span>
+                        </g:if><g:else>
+                            <span class="label label-success">已完成</span>
+                        </g:else>
+                        </td>
+
                     </tr>
                 </g:each>
                 </tbody>
@@ -106,31 +123,8 @@
             </div>
         </div>
 
-        <div class="box-content">
-            <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                <g:sortableColumn property="code" title="编号"/>
-                <g:sortableColumn property="title" title="任务"/>
-                <g:sortableColumn property="responsive" title="责任人"/>
-                <g:sortableColumn property="status" title="状态"/>
-                </thead>
-                <tbody>
-                <div id="taskListDiv">
-                    <tr class="center">
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr class="center">
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                </div>
-                </tbody>
-            </table>
+        <div class="box-content" id="taskListDiv">
+
         </div>
     </div> <!-- /span-->
 </div>  <!-- /row -->
@@ -141,6 +135,7 @@
 <r:script>
     $('.clickableRow').click(function () {
         //$(this).closest("tr").siblings().removeClass("highlightRow");
+        var wbsId = $(this).siblings('.hidden-id').text();
         $('.highlightRow').removeClass("highlightRow");
 
         $(this).parents("tr").toggleClass("highlightRow", this.clicked);
@@ -149,11 +144,14 @@
         } else if ($(this).closest("table").attr('id') === 'wbsTable') {
             $('#tasksTitle').text($(this).text() + " WBS工作分解-- 任务列表");
         }
+        //console.log(wbsId);
 
-        ${remoteFunction(controller:'task', action:'ajaxDemo', update:[success:'taskList', failure:'errors'],
-            params: '\'wbsId=\' + $(\'\').val()', onComplete:'alertMe()'
-        )}
-        var alertMe = function(){alert('me')};
+        function remoteUpdateMe(myValue){
+            ${remoteFunction(controller:'task', action:'ajaxListTasks', update:[success:'taskListDiv', failure:'errors'],
+                params:'\'wbsId=\'+myValue')}
+        }
+        remoteUpdateMe(wbsId);
+        var alertMe = function(me){alert(me)};
     });
 </r:script>
 

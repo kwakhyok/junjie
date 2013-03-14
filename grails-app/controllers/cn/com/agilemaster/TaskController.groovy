@@ -14,18 +14,51 @@ class TaskController {
 
     def index() {
         def works = Workbreakdown.list(params)
-        def pbs = Projectbreakdown.list(params)
-        [WBSList:works, PBSList:pbs]
+        def pbss = Projectbreakdown.list(params)
+
+        works.each { work ->
+            def wstatus = 0  // 0:processing, 1:completed
+            work.tasks?.each { wtask ->
+                if (wtask.status != 'completed') {
+                    wstatus = 0
+                } else {
+                    wstatus = 1
+                }
+            }
+            work.metaClass.status = wstatus
+        }
+
+        pbss.each { pbs ->
+            def pstatus =0  // 0:processing, 1:completed
+            pbs.tasks?.each { ptask ->
+                if (ptask.status != 'completed') {
+                    pstatus = 0
+                } else {
+                    pstatus = 1
+                }
+            }
+            pbs.metaClass.status = pstatus
+        }
+
+        [WBSList: works, PBSList: pbss]
     }
 
-    def ajaxDemo(){
-        render params
-    }
+    def ajaxListTasks() {
+        def wbsId = params?.wbsId
+        def wbs
+        if (wbsId){
+            wbs = Workbreakdown.get(wbsId);
 
+        }else{
+           wbs = Workbreakdown.find("from Workbreakdown as wbs order by wbs.dateCreated asc")
+        }
+
+        def tasks = wbs.tasks;
+        render(template: 'taskList', model: [taskList:tasks])
+
+    }
 
     /********************  below is scaffolding codes *****/
-
-
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count()]
