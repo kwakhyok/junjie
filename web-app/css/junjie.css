@@ -1,0 +1,58 @@
+.noMargin { /*Some elements come with a default margin, we should add this if don't want them to*/
+    margin:0;
+}
+/*DASHBOARD START*/
+.dashboardWrap {
+    padding:10px 5px 0 5px;
+    overflow:hidden;
+    background-color:#fff;
+    border: 1px #dfdfdf solid;
+}
+.dashboardWrap li {
+    float:left;
+    display:inline;
+    margin:0 4px 10px 4px;
+    padding:5px 10px;
+    width:500px;
+    height:200px;
+    list-style-type:none;
+    background:#f9f9f9 url(../img/dashboardBg.gif) no-repeat right top;
+    border: 1px #dfdfdf solid;
+    text-shadow:#fff 1px 1px 1px;
+}
+.dashboardWrap li p {
+    font-size:1.1em;
+    color:#3e3d33;
+}
+/*DASHBOARD END*/
+
+/*MESSAGE BOXES - START*/
+.infoBox, .successBox, .warningBox, .errorBox {
+    margin:10px 0px;
+    padding:5px 5px 5px 40px;
+    border:1px solid;
+    text-shadow:#fff 1px 1px 1px;
+    background-repeat:no-repeat;
+    background-position:10px center;
+}
+.infoBox {
+    background-color:#BDE5F8;
+    background-image:url('../img/icons/informationBG.gif');
+    color:#00529B;
+}
+.warningBox {
+    background-color:#FEEFB3;
+    background-image:url('../img/icons/errorBG.gif');
+    color:#9F6000;
+}
+.successBox {
+    background-color:#DFF2BF;
+    background-image:url('../img/icons/acceptBG.gif');
+    color:#4F8A10;
+}
+.errorBox {
+    background-color:#FFBABA;
+    background-image:url('../img/icons/cancelBG.gif');
+    color:#D8000C;
+}
+/*MESSAGE BOXES - END*/
