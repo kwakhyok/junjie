@@ -11,6 +11,7 @@ import grails.converters.JSON
 
 
 class InformationController {
+
     def index = {
         def orgs = Organization.list()
         render(view: 'index', model: [organizationInstanceList:orgs, organizationInstanceTotal: orgs.size()])

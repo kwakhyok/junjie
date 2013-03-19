@@ -6,6 +6,6 @@ package cn.com.agilemaster
  */
 class GalleryController {
 
-    static scaffold = true
-//	def index = { }
+    //static scaffold = true
+    def index = { }
 }

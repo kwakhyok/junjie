@@ -161,6 +161,8 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-quartz/bundles/shiro-quartz-1.2.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-core/bundles/shiro-core-1.2.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-web/bundles/shiro-web-1.2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.servlet/servlet-api/jars/servlet-api-2.5.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

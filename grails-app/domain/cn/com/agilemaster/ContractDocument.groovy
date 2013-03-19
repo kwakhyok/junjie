@@ -12,9 +12,14 @@ class ContractDocument extends Document {
 
     String code
 
-    Organization partyB
+    String partyB
+    String contact
 
-    BigDecimal sum
+    BigDecimal contractSum
+    float paymentRatio
+    Date signDate
+    String contractType
+
 	
 	/* Automatic timestamping of GORM */
 //	Date	dateCreated
@@ -30,13 +35,24 @@ class ContractDocument extends Document {
     
 	static constraints = {
         code unique: true, blank: false
+        title size: 1..100
+        partyB size: 1..100, nullable:true
+        contact size: 1..100, nullable: true
+        contractSum nullable: false
+        contractType shared: 'contractType'
+        signDate()
+        paymentRatio max: 100.00f, min: 0.00f, scale: 2 //percentage
+        description size: 1..2000, nullable: true
+        attachedFile(nullable: true)
+        linkedFilePath(nullable: true)
+        author(nullable: true)
     }
 	
 	/*
 	 * Methods of the Domain Class
 	 */
 //	@Override	// Override toString for a nicer / more descriptive UI 
-//	public String toString() {
-//		return "${name}";
-//	}
+	public String toString() {
+		return "${title}";
+	}
 }

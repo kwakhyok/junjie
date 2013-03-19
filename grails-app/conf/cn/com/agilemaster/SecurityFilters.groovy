@@ -6,7 +6,7 @@ package cn.com.agilemaster
  */
 class SecurityFilters {
     def filters = {
-        all(uri: "/**") {
+ /*       all(uri: "*//**") {
             before = {
                 // Ignore direct views (e.g. the default main index page).
                 if (controllerName) {
@@ -17,6 +17,6 @@ class SecurityFilters {
                 // Access control by convention.
                 accessControl()
             }
-        }
+        }                   */
     }
 }

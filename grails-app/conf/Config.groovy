@@ -110,5 +110,6 @@ grails.gorm.default.constraints = {
     endDate (blank:false, validator: {val,obj ->
         return val.after(obj.startDate)
     })
+    contractType(inList: ['Ledger', 'Payment'], blank: false)
 }
 

@@ -12,7 +12,7 @@
           <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/views" relative="/" />
           <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-ui-1.8.24/web-app" relative="/" />
           <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/full-calendar-1.5.1.0/web-app" relative="/" />
-          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.2.2/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.3.0/web-app" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -112,17 +112,17 @@
       <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/controllers" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/services" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/src/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/grails-app/services" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.2.0-SNAPSHOT/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.1.4">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.1.4/src/java" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.1.4/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.1.4/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.1.4/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/shiro-1.1.4/grails-app/taglib" isTestSource="false" />
     </content>
     <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/tomcat-2.0.4" />
-    <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.2.2">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.2.2/grails-app/i18n" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.2.2/grails-app/taglib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.3.0">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.3.0/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/twitter-bootstrap-2.3.0/grails-app/taglib" isTestSource="false" />
     </content>
     <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/webxml-1.4.1">
       <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/webxml-1.4.1/src/groovy" isTestSource="false" />
@@ -226,6 +226,8 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-quartz/bundles/shiro-quartz-1.2.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-core/bundles/shiro-core-1.2.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-web/bundles/shiro-web-1.2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.servlet/servlet-api/jars/servlet-api-2.5.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

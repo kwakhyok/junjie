@@ -45,7 +45,7 @@ class TaskController {
         [WBSList: works, PBSList: pbss]
     }
     def test(){
-
+       // TODO: ajax edit task and assign tasks
     }
 
 
