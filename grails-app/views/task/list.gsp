@@ -57,11 +57,7 @@
         <bs:paginate total="${taskInstanceTotal}"/>
     </div>
 </section>
-<g:javascript>
-    $(".registerOrganizationBtn").bind('click',function(){
-        alert(this.parent.parent.parent.parent.prev().text());
-    });
-</g:javascript>
+
 </body>
 
 </html>

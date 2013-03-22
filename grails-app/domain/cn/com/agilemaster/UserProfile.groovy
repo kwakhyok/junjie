@@ -9,14 +9,15 @@ class UserProfile {
     /* Default (injected) attributes of GORM */
 //	Long	id
 //	Long	version
-    String firstName
-    String lastName
-    String position
-    String telephone
-    String email
-    String fax
-    String memo
+    String  firstName
+    String  lastName
+    String  position
+    String  telephone
+    String  email
+    String  fax
+    String  memo
     boolean enabled
+    byte[]  photo
 
     /* Automatic timestamping of GORM */
 //	Date	dateCreated
@@ -38,6 +39,7 @@ class UserProfile {
         email email: true
         fax nullable: true
         memo size: 0..100, nullable: true
+        photo(nullable: true)
 
     }
 

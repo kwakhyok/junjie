@@ -17,3 +17,10 @@ junjie.default.organizations = {
             capital: 0
             memo: 'blablabla'}
 }
+
+junjie.default.userrole='ROLE_USER'
+junjie.default.adminrole='ADMIN_ROLE'
+junjie.default.testuser='test'
+junjie.default.adminuser='admin'
+junjie.default.password='password'
+

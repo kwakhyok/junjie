@@ -5,18 +5,62 @@ package cn.com.agilemaster
  * via access control by convention.
  */
 class SecurityFilters {
+
+
+    static nonAuthenticatedActions = [
+            [controller: 'message', action: '*'],
+            [controler: 'information', action: '*']
+    ]
+
+    /**
+     * Array of controller/action combinations that will be authenticated against the user's
+     * role. The map also includes the roles which the controller/action pair will match
+     * against.
+     */
+    static authenticatedActions = [
+            [controller: 'contract', action: 'index', roles: ['ROLE_ADMIN', 'ROLE_USER']],
+            [controller: 'contract', action: 'addDemoContract', roles: ['ROLE_ADMIN']]
+    ]
+
+
     def filters = {
- /*       all(uri: "*//**") {
+        all(controler: '*', action: '*') {
             before = {
-                // Ignore direct views (e.g. the default main index page).
-                if (controllerName) {
-                    println "controllerName: ${controllerName}"
+
+                // Determine if the controller/action belongs is not to be authenticated
+                def needsAuth = !nonAuthenticatedActions.find {
+                    (it.controller == controllerName) &&
+                            ((it.action == '*') || (it.action == actionName))
+                }
+
+                if (needsAuth) {
+                    // Get the map within the authenticated actions which pertain to the current
+                    // controller and view.
+                    def authRoles = authenticatedActions.find {
+                        (it.controller == controllerName) &&
+                                ((it.action == '*') || (it.action == actionName))
+                    }
+
+                    if (authRoles) {
+
+                        // Perform the access control for each of the roles provided in the authRoles
+                        accessControl {
+                            authRoles.roles.each { roleName ->
+                                role(roleName)
+                            }
+                        }
+                    }
+                } else {
                     return true
                 }
 
-                // Access control by convention.
-                accessControl()
+                // Ignore direct views (e.g. the default main index page).
+                if (!controllerName) {
+                    return true
+                }
+
+
             }
-        }                   */
+        }
     }
 }

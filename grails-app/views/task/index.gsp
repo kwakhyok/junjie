@@ -146,9 +146,9 @@
 
     $('.clickableRow').click(function () {
     //$(this).closest("tr").siblings().removeClass("highlightRow");
+    console.log(this);
     var wbsId = $(this).siblings('.hidden-id').text();
     $('.highlightRow').removeClass("highlightRow");
-
     $(this).parents("tr").toggleClass("highlightRow", this.clicked);
     if ($(this).closest("table").attr('id') === 'pbsTable') {
         $('#tasksTitle').text($(this).text() + " PBS工作分解-- 任务列表");
@@ -157,7 +157,6 @@
     }
     //console.log(wbsId);
     remoteUpdateMe(wbsId);
-    var alertMe = function(me){alert(me)};
     });
 
     $('.ajax-modal').live('click', function(){
@@ -166,7 +165,5 @@
             $(this).modal({show:true});
         });
     });
-
 </r:script>
-
 </html>

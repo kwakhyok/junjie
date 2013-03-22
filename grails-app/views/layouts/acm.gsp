@@ -5,7 +5,7 @@
 <head>
     <title><g:layoutTitle default="${meta(name: 'app.name')}"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="acm/img/favicon.ico">
+    <link rel="shortcut icon" href="${createLinkTo(dir:'acm/img', file:'favicon.ico')}">
 
     <g:layoutHead/>
     <r:layoutResources/>

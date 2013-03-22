@@ -103,6 +103,8 @@ log4j = {
 grails.config.defaults.locations = [KickstartResources, JunjieResources]
 
 
+
+
 //shared constraints
 grails.gorm.default.constraints = {
     taskStatus(inList: ['drafted','planned','processing','completed'],blank: false)

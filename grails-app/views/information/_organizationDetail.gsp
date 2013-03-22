@@ -3,7 +3,7 @@
     <div class="header">
         <h1>${organizationInstance?.name}</h1>
 
-        <div class="adress_book"><i class="halflings-icon user"></i> <b>${organizationInstance.address}</b></div>
+        <div class="adress_book"><i class="halflings-icon user"></i> <b>${organizationInstance?.address}</b></div>
 
         <div class="date"><i class="halflings-icon time"></i> Today, <b>3:47 PM</b></div>
 

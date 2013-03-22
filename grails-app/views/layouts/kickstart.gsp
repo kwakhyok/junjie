@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="${createLinkTo(dir: 'css', file: 'junjie.css')}"/>
     <%-- Manual switch for the skin can be found in /view/_menu/_config.gsp --%>
-    <r:require modules="jquery,jquery-ui,jquery-theme,bootstrap-js"/>
+    <r:require modules="jquery,jquery-ui,jquery-theme"/>
     <r:require modules="${session.skin ? session.skin : 'bootstrap'}"/>
     <r:require module="application" />
     <r:require modules="${session.skin ? session.skin + '_utils' : 'bootstrap_utils'}"/>

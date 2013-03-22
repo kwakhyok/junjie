@@ -22,19 +22,35 @@
 
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane" id="account">
-                    <g:render template="contractList"/>
+                    <g:render template="contractList" bean="${ledgerList}" var="contractList"/>
                 </div>
 
                 <div class="tab-pane active" id="payment">
-                    <g:render template="contractList"/>
+                    <g:render template="contractList" bean="${paymentList}" var="contractList"/>
+
                 </div>
             </div>
         </div>
     </div><!--/span-->
 
-    <div class="span5 noMarginLeft">
-       <g:render template="contractDetail" />
+    <div class="span5 noMarginLeft" id="contractDetail">
+        <g:render template="contractDetail" bean="${contractInstance}"/>
     </div>
 </div>
 </body>
+
+<r:script>
+    function remoteGetContract(contractId){
+        ${remoteFunction(controller: 'contract', action: 'ajaxGetContract',
+        params: '\'id=\'+contractId', update: [success: 'contractDetail', error: 'errors'])}
+    }
+
+    $('.contractClickRow').click(function(){
+        var contractId =  $(this).children(".hidden-id").text();
+        $(this).siblings().removeClass('highlightRow');
+        $(this).toggleClass('highlightRow',this.clicked);
+        remoteGetContract(contractId);
+    });
+
+</r:script>
 </html>

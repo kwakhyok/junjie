@@ -32,8 +32,8 @@ class Document {
     }
 
     static constraints = {
-        title size:1..10, blank: false
-        author nullable: false
+        title size:1..20, blank: false
+        description(maxSize: 2000, nullable: true)
     }
 
     /*

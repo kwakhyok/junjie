@@ -14,14 +14,23 @@ import cn.com.agilemaster.Task
 
 class BootStrap {
 
-def shiroSecurityService
+    def shiroSecurityService
+    def grailsApplication
+
     def init = { servletContext ->
 
-        def adminRole =Role.findByName('ROLE_ADMIN')?: new Role(name: 'ROLE_ADMIN').save(flush: true, failOnError: true)
-        def userRole =Role.findByName('ROLE_USER') ?: new Role(name: 'ROLE_USER').save(flush: true, failOnError: true)
+        // get the default roles defined in JunjieResources.groovy
+        def defaultAdminRole = grailsApplication.config.junjie.default.adminrole
+        def defaultUserRole = grailsApplication.config.junjie.default.userrole
+        def defaultTestUser = grailsApplication.config.junjie.default.testuser
+        def defaultAdminUser = grailsApplication.config.junjie.default.adminuser
+        def defaultPassword = grailsApplication.config.junjie.default.password
 
-        def testUser = User.findByUsername('me')?: new User(username: 'me',
-                passwordHash: shiroSecurityService.encodePassword('password'),
+        def adminRole = Role.findByName(defaultAdminRole) ?: new Role(name: defaultAdminRole).save(flush: true, failOnError: true)
+        def userRole = Role.findByName(defaultUserRole) ?: new Role(name: defaultUserRole).save(flush: true, failOnError: true)
+
+        def testUser = User.findByUsername(defaultTestUser) ?: new User(username: defaultTestUser,
+                passwordHash: shiroSecurityService.encodePassword(defaultPassword),
                 profile: new UserProfile(firstName: '三',
                         lastName: '李',
                         position: '计划科科长',
@@ -30,8 +39,8 @@ def shiroSecurityService
                         enabled: true)
         ).save(failOnError: true)
 
-        def adminUser = User.findByUsername('admin')?: new User(username: 'admin',
-                passwordHash: shiroSecurityService.encodePassword('password'),
+        def adminUser = User.findByUsername(defaultAdminUser) ?: new User(username: defaultAdminUser,
+                passwordHash: shiroSecurityService.encodePassword(defaultPassword),
                 profile: new UserProfile(firstName: '四',
                         lastName: '张',
                         position: '项目部负责人',
@@ -52,21 +61,21 @@ def shiroSecurityService
 
 
 
-    void createWbsAndPbs(){
+    void createWbsAndPbs() {
         def prjName = "滨州医学院烟台附属医院项目"
-        def prj =Project.findByName(prjName) ?: new Project(name: prjName, description: '项目的简单描述',author: User.get(1)).save(failOnError: true)
-        (1..5).each{ j ->
-            def wbs = new Workbreakdown(code: j.toString(), title: "201${j}度" ).save(failOnError: true)
-            (1..3).each{i ->
+        def prj = Project.findByName(prjName) ?: new Project(name: prjName, description: '项目的简单描述', author: User.get(1)).save(failOnError: true)
+        (1..5).each { j ->
+            def wbs = new Workbreakdown(code: j.toString(), title: "201${j}度").save(failOnError: true)
+            (1..3).each {i ->
                 wbs.addToTasks(new Task(project: prj,
-                                                title: "DemoTask${i}",
-                                                code: "${j}.${i}",
-                                                status: "drafted").save(failOnError: true))
+                        title: "DemoTask${i}",
+                        code: "${j}.${i}",
+                        status: "drafted").save(failOnError: true))
             }
         }
-        (1..5).each{ j ->
+        (1..5).each { j ->
             def pbs = new Projectbreakdown(code: j.toString(), title: "201${j}度", project: prj).save(failOnError: true)
-            (1..6).each{i ->
+            (1..6).each {i ->
                 pbs.addToTasks(new Task(project: prj,
                         title: "ProjectDemoTask${i}",
                         code: "${j}.${i}",
