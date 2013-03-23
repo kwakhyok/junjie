@@ -43,7 +43,7 @@
              <div class="center">
                  <h3>Task List</h3>
              </div>
-             <g:render template="/templates/tasklist" model="['taskList':taskList, 'taskTotal': total]"/>
+            %{-- <g:render template="/templates/tasklist" model="['taskList':taskList, 'taskTotal': total]"/>--}%
         </div>
     </div>
 </section>

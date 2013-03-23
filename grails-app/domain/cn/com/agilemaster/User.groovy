@@ -6,7 +6,7 @@ class User {
 
     UserProfile profile
     
-    static hasMany = [ roles: Role, permissions: String ]
+    static hasMany = [ roles: Role, permissions: String, activities:Activity]
 
     static constraints = {
         username(nullable: false, blank: false, unique: true)

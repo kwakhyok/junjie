@@ -3,6 +3,13 @@ modules = {
         resource url: 'js/application.js'
     }
 
+    jsgantt {
+        resource url:'css/jsgantt.css'
+        resource url:'js/jsgantt.js'
+    }
+
+
+
     acm {
         resource url: 'acm/css/bootstrap.min.css'
         resource url: 'acm/css/bootstrap-responsive.min.css'

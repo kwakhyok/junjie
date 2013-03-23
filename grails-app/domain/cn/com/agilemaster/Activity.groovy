@@ -15,10 +15,8 @@ class Activity {
     /* Automatic timestamping of GORM */
 	Date	dateCreated
 	Date	lastUpdated
-
-    Organization organization
-
-    Task task
+    User user
+    TaskPlan taskPlan
 
     String tag
     String description

@@ -20,4 +20,11 @@ $('.main-menu > li').click(function(){
         .siblings().removeClass('active')
         .end()
 })
-
+//TODO: make the sub menu active toggles.
+$('.main-menu > li > ul > li').click(function(){
+    $(this)
+        .addClass('active')
+        .siblings().removeClass('active')
+        .parents.siblings().removeClass('active')
+        .end()
+})
