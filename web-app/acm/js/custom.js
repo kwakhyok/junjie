@@ -362,9 +362,11 @@ function template_functions(){
 	
 	/* ---------- Text editor ---------- */
 	$('.cleditor').cleditor();
-	
-	/* ---------- Datapicker ---------- */
-	$('.datepicker').datepicker();
+
+
+    /* ---------- Datapicker ---------- */
+  //  $('.datepicker').datepicker();
+
 	
 	/* ---------- Notifications ---------- */
 	$('.noty').click(function(e){

@@ -11,11 +11,24 @@ class ContractController {
     def userService
 
     def index = {
-        def c = ContractDocument.createCriteria()
-        def lastContract = c.list {
-            maxResults(1)
-            order("dateCreated", "desc")
-        }.get(0)
+        def lastContract
+        if(ContractDocument.count>0){
+            def c = ContractDocument.createCriteria()
+            lastContract = c.list {
+                maxResults(1)
+                order("dateCreated", "desc")
+            }.get(0)
+        }else{
+            lastContract = ContractDocument.findByCode('demo1') ?: new ContractDocument(code: "demo1", title: "xxx合同副本",
+                    signDate: new Date(),
+                    partyB: "烟台市土地规划局",
+                    contact: "庞玉成",
+                    contractType: "Ledger",
+                    contractSum: 2.0 * 1000000, paymentRatio: 2.0  * 1.40f,
+                    author: userService.getCurrentUser()
+            ).save(failOnError: true)
+        }
+
         def ledgerList = ContractDocument.findAllByContractType("Ledger")
         def paymentList = ContractDocument.findAllByContractType("Payment")
         println('ledgerlist: ' + ledgerList.size())
@@ -35,7 +48,7 @@ class ContractController {
         ContractDocument.list().removeAll()
         def currentUser = userService.getCurrentUser();
         (1..2).each {
-            new ContractDocument(code: "czbe${it}", title: "${it}合同副本",
+            ContractDocument.findByCode("czbe${it}")?: new ContractDocument(code: "czbe${it}", title: "${it}合同副本",
                     signDate: new Date(),
                     partyB: "烟台市土地规划局${it}",
                     contact: "庞玉成",
@@ -46,6 +59,7 @@ class ContractController {
         }
 
         (1..2).each {
+            ContractDocument.findByCode("czbeq${it}")?:
             new ContractDocument(code: "czbeq${it}", title: "${it}付款合同副本",
                     signDate: new Date(),
                     partyB: "烟台市土地规划局${it}",
@@ -55,7 +69,7 @@ class ContractController {
                     author: currentUser
             ).save(failOnError: true)
         }
-        assert ContractDocument.count == 4
+      //  assert ContractDocument.count == 4
         redirect(action: 'index')
     }
 

@@ -6,12 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="cn.com.agilemaster.Task" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>${meta(name: 'app.name')} -- 范围管理</title>
     <meta content="loggedinacm" name="layout"/>
-    <r:require module="acm"/>
+    <r:require modules="acm"/>
 </head>
 
 <body>
@@ -115,7 +115,9 @@
         <div class="box-header">
             <h2><i class="halflings-icon align-justify"></i><span class="break"></span><span id="tasksTitle">任务列表</span>
             </h2>
-
+                <div class="menu">
+                    <g:link class="btn btn-mini" controller="task" action="addDemoPlan">AddDemoPlan</g:link>
+                </div>
             <div class="box-icon">
                 <a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
                 <a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
@@ -128,11 +130,30 @@
         </div>
     </div> <!-- /span-->
 </div>  <!-- /row -->
-<div id="taskList">tasklist</div>
+<div id="taskList">
+%{--
+    <g:render template="taskList" bean="taskList"/>
+--}%
+</div>
 
 <div id="errors">errors</div>
 
-<g:render template="modals/demoModal"/>
+
+<div class="control-group">
+    <label class="control-label" for="selectError2">Multiple Select / Tags</label>
+    <div class="controls">
+        <select id="selectError2" multiple data-rel="chosen">
+            <option>Option 1</option>
+            <option selected>Option 2</option>
+            <option>Option 3</option>
+            <option>Option 4</option>
+            <option>Option 5</option>
+        </select>
+    </div>
+</div>
+
+<div class="modal hide fade" id="planTaskModal" style="display: block;">
+</div>
 <g:render template="modals/testAjax"/>
 
 </body>
@@ -141,9 +162,9 @@
 
     function remoteUpdateMe(myValue){
             ${remoteFunction(controller: 'task', action: 'ajaxListTasks', update: [success: 'taskListDiv', failure: 'errors'],
-              params: '\'wbsId=\'+myValue')}
-        }
-
+        params: '\'wbsId=\'+myValue')}
+    }
+    $(remoteUpdateMe('5'));
     $('.clickableRow').click(function () {
     //$(this).closest("tr").siblings().removeClass("highlightRow");
     console.log(this);
@@ -159,11 +180,16 @@
     remoteUpdateMe(wbsId);
     });
 
-    $('.ajax-modal').live('click', function(){
+    $('.planTaskBtn').live('click',function(){
         var url = $(this).attr('href');
-        $('#myAjaxModal').load(url,function(){
-            $(this).modal({show:true});
+        $('#planTaskModal').load(url, function(){
+           $(this).modal({show:true});
         });
+        return false;
     });
+
+
+
+
 </r:script>
 </html>

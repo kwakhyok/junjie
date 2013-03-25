@@ -10,14 +10,16 @@ import grails.converters.JSON
  */
 class TaskController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST", planTaskAjax: "GET"]
 
     static ajaxify = ['test']
+
+    def taskService
+
 
     def index() {
         def works = Workbreakdown.list(params)
         def pbss = Projectbreakdown.list(params)
-
         works.each { work ->
             def wstatus = 0  // 0:processing, 1:completed
             work.tasks?.each { wtask ->
@@ -42,12 +44,53 @@ class TaskController {
             pbs.metaClass.status = pstatus
         }
 
-        [WBSList: works, PBSList: pbss]
+        def tasks = taskService.getLastTaskList()
+
+        [WBSList: works, PBSList: pbss, taskList: tasks]
     }
     def test(){
        // TODO: ajax edit task and assign tasks
     }
 
+
+    def planTask = {
+        def taskId = params?.taskId
+        if(taskId){
+            taskService.planTask(taskId, params)
+        }else{
+            flash.message = 'Task was not found!'
+        }
+    }
+
+    def planTaskAjax = {
+        println request
+        def task = Task.get(params.taskId)
+       if(task){
+          render (template: 'modals/taskModal',model:[task:task])
+       }else{
+           render Task.get(1) as JSON
+       }
+    }
+
+
+    def addDemoPlan = {
+        taskService.planLastDemoTasks()
+        redirect(action: 'index')
+    }
+
+
+    /* TODO: task Up and Down */
+    def upTask = {
+        taskService.upTask(params.taskId)
+    }
+
+    def downTask = {
+        taskService.downTask(params.taskId)
+    }
+
+    def deleteTask = {
+        taskService.deleteTask(params.taskId)
+    }
 
 
     def ajaxListTasks() {
@@ -57,16 +100,19 @@ class TaskController {
             wbs = Workbreakdown.get(wbsId);
 
         }else{
-           wbs = Workbreakdown.find("from Workbreakdown as wbs order by wbs.dateCreated asc")
+           //wbs = Workbreakdown.find("from Workbreakdown as wbs order by wbs.dateCreated asc")
+            wbs = Workbreakdown.list(max: 1, sort: "code", order: "desc").get(0)
         }
-
         def tasks = wbs.tasks.sort{it.code}
-
         render(template: 'taskList', model: [taskList:tasks])
-
     }
 
     def editAjax(){
+
+    }
+
+
+    def planTaskSave = {
 
     }
 

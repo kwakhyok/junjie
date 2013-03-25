@@ -13,13 +13,27 @@
             <td>${task.title}</td>
             <td>${task.code}</td>
             <td>${task.status}</td>
+
             <td>
-                <g:link controller="task" action="test" id="${task.id}" class="btn btn-info ajax-modal" href="#">
-                    <i class="halflings-icon edit halflings-icon"></i>
-                </g:link>
+                <g:if test="${task.status=='drafted'}">
+                    <g:link controller="task" action="planTaskAjax" params="[taskId: task.id]" title="计划" data-rel="tooltip" class="btn btn-warning planTaskBtn">
+                        <i class="halflings-icon edit"></i>
+                    </g:link>
+                    <g:link controller="task" action="test" params="[taskId: task.id]" class="btn btn-warning ajax-modal" href="#" title="上移" data-rel="tooltip">
+                        <i class="halflings-icon arrow-up"></i>
+                    </g:link>
+
+                    <g:link controller="task" action="test" params="[taskId: task.id]" class="btn btn-warning ajax-modal" href="#" title="下移" data-rel="tooltip">
+                        <i class="halflings-icon arrow-down"></i>
+                    </g:link>
+
+                    <g:link controller="task" action="deleteTask" params="[taskId: task.id]" class="btn btn-info ajax-modal" href="#" title="下移" data-rel="tooltip">
+                        <i class="halflings-icon trash"></i>
+                    </g:link>
+                </g:if>
+
             </td>
         </tr>
     </g:each>
-
     </tbody>
 </table>
