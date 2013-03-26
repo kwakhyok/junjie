@@ -2,7 +2,10 @@
     <thead>
     <g:sortableColumn property="code" title="编号"/>
     <g:sortableColumn property="title" title="任务"/>
+
     <g:sortableColumn property="responsive" title="责任人"/>
+
+
     <g:sortableColumn property="status" title="状态"/>
     <th>操作</th>
     </thead>
@@ -11,7 +14,13 @@
         <tr class="center">
             <td>${task.code}</td>
             <td>${task.title}</td>
-            <td>${task.code}</td>
+            <td> <g:if test="${task.status=='drafted'}">
+                    [尚未分配]
+                </g:if><g:else>
+                    ${task.plans?.find{true}.assignedUser}
+                </g:else>
+            </td>
+
             <td>${task.status}</td>
 
             <td>

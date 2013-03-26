@@ -17,6 +17,7 @@ class TaskPlan {
     float completeRatio
     Date dateCreated
     Date lastUpdated
+    boolean isCurrent
     User author
 
     /* Automatic timestamping of GORM */
@@ -37,6 +38,7 @@ class TaskPlan {
         endDate(blank: false, validator: {val, obj ->
             return val.after(obj.startDate)
         })
+        isCurrent()
     }
 
     /*
@@ -44,6 +46,6 @@ class TaskPlan {
       */
 //	@Override	// Override toString for a nicer / more descriptive UI 
     public String toString() {
-        return "${task?.title} + ${startDate.dateString}";
+        return "${task?.title} + ${startDate.format('yyyy-MM-dd')}";
     }
 }

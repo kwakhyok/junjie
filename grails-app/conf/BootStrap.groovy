@@ -16,6 +16,7 @@ class BootStrap {
 
     def shiroSecurityService
     def grailsApplication
+    def taskService
 
     def init = { servletContext ->
 
@@ -26,8 +27,18 @@ class BootStrap {
         def defaultAdminUser = grailsApplication.config.junjie.default.adminuser
         def defaultPassword = grailsApplication.config.junjie.default.password
 
+        def adminPermissions = grailsApplication.config.junjie.permissions.admin
+        def userPermissions = grailsApplication.config.junjie.permissions.user
+
         def adminRole = Role.findByName(defaultAdminRole) ?: new Role(name: defaultAdminRole).save(flush: true, failOnError: true)
         def userRole = Role.findByName(defaultUserRole) ?: new Role(name: defaultUserRole).save(flush: true, failOnError: true)
+
+        adminPermissions.each{
+            adminRole.addToPermissions(it).save(flush: true, failOnError: true)
+        }
+        userPermissions.each{
+            userRole.addToPermissions(it).save(flush: true,failOnError: true)
+        }
 
         def testUser = User.findByUsername(defaultTestUser) ?: new User(username: defaultTestUser,
                 passwordHash: shiroSecurityService.encodePassword(defaultPassword),
@@ -53,34 +64,10 @@ class BootStrap {
         assert testUser.addToRoles(userRole).save(failOnError: true)
 
 
-        createWbsAndPbs()
+        taskService.createWbsAndPbs(adminUser)
 
     }
     def destroy = {
     }
 
-
-
-    void createWbsAndPbs() {
-        def prjName = "滨州医学院烟台附属医院项目"
-        def prj = Project.findByName(prjName) ?: new Project(name: prjName, description: '项目的简单描述', author: User.get(1)).save(failOnError: true)
-        (1..5).each { j ->
-            def wbs = new Workbreakdown(code: j.toString(), title: "201${j}度").save(failOnError: true)
-            (1..3).each {i ->
-                wbs.addToTasks(new Task(project: prj,
-                        title: "DemoTask${i}",
-                        code: "${j}.${i}",
-                        status: "drafted").save(failOnError: true))
-            }
-        }
-        (1..5).each { j ->
-            def pbs = new Projectbreakdown(code: j.toString(), title: "201${j}度", project: prj).save(failOnError: true)
-            (1..6).each {i ->
-                pbs.addToTasks(new Task(project: prj,
-                        title: "ProjectDemoTask${i}",
-                        code: "${j}.${i}",
-                        status: "drafted").save(failOnError: true))
-            }
-        }
-    }
 }

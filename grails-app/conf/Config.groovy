@@ -76,9 +76,9 @@ log4j = {
     // Example of changing the log pattern for the default console
     // appender:
     //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+    appenders {
+        console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+    }
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
            'org.codehaus.groovy.grails.web.pages', //  GSP
@@ -102,8 +102,8 @@ log4j = {
 
 grails.config.defaults.locations = [KickstartResources, JunjieResources]
 
-
-
+junjie.permissions.admin =  ['home:*','information:*']
+junjie.permissions.user = ['home:*']
 
 //shared constraints
 grails.gorm.default.constraints = {
@@ -113,5 +113,6 @@ grails.gorm.default.constraints = {
         return val.after(obj.startDate)
     })
     contractType(inList: ['Ledger', 'Payment'], blank: false)
+    ActivityType(inList: ['Replan','Completion'], blank: false)
 }
 

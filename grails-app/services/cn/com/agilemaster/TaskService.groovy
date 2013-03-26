@@ -54,6 +54,19 @@ class TaskService {
         }
     }
 
+
+    def getTasksByCurrentUser(){
+        def tasks = []
+         def currentUser = userService.getCurrentUser()
+         def plans = TaskPlan.findAllByAssignedUser(currentUser)
+         plans.each{ plan ->
+             tasks << plan.task
+         }
+        return tasks.unique()
+    }
+
+
+
     def planLastDemoTasks() {
         def today = new Date()
         def tasks = this.getLastTaskList()
@@ -71,11 +84,11 @@ class TaskService {
 
 /* create demo WBS and PBS */
 
-    def createWbsAndPbs() {
+    def createWbsAndPbs(User user) {
         def prjName = "滨州医学院烟台附属医院项目"
         def prj = Project.findByName(prjName) ?: new Project(name: prjName, description: '项目的简单描述',
-                author: userService.getCurrentUser()).save(failOnError: true)
-        if (!Workbreakdown.count > 0) {
+                author: user).save(failOnError: true)
+        if (Workbreakdown.count == 0) {
             //WBS demo
             (1..5).each { j ->
                 def wbs = new Workbreakdown(code: j.toString(), title: "201${j}度").save(failOnError: true)
@@ -87,7 +100,7 @@ class TaskService {
                 }
             }
         }
-        if (!Projectbreakdown.count > 0) {
+        if (Projectbreakdown.count == 0) {
             //PBS Demo
             (1..5).each { j ->
                 def pbs = new Projectbreakdown(code: j.toString(), title: "201${j}度", project: prj).save(failOnError: true)

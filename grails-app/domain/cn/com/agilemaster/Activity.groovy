@@ -32,7 +32,7 @@ class Activity {
     }
 
     static constraints = {
-        tag size: 1..20, inList: ["意愿","参建","投标","专家"]
+        tag shared: 'ActivityType'
         description size: 1..100, nullable: true
     }
 
@@ -41,17 +41,6 @@ class Activity {
       */
 //	@Override	// Override toString for a nicer / more descriptive UI 
 	public String toString() {
-		return "${organization?.name} is doing ${task?.title} in the way of  ${description}";
+		return "Activity ${tag} ${description}";
 	}
-}
-
-public enum ActivityCategory{
-
-    PARTICIPATION("Participation"), BID("Bid"), SPECIALIST("Specialist"), DESIGN("Design"),INTENTION("Intention")
-
-    final String value
-
-    ActivityCategory(String value){
-        this.value = value
-    }
 }

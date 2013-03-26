@@ -1,3 +1,4 @@
+<%@ page import="org.apache.shiro.SecurityUtils" %>
 <!DOCTYPE html>
 <%-- <html lang="${org.springframework.web.servlet.support.RequestContextUtils.getLocale(request).toString().replace('_', '-')}"> --%>
 <html lang="${session.'org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'}">
@@ -34,6 +35,7 @@
                     <!-- start: Message Dropdown -->
                     <g:render template="/home/privateNotification"/>
                     <!-- end: Message Dropdown -->
+
                     <!-- start: User Dropdown -->
                     <g:render template="/home/userOperation"/>
                     <!-- end: User Dropdown -->
@@ -46,12 +48,12 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <g:render template="/home/mainMenu" />
+        <g:render template="/home/mainMenu"/>
         <div id="content" class="span11">
-        <g:layoutBody/>
-    </div>
+            <g:layoutBody/>
+        </div>
     </div>
 </div>
-    <r:layoutResources/>
+<r:layoutResources/>
 </body>
 </html>

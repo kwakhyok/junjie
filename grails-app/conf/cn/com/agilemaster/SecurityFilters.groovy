@@ -24,7 +24,15 @@ class SecurityFilters {
 
 
     def filters = {
-        all(controler: '*', action: '*') {
+
+        all(uri:'/**'){
+           before = {
+               accessControl()
+           }
+        }
+
+
+     /*   all(controler: '*', action: '*') {
             before = {
 
                 // Determine if the controller/action belongs is not to be authenticated
@@ -51,16 +59,16 @@ class SecurityFilters {
                         }
                     }
                 } else {
-                    return true
+                    return false
                 }
 
                 // Ignore direct views (e.g. the default main index page).
                 if (!controllerName) {
-                    return true
+                    return false
                 }
 
 
             }
-        }
+        }*/
     }
 }

@@ -32,7 +32,6 @@ package cn.com.agilemaster
 
     static mapping = {
        sort 'dateCreated'
-       activities sort: 'dateCreated'
     }
 
     static constraints = {
