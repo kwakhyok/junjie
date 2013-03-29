@@ -46,7 +46,9 @@ class TaskController {
 
         def tasks = taskService.getLastTaskList()
 
-        [WBSList: works, PBSList: pbss, taskList: tasks]
+        def myTasks = taskService.getTasksByCurrentUser()
+
+        [WBSList: works, PBSList: pbss, taskList: tasks, myTaskList: myTasks]
     }
     def test(){
        // TODO: ajax edit task and assign tasks
@@ -63,7 +65,6 @@ class TaskController {
     }
 
     def planTaskAjax = {
-        println request
         def task = Task.get(params.taskId)
        if(task){
           render (template: 'modals/taskModal',model:[task:task])
@@ -90,6 +91,7 @@ class TaskController {
 
     def deleteTask = {
         taskService.deleteTask(params.taskId)
+        flash.message = "任务 ${params.taskId} 被删除"
     }
 
 

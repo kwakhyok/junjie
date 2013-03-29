@@ -67,7 +67,7 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
-        // TODO: grails.serverURL = "http://www.agilemaster.com"
+        // TODO: grails.serverURL = "http://www.agilemaster.com.cn"
     }
 }
 
@@ -102,7 +102,7 @@ log4j = {
 
 grails.config.defaults.locations = [KickstartResources, JunjieResources]
 
-junjie.permissions.admin =  ['home:*','information:*']
+junjie.permissions.admin =  ['*:*']
 junjie.permissions.user = ['home:*']
 
 //shared constraints
@@ -114,5 +114,7 @@ grails.gorm.default.constraints = {
     })
     contractType(inList: ['Ledger', 'Payment'], blank: false)
     ActivityType(inList: ['Replan','Completion'], blank: false)
+    WBSStatus(inList: ['archived', 'on-progress'],blank: false)
+    TaskPriority(inList:['high', 'medium','low'],blank: false)
 }
 

@@ -23,18 +23,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#"><span>AgileMaster 0.2.1</span></a>
+            <a class="brand" href="#"><img src="/img/amlogo.png" alt="君捷软件"/></a>
 
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
-                    <g:render template="messageNotification"/>
-                    <!-- start: Notifications Dropdown -->
-                    <g:render template="progressNotification"/>
-                    <!-- end: Notifications Dropdown -->
+                    <shiro:isLoggedIn>
+                        <g:render template="messageNotification"/>
+                        <!-- start: Notifications Dropdown -->
+                        <g:render template="progressNotification"/>
+                        <!-- end: Notifications Dropdown -->
                     <!-- start: Message Dropdown -->
-                    <g:render template="privateNotification"/>
-                    <!-- end: Message Dropdown -->
+                        <g:render template="privateNotification"/>
+                        <!-- end: Message Dropdown -->
+
+                    </shiro:isLoggedIn>
 
                     <!-- start: User Dropdown -->
                     <g:render template="userOperation"/>
@@ -45,15 +48,13 @@
 
         </div>
 
-
-
     </div>
 </div>
 
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <g:render template="mainMenu" />
+        <g:render template="mainMenu"/>
         <div id="content" class="span11">
 
             <div class="row-fluid">
@@ -77,7 +78,6 @@
         </div>
     </div>
 </div>
-
 
 </body>
 </html>

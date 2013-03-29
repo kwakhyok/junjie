@@ -14,7 +14,8 @@ package cn.com.agilemaster
     String code
     String title
     String description
-    String status
+    String status = "drafted"
+    TaskPlan currentPlan
 
   //  static TaskCategory  category = TaskCategory.GENERIC
 
@@ -39,6 +40,7 @@ package cn.com.agilemaster
         title(size: 1..30, nullable: false)
         status(shared: 'taskStatus')
         description( nullable: true)
+        currentPlan(nullable: true)
     }
 
 

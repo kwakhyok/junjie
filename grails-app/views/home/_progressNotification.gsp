@@ -4,8 +4,12 @@
     </a>
     <ul class="dropdown-menu tasks">
         <li>
-            <span class="dropdown-menu-title">You have 17 tasks in progress</span>
+            <span class="dropdown-menu-title">您有<b>${myTaskList?.size()}</b>个任务正在进行中</span>
         </li>
+        <g:each in="${myTaskList}" var="task">
+
+             <am:renderTaskPercentage task="${task}"/>
+        </g:each>
         <li>
             <a href="#">
                 <span class="header">
@@ -16,16 +20,7 @@
                 <div class="taskProgress progressSlim progressBlue">80</div>
             </a>
         </li>
-        <li>
-            <a href="#">
-                <span class="header">
-                    <span class="title">Android Development</span>
-                    <span class="percent"></span>
-                </span>
 
-                <div class="taskProgress progressSlim progressBlue">47</div>
-            </a>
-        </li>
         <li>
             <a href="#">
                 <span class="header">
@@ -57,7 +52,7 @@
             </a>
         </li>
         <li>
-            <a class="dropdown-menu-sub-footer">View all tasks</a>
+            <a class="dropdown-menu-sub-footer">查看所有任务</a>
         </li>
     </ul>
 </li>

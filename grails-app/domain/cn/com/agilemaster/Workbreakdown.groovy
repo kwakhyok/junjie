@@ -15,6 +15,7 @@ class Workbreakdown {
 
     String code
     String title // e.g. 2009-xxxx-WBS
+    String status = 'archived' // 'archived', 'on-progress'
 
 	/* Automatic timestamping of GORM */
 	Date	dateCreated
@@ -31,6 +32,7 @@ class Workbreakdown {
 	static constraints = {
         code(size: 1..20, nullable: false)
         title(size: 1..20, nullable: false)
+        status(shared: 'WBSStatus')
     }
 	
 	/*

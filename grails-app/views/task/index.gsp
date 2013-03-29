@@ -37,6 +37,7 @@
                     <g:sortableColumn property="title" title="年限|标记"/>
                     <th>任务总数</th>
                     <th>状态</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,10 +49,16 @@
                         <td class="center clickableRow">${wbs.tasks.size()}</td>
                         <td class="center clickableRow">
                             <g:if test="${wbs.status == 0}">
-                                <span class="label label-important">尚未完成</span>
+                                <span class="label label-important">未完成</span>
                             </g:if><g:else>
                             <span class="label label-success">已完成</span>
                         </g:else>
+                        </td>
+                        <td class="center">
+                            <g:link class="btn btn-warning" controller="task" action="addDemoPlan" title="加入计划"
+                                    data-rel="tooltip">
+                                <i class="halflings-icon edit"></i>
+                            </g:link>
                         </td>
                     </tr>
                 </g:each>
@@ -82,6 +89,7 @@
                     <g:sortableColumn property="title" title="年限|标记"/>
                     <th>任务总数</th>
                     <th>状态</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -98,7 +106,12 @@
                             <span class="label label-success">已完成</span>
                         </g:else>
                         </td>
-
+                        <td class="center">
+                            <g:link class="btn btn-warning" controller="task" action="addDemoPlan" title="加入计划"
+                                    data-rel="tooltip">
+                                <i class="halflings-icon edit"></i>
+                            </g:link>
+                        </td>
                     </tr>
                 </g:each>
                 </tbody>
@@ -115,9 +128,7 @@
         <div class="box-header">
             <h2><i class="halflings-icon align-justify"></i><span class="break"></span><span id="tasksTitle">任务列表</span>
             </h2>
-                <div class="menu">
-                    <g:link class="btn btn-mini" controller="task" action="addDemoPlan">AddDemoPlan</g:link>
-                </div>
+
             <div class="box-icon">
                 <a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
                 <a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
@@ -128,17 +139,18 @@
         <div class="box-content" id="taskListDiv">
 
         </div>
+
     </div> <!-- /span-->
 </div>  <!-- /row -->
 <div id="taskList">
-%{--
-    <g:render template="taskList" bean="taskList"/>
---}%
+    %{--
+        <g:render template="taskList" bean="taskList"/>
+    --}%
 </div>
 
 <div id="errors">errors</div>
 
-
+%{--
 <div class="control-group">
     <label class="control-label" for="selectError2">Multiple Select / Tags</label>
     <div class="controls">
@@ -150,15 +162,19 @@
             <option>Option 5</option>
         </select>
     </div>
-</div>
+</div>--}%
 
 <div class="modal hide fade" id="planTaskModal" style="display: block;">
 </div>
-<g:render template="modals/testAjax"/>
+
+
+<g:render template="/templates/activityForm" model="[task: task]"/>
 
 </body>
 
 <r:script>
+
+
 
     function remoteUpdateMe(myValue){
             ${remoteFunction(controller: 'task', action: 'ajaxListTasks', update: [success: 'taskListDiv', failure: 'errors'],
@@ -188,8 +204,9 @@
         return false;
     });
 
-
-
+    $(".datepicker").datepicker({
+        beforeShow:function(){$(".datepicker").css("z-index",1051);}
+    });
 
 </r:script>
 </html>

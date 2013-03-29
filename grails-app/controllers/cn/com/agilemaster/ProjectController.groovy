@@ -15,7 +15,7 @@ class ProjectController {
         else{
             taskList = Task.findAll()
         }
-        [taskList : taskList, total: taskList.size()]
+        [taskList : taskList, total: taskList?.size()]
     }
 
     def listAsJson = {

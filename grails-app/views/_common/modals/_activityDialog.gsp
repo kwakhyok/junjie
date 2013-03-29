@@ -3,7 +3,7 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">x</button>
 
-            <h3><g:message code="organization.activity.title"/></h3>
+            <h3>Title</h3>
             <g:hasErrors bean="${activityInstance}">
                 <div class="alert alert-error">
                     <g:renderErrors bean="${activityInstance}" as="list"/>

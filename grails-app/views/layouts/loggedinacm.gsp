@@ -24,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#"><span>AgileMaster 0.2.1</span></a>
+            <a class="brand" href="#"><img src="/img/amlogo.png"/></a>
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
@@ -54,6 +54,15 @@
         </div>
     </div>
 </div>
+
+<footer>
+    <p>
+        <span style="text-align:left;float:left">&copy; <a href="" target="_blank">AgileMaster Inc.</a> 2013</span>
+        <span class="hidden-phone" style="text-align:right;float:right">Powered by: <a href="#">AgileMaster</a></span>
+    </p>
+
+</footer>
+
 <r:layoutResources/>
 </body>
 </html>

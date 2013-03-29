@@ -19,7 +19,7 @@ junjie.default.organizations = {
 }
 
 junjie.default.userrole='ROLE_USER'
-junjie.default.adminrole='ADMIN_ROLE'
+junjie.default.adminrole='ROLE_ADMIN'
 junjie.default.testuser='test'
 junjie.default.adminuser='admin'
 junjie.default.password='password'

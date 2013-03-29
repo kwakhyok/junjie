@@ -550,11 +550,11 @@ function template_functions(){
 
 		$(".sliderMin").slider({
 			range: "min",
-			value: 180,
+			value: 10,
 			min: 1,
-			max: 700,
+			max: 100,
 			slide: function( event, ui ) {
-				$( ".sliderMinLabel" ).html( "$" + ui.value );
+				$( ".sliderMinLabel" ).html(ui.value + "%");
 			}
 		});
 

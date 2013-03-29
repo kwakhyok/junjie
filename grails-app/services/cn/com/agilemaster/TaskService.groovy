@@ -21,6 +21,7 @@ class TaskService {
             )
             //plan.properties = properties
             task.addToPlans(plan).save(failOnError: true)
+            task.currentPlan = plan
         } else {
             log.error("Task with taskId: ${taskId} was not found")
         }
@@ -66,19 +67,58 @@ class TaskService {
     }
 
 
+    def findAllTasksByPriority(priority){
+
+        return TaskPlan.findAllByPriority(priority).collect{it.task}
+    }
+
+
 
     def planLastDemoTasks() {
         def today = new Date()
         def tasks = this.getLastTaskList()
+        def priorities = ['high','medium','low']
+        def before = [3,4,5,6,7,8,9,10]
+        def after = [3,4,5,6,7,28,9,10]
+        def ratios = [0.0,18.0,20.0,37.0,85.0,90.0,50.0,40.0]
         if (tasks.size() > 0) {
             tasks.each { task ->
-                task.addToPlans(new TaskPlan(startDate: today - 7,
-                        endDate: today + 14, completeRatio: 0.0f,
+                Collections.shuffle(before)
+                Collections.shuffle(after)
+                Collections.shuffle(ratios)
+                Collections.shuffle(priorities)
+                def bDiff = before.get(0)
+                def aDiff = after.get(0)
+                def ratio =ratios.get(0)
+                def priority = priorities.get(0)
+                def newPlan = new TaskPlan(startDate: today - bDiff,
+                        endDate: today + aDiff, completeRatio: ratio,
                         assignedUser: userService.getCurrentUser(),
-                        author: userService.getCurrentUser()))
+                        author: userService.getCurrentUser(),
+                        priority: priority)
+                task.addToPlans(newPlan)
                 task.status='planned'
+                task.currentPlan = newPlan
                 task.save(failOnError: true)
             }
+        }
+    }
+
+    def recordTaskStatus(task, ratio){
+        def plan = task?.currentPlan
+        if(plan){
+            plan.completeRatio = ratio
+            plan.save(failOnError: true)
+        }
+    }
+
+    def recordAllTaskStatus(){
+        def startShuffle = [1..100]
+        def endShuffle = [0..80]
+        def date = new Date()
+
+        Workbreakdown.each{ wbs ->
+            println wbs.toString()
         }
     }
 
@@ -92,9 +132,10 @@ class TaskService {
             //WBS demo
             (1..5).each { j ->
                 def wbs = new Workbreakdown(code: j.toString(), title: "201${j}度").save(failOnError: true)
-                (1..3).each {i ->
+                (1..10).each {i ->
                     wbs.addToTasks(new Task(project: prj,
                             title: "DemoTask${i}",
+                            description: "幕墙招标",
                             code: "${j}.${i}",
                             status: "drafted").save(failOnError: true))
                 }
@@ -104,7 +145,7 @@ class TaskService {
             //PBS Demo
             (1..5).each { j ->
                 def pbs = new Projectbreakdown(code: j.toString(), title: "201${j}度", project: prj).save(failOnError: true)
-                (1..6).each {i ->
+                (1..10).each {i ->
                     pbs.addToTasks(new Task(project: prj,
                             title: "ProjectDemoTask${i}",
                             code: "${j}.${i}",

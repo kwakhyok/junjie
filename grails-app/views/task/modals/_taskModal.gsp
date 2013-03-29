@@ -13,7 +13,8 @@
                 <label class="control-label" for="startDate">开始时间</label>
 
                 <div class="controls">
-                    <bs:datePicker id="startDate" name="startDate" precision="day"/>
+                    %{--<bs:datePicker id="startDate" name="startDate" precision="day"/>--}%
+                    <input type="text" class="input-xlarge datepicker" id="startDate" name="startDate"/>
                 </div>
             </div>
 
@@ -35,21 +36,7 @@
                               value="lastName+firstName"/>
                 </div>
             </div>
-
-            <div class="control-group">
-                <label class="control-label" for="selectError1">Multiple Select / Tags</label>
-
-                <div class="controls">
-                    <select id="selectError1" multiple data-rel="chosen">
-                        <option>Option 1</option>
-                        <option selected>Option 2</option>
-                        <option>Option 3</option>
-                        <option>Option 4</option>
-                        <option>Option 5</option>
-                    </select>
-                </div>
-
-            </div>
+            %{--TODO: datepicker does not work along with modal in bootstrap.--}%
         </fieldset>
     </form>
 
