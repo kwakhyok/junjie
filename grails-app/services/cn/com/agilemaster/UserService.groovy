@@ -9,7 +9,9 @@ import org.apache.shiro.subject.Subject
  */
 class UserService {
 
-    static transactional = true
+    //static transactional = true
+
+    def grailsApplication
 
     def getCurrentUser = {
         Subject subject = SecurityUtils.subject
@@ -26,6 +28,16 @@ class UserService {
             }
 
         }
+    }
+
+    def getOneAdmin = {
+        def role = Role.findByName(grailsApplication.config.junjie.default.adminrole)
+        role.users.iterator().next()
+    }
+
+    def getOneUser = {
+        def role = Role.findByName(grailsApplication.config.junjie.default.userrole)
+        role.users.iterator().next()
     }
 }
 

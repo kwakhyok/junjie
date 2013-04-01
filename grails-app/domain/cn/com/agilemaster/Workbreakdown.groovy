@@ -30,7 +30,7 @@ class Workbreakdown {
     }
     
 	static constraints = {
-        code(size: 1..20, nullable: false)
+        code(size: 1..20, unique:true, nullable: false)
         title(size: 1..20, nullable: false)
         status(shared: 'WBSStatus')
     }

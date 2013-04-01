@@ -20,10 +20,11 @@ class TaskController {
     def index() {
         def works = Workbreakdown.list(params)
         def pbss = Projectbreakdown.list(params)
-        works.each { work ->
+        /** TODO: analyze the workbreakdown's status **/
+        /*works.each { work ->
             def wstatus = 0  // 0:processing, 1:completed
             work.tasks?.each { wtask ->
-                if (wtask.status != 'completed') {
+                if (wtask.status != 'archived') {
                     wstatus = 0
                 } else {
                     wstatus = 1
@@ -35,7 +36,7 @@ class TaskController {
         pbss.each { pbs ->
             def pstatus =0  // 0:processing, 1:completed
             pbs.tasks?.each { ptask ->
-                if (ptask.status != 'completed') {
+                if (ptask.status != 'archived') {
                     pstatus = 0
                 } else {
                     pstatus = 1
@@ -43,7 +44,7 @@ class TaskController {
             }
             pbs.metaClass.status = pstatus
         }
-
+        */
         def tasks = taskService.getLastTaskList()
 
         def myTasks = taskService.getTasksByCurrentUser()
@@ -75,8 +76,8 @@ class TaskController {
 
 
     def addDemoPlan = {
-        taskService.planLastDemoTasks()
-        redirect(action: 'index')
+        taskService.planLastDemoTasks(params.id)
+        //redirect(action: 'index')
     }
 
 

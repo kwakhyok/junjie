@@ -16,7 +16,6 @@
     <title>君捷项目管理系统 -- 登录</title>
 </head>
 
-
 <body>
 
 <g:if test="${flash.message}">
@@ -39,28 +38,27 @@
                     <fieldset>
                         <input type="hidden" name="targetUri" value="${targetUri}"/>
 
-                        <div class="input-prepend" title="<g:message code="junjie.user" default="Username"/>">
+                        <div class="input-prepend" title="用户名">
                             <span class="add-on"><i class="halflings-icon user"></i></span>
                             <input class="input-large span10" name="username" id="username" type="text"
-                                   placeholder="type username" value="${username}"/>
+                                   placeholder="请键入用户名" value="${username}"/>
                         </div>
 
                         <div class="clearfix"></div>
 
-                        <div class="input-prepend" title="<g:message code="junjie.password"/>">
+                        <div class="input-prepend" title="密码">
                             <span class="add-on"><i class="halflings-icon lock"></i></span>
                             <input class="input-large span10" name="password" id="password" type="password"
-                                   placeholder="type password" value=""/>
+                                   placeholder="请键入密码" value=""/>
                         </div>
 
                         <div class="clearfix"></div>
 
                         <label class="remember" for="remember"><input type="checkbox" id="remember"
-                                                                      value="${rememberMe}"/><g:message
-                                code="junjie.rememberMe"/></label>
+                                                                      value="${rememberMe}"/>记住我</label>
 
                         <div class="button-login">
-                            <button type="submit" class="btn btn-primary"><g:message code="junjie.login"/></button>
+                            <button type="submit" class="btn btn-primary">登录</button>
                         </div>
 
                         <div class="clearfix"></div>

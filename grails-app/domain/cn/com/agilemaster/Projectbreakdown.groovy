@@ -16,6 +16,7 @@ class Projectbreakdown {
 
     String code
     String title
+    String status
 	
 	static belongsTo	= [Project]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -28,6 +29,7 @@ class Projectbreakdown {
 	static constraints = {
         code(size: 1..20, nullable: false)
         title(size: 1..20, nullable: false)
+        status(shared: 'WBSStatus')
     }
 	
 	/*

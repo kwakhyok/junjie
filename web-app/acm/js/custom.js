@@ -1003,45 +1003,45 @@ function calendars(){
 		editable: true,
 		events: [
 			{
-				title: 'All Day Event',
+				title: '全天接待区领导',
 				start: new Date(y, m, 1)
 			},
 			{
-				title: 'Long Event',
+				title: '三天漏水事件验收',
 				start: new Date(y, m, d-5),
 				end: new Date(y, m, d-2)
 			},
 			{
 				id: 999,
-				title: 'Repeating Event',
+				title: '每周例会',
 				start: new Date(y, m, d-3, 16, 0),
 				allDay: false
 			},
 			{
 				id: 999,
-				title: 'Repeating Event',
+				title: '每月例会',
 				start: new Date(y, m, d+4, 16, 0),
 				allDay: false
 			},
 			{
-				title: 'Meeting',
+				title: '总包碰头会',
 				start: new Date(y, m, d, 10, 30),
 				allDay: false
 			},
 			{
-				title: 'Lunch',
+				title: '工程部商务午餐',
 				start: new Date(y, m, d, 12, 0),
 				end: new Date(y, m, d, 14, 0),
 				allDay: false
 			},
 			{
-				title: 'Birthday Party',
+				title: 'PVC招标收尾',
 				start: new Date(y, m, d+1, 19, 0),
 				end: new Date(y, m, d+1, 22, 30),
 				allDay: false
 			},
 			{
-				title: 'Click for Google',
+				title: '查询最新政策',
 				start: new Date(y, m, 28),
 				end: new Date(y, m, 29),
 				url: 'http://google.com/'
@@ -1623,14 +1623,14 @@ function charts() {
 
 		$(".stackControls input").click(function (e) {
 			e.preventDefault();
-			stack = $(this).val() == "With stacking" ? true : null;
+			stack = $(this).val() == "有堆叠" ? true : null;
 			plotWithOptions();
 		});
 		$(".graphControls input").click(function (e) {
 			e.preventDefault();
-			bars = $(this).val().indexOf("Bars") != -1;
-			lines = $(this).val().indexOf("Lines") != -1;
-			steps = $(this).val().indexOf("steps") != -1;
+			bars = $(this).val().indexOf("柱状") != -1;
+			lines = $(this).val().indexOf("折线") != -1;
+			steps = $(this).val().indexOf("阶梯") != -1;
 			plotWithOptions();
 		});
 	}

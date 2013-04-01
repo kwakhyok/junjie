@@ -9,6 +9,8 @@
 
 <body>
 
+<g:render template="messageFullList"/>
+
 </body>
 
 </html>

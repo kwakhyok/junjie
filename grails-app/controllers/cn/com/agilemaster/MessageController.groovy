@@ -10,4 +10,9 @@ class MessageController {
        render(view: 'index')
     }
 
+
+    def renderMessageForUser = {
+
+    }
+
 }

@@ -12,14 +12,14 @@
         <div id="stackchart" class="center" style="height:300px;"></div>
 
         <p class="stackControls center">
-            <input class="btn" type="button" value="With stacking">
-            <input class="btn" type="button" value="Without stacking">
+            <input class="btn" type="button" value="有堆叠">
+            <input class="btn" type="button" value="无堆叠">
         </p>
 
         <p class="graphControls center">
-            <input class="btn-primary" type="button" value="Bars">
-            <input class="btn-primary" type="button" value="Lines">
-            <input class="btn-primary" type="button" value="Lines with steps">
+            <input class="btn-primary" type="button" value="柱状">
+            <input class="btn-primary" type="button" value="折线">
+           %{-- <input class="btn-primary" type="button" value="阶梯">--}%
         </p>
     </div>
 </div>

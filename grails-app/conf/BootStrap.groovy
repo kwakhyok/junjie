@@ -65,6 +65,7 @@ class BootStrap {
 
 
         taskService.createWbsAndPbs(adminUser)
+        taskService.planLastDemoTasks(3)
 
     }
     def destroy = {

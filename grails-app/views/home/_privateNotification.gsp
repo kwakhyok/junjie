@@ -4,21 +4,21 @@
     </a>
     <ul class="dropdown-menu messages">
         <li>
-            <span class="dropdown-menu-title">You have 9 messages</span>
+            <span class="dropdown-menu-title">您有3条消息</span>
         </li>
         <li>
             <a href="#">
                 <span class="avatar"><img src="/acm/img/avatar.jpg" alt="Avatar"></span>
                 <span class="header">
                     <span class="from">
-                        Łukasz Holeczek
+                        庞玉成
                     </span>
                     <span class="time">
                         6 min
                     </span>
                 </span>
                 <span class="message">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                    幕墙招标公告什么时候贴出？
                 </span>
             </a>
         </li>
@@ -27,67 +27,37 @@
                 <span class="avatar"><img src="/acm/img/avatar2.jpg" alt="Avatar"></span>
                 <span class="header">
                     <span class="from">
-                        Megan Abott
+                        梁晶
                     </span>
                     <span class="time">
                         56 min
                     </span>
                 </span>
                 <span class="message">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                    PVC地板的招标报告已经草拟
                 </span>
             </a>
         </li>
-        <li>
-            <a href="#">
-                <span class="avatar"><img src="/acm/img/avatar3.jpg" alt="Avatar"></span>
-                <span class="header">
-                    <span class="from">
-                        Kate Ross
-                    </span>
-                    <span class="time">
-                        3 hours
-                    </span>
-                </span>
-                <span class="message">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="avatar"><img src="/acm/img/avatar4.jpg" alt="Avatar"></span>
-                <span class="header">
-                    <span class="from">
-                        Julie Blank
-                    </span>
-                    <span class="time">
-                        yesterday
-                    </span>
-                </span>
-                <span class="message">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                </span>
-            </a>
-        </li>
+
+
         <li>
             <a href="#">
                 <span class="avatar"><img src="/acm/img/avatar5.jpg" alt="Avatar"></span>
                 <span class="header">
                     <span class="from">
-                        Jane Sanders
+                        庞玉成
                     </span>
                     <span class="time">
-                        Jul 25, 2012
+                        2012-09-19
                     </span>
                 </span>
                 <span class="message">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                    总包施工合同
                 </span>
             </a>
         </li>
         <li>
-            <a class="dropdown-menu-sub-footer">View all messages</a>
+            <a class="dropdown-menu-sub-footer">查看所有</a>
         </li>
     </ul>
 </li>

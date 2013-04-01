@@ -8,6 +8,7 @@ import org.apache.shiro.web.util.WebUtils
 
 class AuthController {
     def shiroSecurityManager
+    def userService
 
     def index = { redirect(action: "login", params: params) }
 
@@ -39,6 +40,8 @@ class AuthController {
             // will be thrown if the username is unrecognised or the
             // password is incorrect.
             SecurityUtils.subject.login(authToken)
+
+            session.currentUser = userService.getCurrentUser()
 
             log.info "Redirecting to '${targetUri}'."
             redirect(uri: targetUri)
@@ -75,6 +78,6 @@ class AuthController {
     }
 
     def unauthorized = {
-        render "<h1>You do not have permission to access this page.</h1>"
+        render "<h1>您没权限处理该操作，出现这个问题您只能联系管理员</h1>"
     }
 }

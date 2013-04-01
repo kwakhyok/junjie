@@ -3,71 +3,27 @@
         <i class="halflings-icon white warning-sign"></i>
     </a>
     <ul class="dropdown-menu notifications">
+
         <li>
-            <span class="dropdown-menu-title">You have 11 notifications</span>
+            <span class="dropdown-menu-title">您有20个通知</span>
         </li>
+
+        <%
+            def demoNotifications = ['新的任务下达', 'PVC地板招标公告需要您修改', '庞院长要求您催一下中控室的招标图纸',
+                    '制氧机采购招标已经滞后', '地下防水发现漏水', '请签衬塑钢管购销合同']
+            def mTimes = [1, 3, 5, 10, 20]
+
+        %>
+        <g:each in="${demoNotifications}" status="i" var="notification">
+            <% Collections.shuffle(mTimes) %>
+            <li>
+                <a href="#">+<i class="halflings-icon white user"></i><span class="message">${notification}</span><span
+                        class="time">${mTimes.get(0)}小时</span></a>
+            </li>
+        </g:each>
+
         <li>
-            <a href="#">
-                + <i class="halflings-icon white user"></i> <span class="message">New user registration</span> <span
-                    class="time">1 min</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                + <i class="halflings-icon white comment"></i> <span class="message">New comment</span> <span
-                    class="time">7 min</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                + <i class="halflings-icon white comment"></i> <span class="message">New comment</span> <span
-                    class="time">8 min</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                + <i class="halflings-icon white comment"></i> <span class="message">New comment</span> <span
-                    class="time">16 min</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                + <i class="halflings-icon white user"></i> <span class="message">New user registration</span> <span
-                    class="time">36 min</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                + <i class="halflings-icon white cart"></i> <span class="message">2 items sold</span> <span
-                    class="time">1 hour</span>
-            </a>
-        </li>
-        <li class="warning">
-            <a href="#">
-                - <i class="halflings-icon white user"></i> <span class="message">User deleted account</span> <span
-                    class="time">2 hour</span>
-            </a>
-        </li>
-        <li class="warning">
-            <a href="#">
-                - <i class="halflings-icon white shopping-cart"></i> <span
-                    class="message">Transaction was canceled</span> <span class="time">6 hour</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                + <i class="halflings-icon white comment"></i> <span class="message">New comment</span> <span
-                    class="time">yesterday</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                + <i class="halflings-icon white user"></i> <span class="message">New user registration</span> <span
-                    class="time">yesterday</span>
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-menu-sub-footer">View all notifications</a>
+            <a class="dropdown-menu-sub-footer">查看所有消息提示</a>
         </li>
     </ul>
 </li>

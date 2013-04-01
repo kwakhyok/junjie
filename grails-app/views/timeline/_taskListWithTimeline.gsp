@@ -5,8 +5,8 @@
 
 <div class="timeline">
 
-    <g:each in="${TaskPlan.listOrderByStartDate(order: 'desc').collect {it.task}}" var="task">
-        <g:set var="cssClass" value="${(task.id % 2) == 0 ? 'timeslot' : 'timeslot alt'}"/>
+    <g:each in="${TaskPlan.listOrderByStartDate(order: 'desc').collect {it.task}}" status="i" var="task">
+        <g:set var="cssClass" value="${(i % 2) == 0 ? 'timeslot' : 'timeslot alt'}"/>
         <div class="${cssClass}">
             <div class="task">
                 <span>

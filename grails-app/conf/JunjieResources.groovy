@@ -24,3 +24,20 @@ junjie.default.testuser='test'
 junjie.default.adminuser='admin'
 junjie.default.password='password'
 
+
+junjie.permissions.admin =  ['*:*']
+junjie.permissions.user = ['home:*','message:*', 'task:*']
+
+//shared constraints
+grails.gorm.default.constraints = {
+    taskStatus(inList: ['drafted','planned','processing','completed'],blank: false)
+    startDate(blank: false)
+    endDate (blank:false, validator: {val,obj ->
+        return val.after(obj.startDate)
+    })
+    contractType(inList: ['Ledger', 'Payment'], blank: false)
+    ActivityType(inList: ['Replan','Completion'], blank: false)
+    WBSStatus(inList: ['archived', 'on-progress'],blank: false)
+    TaskPriority(inList:['high', 'medium','low'],blank: false)
+}
+

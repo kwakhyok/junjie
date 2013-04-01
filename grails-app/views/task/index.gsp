@@ -48,17 +48,20 @@
                         <td class="center clickableRow">${wbs.title}</td>
                         <td class="center clickableRow">${wbs.tasks.size()}</td>
                         <td class="center clickableRow">
-                            <g:if test="${wbs.status == 0}">
+                            ${wbs.status}
+                            <g:if test="${wbs.status == 'on-progress'}">
                                 <span class="label label-important">未完成</span>
                             </g:if><g:else>
                             <span class="label label-success">已完成</span>
                         </g:else>
                         </td>
                         <td class="center">
-                            <g:link class="btn btn-warning" controller="task" action="addDemoPlan" title="加入计划"
-                                    data-rel="tooltip">
+                            <g:remoteLink update="taskList" id="${wbs.id}" class="btn btn-warning noty"
+                                          data-noty-options='{"text":"This is a success information","layout":"top","type":"information"}'
+                                          controller="task" action="addDemoPlan" title="加入计划"
+                                          data-rel="tooltip">
                                 <i class="halflings-icon edit"></i>
-                            </g:link>
+                            </g:remoteLink>
                         </td>
                     </tr>
                 </g:each>
@@ -107,10 +110,10 @@
                         </g:else>
                         </td>
                         <td class="center">
-                            <g:link class="btn btn-warning" controller="task" action="addDemoPlan" title="加入计划"
+                            <g:remoteLink class="btn btn-warning" id="${pbs.id}" update="taskList" controller="task" action="addDemoPlan" title="加入计划"
                                     data-rel="tooltip">
-                                <i class="halflings-icon edit"></i>
-                            </g:link>
+                                <i class="halflings-icon edit" id="add-without-image"></i>
+                            </g:remoteLink>
                         </td>
                     </tr>
                 </g:each>
@@ -180,7 +183,7 @@
             ${remoteFunction(controller: 'task', action: 'ajaxListTasks', update: [success: 'taskListDiv', failure: 'errors'],
         params: '\'wbsId=\'+myValue')}
     }
-    $(remoteUpdateMe('5'));
+    $(remoteUpdateMe('3'));
     $('.clickableRow').click(function () {
     //$(this).closest("tr").siblings().removeClass("highlightRow");
     console.log(this);

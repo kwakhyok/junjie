@@ -28,7 +28,7 @@
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
-                    <shiro:isLoggedIn>
+
                         <g:render template="messageNotification"/>
                         <!-- start: Notifications Dropdown -->
                         <g:render template="progressNotification"/>
@@ -37,7 +37,6 @@
                         <g:render template="privateNotification"/>
                         <!-- end: Message Dropdown -->
 
-                    </shiro:isLoggedIn>
 
                     <!-- start: User Dropdown -->
                     <g:render template="userOperation"/>

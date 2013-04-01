@@ -52,5 +52,5 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
     }
 
-   grails.offline.mode = true
+   //grails.offline.mode = true
 }

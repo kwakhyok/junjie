@@ -100,21 +100,17 @@ log4j = {
 
 }
 
-grails.config.defaults.locations = [KickstartResources, JunjieResources]
 
-junjie.permissions.admin =  ['*:*']
-junjie.permissions.user = ['home:*']
+/* Jabber Service configuration
+* */
 
-//shared constraints
-grails.gorm.default.constraints = {
-    taskStatus(inList: ['drafted','planned','processing','completed'],blank: false)
-    startDate(blank: false)
-    endDate (blank:false, validator: {val,obj ->
-        return val.after(obj.startDate)
-    })
-    contractType(inList: ['Ledger', 'Payment'], blank: false)
-    ActivityType(inList: ['Replan','Completion'], blank: false)
-    WBSStatus(inList: ['archived', 'on-progress'],blank: false)
-    TaskPriority(inList:['high', 'medium','low'],blank: false)
+chat {
+    serviceName = "gmail.com"
+    host = "talk.google.com"
+    port = 5222
+    username = "guoyi1023@gmail.com"
+    password = '$eric1023$'
 }
+
+grails.config.defaults.locations = [KickstartResources, JunjieResources]
 
