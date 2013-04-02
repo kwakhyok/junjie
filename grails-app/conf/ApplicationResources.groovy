@@ -9,9 +9,6 @@ modules = {
     }
 
 
-
-
-
     acm {
         resource url: 'acm/css/bootstrap.min.css'
         resource url: 'acm/css/bootstrap-responsive.min.css'

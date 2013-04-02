@@ -10,43 +10,23 @@
 <html>
 <head>
     <title>君捷软件</title>
-    <meta name="layout" content="acm"/>
-    <r:require module="acm"/>
-</head>
+
 
 <body>
+         <h1>Gallery</h1>
 
-<div class="navbar">
-    <div class="navbar-inner">
-        <div class="container-fluid">
-            <a class="btn btn-navbar" data-toggle="collapse"
-               data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="#"><span>AgileMaster 0.2.1</span></a>
-        </div>
-    </div>
-</div>
+       <div id="my-folio-of-works" class="svwp">
+           <ul>
+               <li><img src="${createLinkTo(dir: 'img/pics', file: '1.jpg')}" alt="病房楼工程进度"
+                        height="490"/></li>
+               <li><img src="${createLinkTo(dir: 'img/pics', file: '2.jpg')}" alt="地下车库工程进度"
+                        height="490"/></li>
+               <li><img src="${createLinkTo(dir: 'img/pics', file: '3.jpg')}" alt="门诊楼工程进度"
+                        height="490"/></li>
+           </ul>
+       </div>
 
-<div class="container-fluid">
-    <div class="row-fluid">
-
-        <g:render template="projectIntro"/>
-
-        <g:render template="login" />
-
-    </div>
-
-    <hr>
-
-    <div class="row-fluid">
-        <g:render template="news"/>
-        <g:render template="biddingBoard"/>
-    </div>
-
-</div>
 
 </body>
+
 </html>

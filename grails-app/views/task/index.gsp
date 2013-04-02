@@ -48,7 +48,6 @@
                         <td class="center clickableRow">${wbs.title}</td>
                         <td class="center clickableRow">${wbs.tasks.size()}</td>
                         <td class="center clickableRow">
-                            ${wbs.status}
                             <g:if test="${wbs.status == 'on-progress'}">
                                 <span class="label label-important">未完成</span>
                             </g:if><g:else>
@@ -99,10 +98,10 @@
                 <g:each in="${PBSList}" var="pbs">
                     <tr>
                         <td class="hidden hidden-id">${pbs.id}</td>
-                        <td class="center clickableRow">${pbs.code}</td>
-                        <td class="center clickableRow">${pbs.title}</td>
-                        <td class="center clickableRow">${pbs.tasks?.size()}</td>
-                        <td class="center clickableRow">
+                        <td class="center pbsClickableRow">${pbs.code}</td>
+                        <td class="center pbsClickableRow">${pbs.title}</td>
+                        <td class="center pbsClickableRow">${pbs.tasks?.size()}</td>
+                        <td class="center pbsClickableRow">
                             <g:if test="${pbs.status == 0}">
                                 <span class="label label-important">尚未完成</span>
                             </g:if><g:else>
@@ -110,9 +109,10 @@
                         </g:else>
                         </td>
                         <td class="center">
-                            <g:remoteLink class="btn btn-warning" id="${pbs.id}" update="taskList" controller="task" action="addDemoPlan" title="加入计划"
-                                    data-rel="tooltip">
-                                <i class="halflings-icon edit" id="add-without-image"></i>
+                            <g:remoteLink class="btn btn-warning" id="${pbs.id}" update="taskList" controller="task"
+                                          action="addDemoPlan" title="加入计划"
+                                          data-rel="tooltip">
+                                <i class="halflings-icon edit"></i>
                             </g:remoteLink>
                         </td>
                     </tr>
@@ -181,8 +181,14 @@
 
     function remoteUpdateMe(myValue){
             ${remoteFunction(controller: 'task', action: 'ajaxListTasks', update: [success: 'taskListDiv', failure: 'errors'],
-        params: '\'wbsId=\'+myValue')}
+                params: '\'wbsId=\'+myValue')}
     }
+
+    function remoteUpdatePBSTasks(pbsValue){
+        ${remoteFunction(controller: 'task', action: 'ajaxListTasksPBS', update: [success: 'taskListDiv', failure: 'errors'],
+                params: '\'pbsId=\'+pbsValue')}
+    }
+
     $(remoteUpdateMe('3'));
     $('.clickableRow').click(function () {
     //$(this).closest("tr").siblings().removeClass("highlightRow");
@@ -191,12 +197,24 @@
     $('.highlightRow').removeClass("highlightRow");
     $(this).parents("tr").toggleClass("highlightRow", this.clicked);
     if ($(this).closest("table").attr('id') === 'pbsTable') {
-        $('#tasksTitle').text($(this).text() + " PBS工作分解-- 任务列表");
+        $('#tasksTitle').text(" PBS工作分解-- 任务列表");
     } else if ($(this).closest("table").attr('id') === 'wbsTable') {
-           $('#tasksTitle').text($(this).text() + " WBS工作分解-- 任务列表");
+           $('#tasksTitle').text(" WBS工作分解-- 任务列表");
     }
     //console.log(wbsId);
     remoteUpdateMe(wbsId);
+
+
+
+    });
+
+    $('.pbsClickableRow').click(function(){
+
+    var pbsId = $(this).siblings('.hidden-id').text();
+        $('.highlightRow').removeClass("highlightRow");
+        $(this).parents("tr").toggleClass("highlightRow", this.clicked);
+        $('#tasksTitle').text("PBS工作分解-- 任务列表");
+        remoteUpdatePBSTasks(pbsId);
     });
 
     $('.planTaskBtn').live('click',function(){
@@ -205,10 +223,6 @@
            $(this).modal({show:true});
         });
         return false;
-    });
-
-    $(".datepicker").datepicker({
-        beforeShow:function(){$(".datepicker").css("z-index",1051);}
     });
 
 </r:script>

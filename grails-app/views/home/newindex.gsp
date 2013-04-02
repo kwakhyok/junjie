@@ -11,6 +11,7 @@
 <head>
     <meta name="layout" content="acm"/>
     <r:require module="acm"/>
+
 </head>
 
 <body>
@@ -29,13 +30,13 @@
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
 
-                        <g:render template="messageNotification"/>
-                        <!-- start: Notifications Dropdown -->
-                        <g:render template="progressNotification"/>
-                        <!-- end: Notifications Dropdown -->
+                    <g:render template="messageNotification"/>
+                    <!-- start: Notifications Dropdown -->
+                    <g:render template="progressNotification"/>
+                    <!-- end: Notifications Dropdown -->
                     <!-- start: Message Dropdown -->
-                        <g:render template="privateNotification"/>
-                        <!-- end: Message Dropdown -->
+                    <g:render template="privateNotification"/>
+                    <!-- end: Message Dropdown -->
 
 
                     <!-- start: User Dropdown -->

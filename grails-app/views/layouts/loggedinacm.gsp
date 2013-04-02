@@ -24,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#"><img src="/img/amlogo.png"/></a>
+            <a class="brand" href="#"><img src="${createLinkTo(dir:'img',file:'amlogo.png')}"/></a>
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">

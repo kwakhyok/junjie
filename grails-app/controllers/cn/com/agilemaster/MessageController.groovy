@@ -6,6 +6,8 @@ package cn.com.agilemaster
  */
 class MessageController {
 
+    static scaffold = true
+
     def index = {
        render(view: 'index')
     }

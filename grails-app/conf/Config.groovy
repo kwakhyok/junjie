@@ -76,9 +76,9 @@ log4j = {
     // Example of changing the log pattern for the default console
     // appender:
     //
-    appenders {
-        console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    }
+   // appenders {
+   //     console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+   // }
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
            'org.codehaus.groovy.grails.web.pages', //  GSP
@@ -92,25 +92,25 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 
-    logger {
+    //logger {
         //com.linkedin.grails = "info"
-        trace "org.hibernate.SQL",
-                "org.hibernate.type"
-    }
+    //    trace "org.hibernate.SQL",
+    //            "org.hibernate.type"
+    //}
 
 }
 
 
 /* Jabber Service configuration
 * */
-
+/*
 chat {
     serviceName = "gmail.com"
     host = "talk.google.com"
     port = 5222
     username = "guoyi1023@gmail.com"
     password = '$eric1023$'
-}
+}*/
 
 grails.config.defaults.locations = [KickstartResources, JunjieResources]
 

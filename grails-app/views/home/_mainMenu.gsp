@@ -8,14 +8,30 @@
                 <li><g:link controller="information"><i class="fa-icon-folder-open"></i><span
                         class="hidden-tablet">信息</span></g:link></li>
             </shiro:hasPermission>
-            <li><g:link controller="message"><i class="fa-icon-envelope"></i><span
-                    class="hidden-tablet">沟通</span></g:link></li>
+
+            <li>
+                <a class="dropmenu" href="#"><i class="fa-icon-user-md"></i><span class="hidden-tablet">沟通</span></a>
+                <ul>
+                    <shiro:hasPermission permission="message:*">
+                        <li><g:link controller="message"><i class="fa-icon-envelope"></i><span
+                                class="hidden-tablet">沟通</span></g:link></li>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission permission="supervision:*">
+                        <li><g:link controller="supervision"><i class="fa-icon-eye-open"></i><span
+                                class="hidden-tablet">监理</span></g:link></li>
+                    </shiro:hasPermission>
+                </ul>
+            </li>
+
+
+
+
+
             <shiro:hasPermission permission="task:*">
                 <li><g:link controller="task"><i class="fa-icon-sitemap"></i><span
                         class="hidden-tablet">范围</span></g:link></li>
             </shiro:hasPermission>
             <li>
-                %{--<g:link controller="gantt"><i class="fa-icon-tasks"></i><span class="hidden-tablet"> 进度</span></g:link>--}%
                 <a class="dropmenu" href="#"><i class="fa-icon-folder-close-alt"></i><span
                         class="hidden-tablet">进度</span></a>
                 <ul>
@@ -25,7 +41,12 @@
                             class="hidden-tablet">时间轴</span></g:link></li>
                 </ul>
             </li>
+            <shiro:hasPermission permission="purchase:*">
+                <li><g:link controller="purchase"><i class="fa-icon-shopping-cart"></i><span
+                        class="hidden-tablet">采购</span></g:link></li>
+            </shiro:hasPermission>
             <shiro:hasPermission permission="contract:*">
+
                 <li><g:link controller="contract"><i class="fa-icon-inbox"></i><span
                         class="hidden-tablet">合同</span></g:link></li>
             </shiro:hasPermission>
@@ -37,20 +58,14 @@
                 <li><g:link controller="investment"><i class="fa-icon-money"></i><span
                         class="hidden-tablet">投资</span></g:link></li>
             </shiro:hasPermission>
-            <shiro:hasPermission permission="supervision:*">
-                <li><g:link controller="supervision"><i class="fa-icon-eye-open"></i><span
-                        class="hidden-tablet">监理</span></g:link></li>
-            </shiro:hasPermission>
+
             <shiro:hasPermission permission="administrator:*">
                 <li><g:link controller="administrator"><i class="fa-icon-cogs"></i><span
                         class="hidden-tablet">系统</span></g:link></li>
             </shiro:hasPermission>
-
         %{--
                     <li><g:link controller="gallery"><i class="fa-icon-picture"></i><span class="hidden-tablet"> 现场</span></g:link></li>
         --}%
-            <li><g:link controller="calendar"><i class="fa-icon-calendar"></i><span
-                    class="hidden-tablet">日历</span></g:link></li>
         </ul>
     </div>
 </div>

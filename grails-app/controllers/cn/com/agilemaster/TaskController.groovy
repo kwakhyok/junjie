@@ -110,6 +110,21 @@ class TaskController {
         render(template: 'taskList', model: [taskList:tasks])
     }
 
+
+    def ajaxListTasksPBS(){
+        def pbsId = params?.pbsId
+        def pbs
+        if (pbsId){
+            pbs = Projectbreakdown.get(pbsId)
+        }else{
+            pbs = Projectbreakdown.find(true)
+        }
+        def tasks = pbs.tasks.sort{it.code}
+        render(template:'taskList', model: [taskList: tasks])
+
+
+    }
+
     def editAjax(){
 
     }
