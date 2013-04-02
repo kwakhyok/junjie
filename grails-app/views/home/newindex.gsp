@@ -53,11 +53,11 @@
 
 
 <div class="container-fluid">
-    <div class="row-fluid">
+    <div class="row-fluid" style="margin-top: -20px; margin-bottom: 0">
         <g:render template="mainMenu"/>
         <div id="content" class="span11">
 
-            <div class="row-fluid">
+            <div class="row-fluid" style="margin-top: -20px; margin-bottom: 0">
 
                 <g:render template="news"/>
 
@@ -65,9 +65,9 @@
 
             </div>
 
-            <hr>
 
-            <div class="row-fluid">
+
+            <div class="row-fluid" style="margin-top: -20px;padding-top: 0">
 
                 <g:render template="gallery"/>
 

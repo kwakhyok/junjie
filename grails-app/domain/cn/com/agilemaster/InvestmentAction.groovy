@@ -1,0 +1,51 @@
+package cn.com.agilemaster
+
+/**
+ * InvestmentAction
+ * A domain class describes the data object and it's mapping to the database
+ */
+class InvestmentAction {
+
+	/* Default (injected) attributes of GORM */
+//	Long	id
+//	Long	version
+
+    Organization organization
+
+    Date paymentDate
+
+    float amount
+
+    String isFact = true // true: it is an actual payment, false: it is a plan for this month
+
+
+    String memo
+
+    User author
+	
+	/* Automatic timestamping of GORM */
+	Date	dateCreated
+	Date	lastUpdated
+	
+	static belongsTo	= [investment:Investment]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
+//	static hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
+//	static hasMany		= []	// tells GORM to associate other domain objects for a 1-n or n-m mapping
+//	static mappedBy		= []	// specifies which property should be used in a mapping 
+	
+    static mapping = {
+    }
+    
+	static constraints = {
+        organization()
+        amount()
+        memo(size: 1..1000, nullable: true)
+    }
+	
+	/*
+	 * Methods of the Domain Class
+	 */
+//	@Override	// Override toString for a nicer / more descriptive UI 
+//	public String toString() {
+//		return "${name}";
+//	}
+}

@@ -11,10 +11,7 @@
     <div class="box-content">
         <div id="stackchart" class="center" style="height:300px;"></div>
 
-        <p class="stackControls center">
-            <input class="btn" type="button" value="有堆叠">
-            <input class="btn" type="button" value="无堆叠">
-        </p>
+
 
         <p class="graphControls center">
             <input class="btn-primary" type="button" value="柱状">

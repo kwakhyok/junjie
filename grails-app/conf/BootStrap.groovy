@@ -17,6 +17,7 @@ class BootStrap {
     def shiroSecurityService
     def grailsApplication
     def taskService
+    def organizationService
 
     def init = { servletContext ->
 
@@ -66,6 +67,7 @@ class BootStrap {
 
         taskService.createWbsAndPbs(adminUser)
         taskService.planLastDemoTasks(3)
+        organizationService.createDemoOrganizations(adminUser)
 
     }
     def destroy = {

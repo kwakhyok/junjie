@@ -712,7 +712,7 @@ function template_functions(){
 			range: "min",
 			min: 0,
 			max: 100,
-			value: 60,
+			value: 60
 		});
 
 		$( "#sliderVertical-8" ).slider({
@@ -720,7 +720,7 @@ function template_functions(){
 			range: "min",
 			min: 0,
 			max: 100,
-			value: 40,
+			value: 40
 		});
 
 		$( "#sliderVertical-9" ).slider({
@@ -728,7 +728,7 @@ function template_functions(){
 			range: "min",
 			min: 0,
 			max: 100,
-			value: 30,
+			value: 30
 		});
 
 		$( "#sliderVertical-10" ).slider({
@@ -736,7 +736,7 @@ function template_functions(){
 			range: "min",
 			min: 0,
 			max: 100,
-			value: 15,
+			value: 15
 		});
 
 		$( "#sliderVertical-11" ).slider({
@@ -744,7 +744,7 @@ function template_functions(){
 			range: "min",
 			min: 0,
 			max: 100,
-			value: 40,
+			value: 40
 		});
 
 		$( "#sliderVertical-12" ).slider({
@@ -752,7 +752,7 @@ function template_functions(){
 			range: "min",
 			min: 0,
 			max: 100,
-			value: 80,
+			value: 80
 		});
 			
 }
@@ -1609,9 +1609,11 @@ function charts() {
 		var stack = 0, bars = true, lines = false, steps = false;
 
 		function plotWithOptions() {
-			$.plot($("#stackchart"), [ d1, d2], {
+			$.plot($("#stackchart"), [
+                { label:"计划投资", data:d1 },
+                { label:"实际投资", data:d2 } ], {
 				series: {
-					stack: stack,
+					stack: null,
 					lines: { show: lines, fill: true, steps: steps },
 					bars: { show: bars, barWidth: 0.6 }
 				},
@@ -1621,11 +1623,7 @@ function charts() {
 
 		plotWithOptions();
 
-		$(".stackControls input").click(function (e) {
-			e.preventDefault();
-			stack = $(this).val() == "有堆叠" ? true : null;
-			plotWithOptions();
-		});
+
 		$(".graphControls input").click(function (e) {
 			e.preventDefault();
 			bars = $(this).val().indexOf("柱状") != -1;
