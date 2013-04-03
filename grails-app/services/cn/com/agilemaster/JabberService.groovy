@@ -8,7 +8,7 @@ class JabberService {
 
   //  static expose = ['jms']
   //  static destination = "jabberInQ"
-
+/*
     static listenerCount = 5
 
     void onMessage(msg){
@@ -26,5 +26,5 @@ class JabberService {
    void sendMessage(post,jabberIds){
        log.debug("Sending jabber message for ...")
        sendQueueJMSMessage("jabberOutQ", [userId:post.user.userId, content:post.content, to: jabberIds.join(',')])
-   }
+   }*/
 }

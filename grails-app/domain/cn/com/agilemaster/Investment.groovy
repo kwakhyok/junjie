@@ -27,6 +27,8 @@ class Investment{
 //	static mappedBy		= []	// specifies which property should be used in a mapping 
 
     static mapping = {
+        plan (sort: 'paymentDate', batchSize: 10, order: 'desc')
+        actualPayment( sort: 'paymentDate', order: 'desc')
     }
 
     static constraints = {
@@ -38,6 +40,6 @@ class Investment{
       */
 //	@Override	// Override toString for a nicer / more descriptive UI 
 	public String toString() {
-		return "${project?.title} [${projectSum}]  万元";
+		return "${project?.name} [${projectSum}]  万元";
 	}
 }

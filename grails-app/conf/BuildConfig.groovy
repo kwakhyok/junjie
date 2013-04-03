@@ -35,7 +35,9 @@ grails.project.dependency.resolution = {
 
         // runtime 'mysql:mysql-connector-java:5.1.16'
 
-        compile 'org.apache.activemq:activemq-core:5.5.0'
+        //compile 'org.apache.activemq:activemq-core:5.5.0'
+          compile 'org.apache.poi:poi:3.9'
+          compile 'org.apache.poi:poi-ooxml:3.9'
 
     }
 

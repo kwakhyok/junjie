@@ -12,6 +12,7 @@
           <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/grails-app/views" relative="/" />
           <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-ui-1.8.24/web-app" relative="/" />
           <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/full-calendar-1.5.1.0/web-app" relative="/" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jabber-0.1/web-app" relative="/" />
         </webroots>
         <sourceRoots />
       </configuration>
@@ -79,11 +80,9 @@
       <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/full-calendar-1.5.1.0/grails-app/taglib" isTestSource="false" />
     </content>
     <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/hibernate-2.0.4" />
-    <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jms-1.2">
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jms-1.2/src/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jms-1.2/grails-app/utils" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jms-1.2/src/groovy" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jms-1.2/grails-app/services" isTestSource="false" />
+    <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jabber-0.1">
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jabber-0.1/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jabber-0.1/grails-app/i18n" isTestSource="false" />
     </content>
     <content url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-1.7.1">
       <sourceFolder url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jquery-1.7.1/src/groovy" isTestSource="false" />
@@ -139,6 +138,7 @@
       <library name="Grails User Library (junjie-grailsPlugins)">
         <CLASSES>
           <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/lib" />
+          <root url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jabber-0.1/lib" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/opensymphony/sitemesh/jars/sitemesh-2.4.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/jars/hibernate-jpa-2.0-api-1.0.1.Final.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.transaction/jta/jars/jta-1.1.jar!/" />
@@ -231,21 +231,16 @@
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-core/bundles/shiro-core-1.2.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.shiro/shiro-web/bundles/shiro-web-1.2.0.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-logging/commons-logging/jars/commons-logging-1.1.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.geronimo.specs/geronimo-jms_1.1_spec/jars/geronimo-jms_1.1_spec-1.1.1.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.jasypt/jasypt/jars/jasypt-1.7.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/commons-net/commons-net/jars/commons-net-2.0.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.servlet/servlet-api/jars/servlet-api-2.3.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/avalon-framework/avalon-framework/jars/avalon-framework-4.1.3.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/logkit/logkit/jars/logkit-1.0.1.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/log4j/log4j/jars/log4j-1.2.14.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.geronimo.specs/geronimo-j2ee-management_1.1_spec/jars/geronimo-j2ee-management_1.1_spec-1.0.1.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.osgi/org.osgi.core/jars/org.osgi.core-4.1.0.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.activemq.protobuf/activemq-protobuf/maven-plugins/activemq-protobuf-1.1.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.activemq/kahadb/bundles/kahadb-5.5.0.jar!/" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.activemq/activemq-core/bundles/activemq-core-5.5.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/javax.servlet/servlet-api/jars/servlet-api-2.5.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/stax/stax-api/jars/stax-api-1.0.1.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.xmlbeans/xmlbeans/jars/xmlbeans-2.3.0.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.poi/poi-ooxml-schemas/jars/poi-ooxml-schemas-3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.poi/poi-ooxml/jars/poi-ooxml-3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.grails/ivy-cache/org.apache.poi/poi/jars/poi-3.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/jabber-0.1/lib" recursive="false" />
         <jarDirectory url="file://$USER_HOME$/.grails/2.0.4/projects/junjie/plugins/searchable-0.6.4/lib" recursive="false" />
       </library>
     </orderEntry>

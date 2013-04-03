@@ -12,8 +12,13 @@ import grails.converters.JSON
 
 class InformationController {
 
+    def importService
+
     def index = {
         def orgs = Organization.list()
+
+        importService.printExcelFile("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx")
+
         render(view: 'index', model: [organizationInstanceList:orgs, organizationInstanceTotal: orgs.size()])
     }
 
