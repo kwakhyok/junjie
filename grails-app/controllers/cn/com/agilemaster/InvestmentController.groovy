@@ -15,7 +15,7 @@ class InvestmentController {
     }
 
     def createDemoPlan = {
-        def project = Project.find({true})
+        def project = Project.findByCode('0000') // find the root project
 
         def investment = Investment.findByTitle(demoTitle) ?: new Investment(project: project,
                 author: session.currentUser, title:demoTitle, projectSum: 100000.00, isPaid: false).save(failOnError: true)
@@ -57,7 +57,6 @@ class InvestmentController {
             plan.put(action.paymentDate.month.toString(), accumulation );
             println  action.paymentDate.month.toString()
         }
-
         actual.each{println it.key + ":" + it.value}
         plan.each{println it.key + ":" + it.value}
     }

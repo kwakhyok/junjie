@@ -17,6 +17,7 @@ class BootStrap {
     def shiroSecurityService
     def grailsApplication
     def taskService
+    def importService
     def organizationService
 
     def init = { servletContext ->
@@ -65,9 +66,14 @@ class BootStrap {
         assert testUser.addToRoles(userRole).save(failOnError: true)
 
 
-        taskService.createWbsAndPbs(adminUser)
+        taskService.createWbsAndPbs('0000','牟平人民医院(滨州医学院附属医院)建设项目', adminUser)
         taskService.planLastDemoTasks(3)
-        organizationService.createDemoOrganizations(adminUser)
+
+        importService.createProjectsFromExcel("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx", adminUser)
+
+        importService.createOrgsFromExcel("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx", adminUser)
+        importService.importDesignCategories("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/设计.xlsx",adminUser)
+       // organizationService.createDemoOrganizations(adminUser)
 
     }
     def destroy = {

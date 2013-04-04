@@ -13,14 +13,18 @@ class Organization {
     String name
     String address
     String contact
+    String contactTel
     String scope
     String qualification
     String brand
     Integer capital
     String memo
+    String telephone
+    String fax
+    String qq
+    String email
+    String website
     User user
-
-
 
 
     /* Automatic timestamping of GORM */
@@ -39,12 +43,19 @@ class Organization {
         name unique: true,blank: false
         address  nullable: true
         contact  nullable: true
+        contactTel nullable: true
         scope    nullable: true
         qualification nullable: true
         brand    nullable: true
         capital  nullable: true
+        telephone nullable: true
+        fax nullable: true
+        qq nullable: true
+        email email: true, nullable: true
         memo     nullable: true, size:1..300
-        user nullable: true
+        website nullable: true
+        user nullable:true
+
     }
 
     /*

@@ -116,9 +116,8 @@ class TaskService {
 
 /* create demo WBS and PBS */
 
-    def createWbsAndPbs(User user) {
-        def prjName = "滨州医学院烟台附属医院项目"
-        def prj = Project.findByName(prjName) ?: new Project(name: prjName, description: '项目的简单描述',
+    def createWbsAndPbs(code, prjName, user) {
+        def prj = Project.findByCode(code) ?: new Project(code: code , name: prjName, description: '项目的简单描述',
                 author: user).save(failOnError: true)
 
         //WBS demo

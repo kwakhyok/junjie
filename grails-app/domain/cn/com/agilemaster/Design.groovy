@@ -4,7 +4,7 @@ package cn.com.agilemaster
  * Design
  * A domain class describes the data object and it's mapping to the database
  */
-class Design extends Task {
+class Design{
 
     /* Default (injected) attributes of GORM */
 //	Long	id
@@ -24,7 +24,7 @@ class Design extends Task {
 //	Date	dateCreated
 //	Date	lastUpdated
 
-//	static belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
+	static belongsTo	= [category:DesignCategory]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
 //	static hasMany		= []	// tells GORM to associate other domain objects for a 1-n or n-m mapping
 //	static mappedBy		= []	// specifies which property should be used in a mapping 
@@ -33,13 +33,11 @@ class Design extends Task {
     }
 
     static constraints = {
-        title size: 1..10
-        delivery size: 1..10
-        designRequirement( nullable: true)
+        delivery size: 1..10,nullable: true
+        designRequirement nullable: true
         attached nullable: true
         organization nullable: true
-        description nullable: true
-        memo nullable: true
+        memo size: 1..2000, nullable: true
         designFee min: 0.0, max: 200000.0
 
     }
@@ -52,7 +50,15 @@ class Design extends Task {
 		return "${title} ${category}";
 	}
 }
-public enum DesignCategory {INTERIOR, INTELLIGENCE, INFORMATION, MUNICIPAL, LANDSCAPE, HOC /*hyperbaric oxygen chamber*/,
+
+
+
+/*
+public enum DesignCategory {INTERIOR, INTELLIGENCE, INFORMATION, MUNICIPAL, LANDSCAPE, HOC */
+/*hyperbaric oxygen chamber*//*
+,
 LINEAR_ACCELERATOR,  SEWAGE_TREATMENT, MARED_ORIENTED, HEMODIALYSIS, KITCHEN, DRINKING_WATER,
-PURE_WATER, MEDICAL_GAS, OPERATING_ROOM, ICU, PROTECTIVE_DESIGN, CRL, /*center of reproductivie lab*/
-}
+PURE_WATER, MEDICAL_GAS, OPERATING_ROOM, ICU, PROTECTIVE_DESIGN, CRL, */
+/*center of reproductivie lab*//*
+
+}*/

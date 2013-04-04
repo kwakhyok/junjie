@@ -9,14 +9,15 @@ class Project {
 	/* Default (injected) attributes of GORM */
 //	Long	id
 //	Long	version
-
+    String code
     String name
     String description
+    Project parentProject = null
     User author
 
 
 	/* Automatic timestamping of GORM */
-//	Date	dateCreated
+	Date	dateCreated
 //	Date	lastUpdated
 	
 //	static belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
@@ -28,9 +29,11 @@ class Project {
     }
     
 	static constraints = {
-        name(blank: false)
+        code (size: 1..10, unique: true, nullable: true)
+        name(size: 1..30, unique: true, blank: false)
         description(size: 1..5000, nullable: true)
         author(nullable: true)
+        parentProject(nullable: true)
     }
 	
 	/*

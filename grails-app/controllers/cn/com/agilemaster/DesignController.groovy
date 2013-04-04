@@ -7,5 +7,16 @@ package cn.com.agilemaster
 class DesignController {
 
     static scaffold = Design
-//	def index = { }
+    public def rootCategories = ['通用类','医用类','后勤类','文化类']
+	def index = {
+         def cat
+         def sub
+         def result = new HashMap<String, List>()
+         rootCategories.each{
+             cat = DesignCategory.findByName(it) ?: new DesignCategory(name:  it)
+             sub = DesignCategory.findAllByParentCategory(cat)
+             result.put(it, sub)
+         }
+        [categories:result]
+    }
 }

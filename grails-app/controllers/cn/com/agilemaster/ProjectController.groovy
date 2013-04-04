@@ -8,6 +8,8 @@ import grails.converters.JSON
  */
 class ProjectController {
 
+    static scaffold = true
+
 	def index = {
         def taskList = []
         if(params.id)
