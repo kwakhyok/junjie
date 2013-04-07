@@ -16,7 +16,7 @@ class InvestmentAction {
 
     float amount
 
-    String isFact = true // true: it is an actual payment, false: it is a plan for this month
+    boolean isFact = true // true: it is an actual payment, false: it is a plan for this month
 
 
     String memo

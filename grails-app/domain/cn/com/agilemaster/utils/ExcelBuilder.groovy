@@ -9,6 +9,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.apache.poi.xssf.usermodel.XSSFRow
 import org.apache.poi.xssf.usermodel.XSSFCell
 import org.apache.poi.ss.usermodel.DateUtil
+import org.springframework.web.multipart.MultipartFile
+import org.apache.commons.lang.RandomStringUtils
 
 /**
  * Groovy Builder that extracts data from
@@ -20,17 +22,18 @@ class ExcelBuilder {
     def workbook
     def labels
     def row
+/*
 
     ExcelBuilder(String fileName) {
         HSSFRow.metaClass.getAt = {int idx ->
             def cell = delegate.getCell(idx)
-            if(! cell) {
+            if (!cell) {
                 return null
             }
             def value
-            switch(cell.cellType) {
+            switch (cell.cellType) {
                 case HSSFCell.CELL_TYPE_NUMERIC:
-                    if(DateUtil.isCellDateFormatted(cell)) {
+                    if (DateUtil.isCellDateFormatted(cell)) {
                         value = cell.dateCellValue
                     } else {
                         value = cell.numericCellValue
@@ -48,13 +51,13 @@ class ExcelBuilder {
 
         XSSFRow.metaClass.getAt = {int idx ->
             def cell = delegate.getCell(idx)
-            if(! cell) {
+            if (!cell) {
                 return null
             }
             def value
-            switch(cell.cellType) {
+            switch (cell.cellType) {
                 case XSSFCell.CELL_TYPE_NUMERIC:
-                    if(DateUtil.isCellDateFormatted(cell)) {
+                    if (DateUtil.isCellDateFormatted(cell)) {
                         value = cell.dateCellValue
                     } else {
                         value = cell.numericCellValue
@@ -70,20 +73,93 @@ class ExcelBuilder {
             return value
         }
 
-        new File(fileName).withInputStream{is->
+        new File(fileName).withInputStream {is ->
+            workbook = WorkbookFactory.create(is)
+        }
+    }
+*/
 
-            workbook = WorkbookFactory.create(is);
+    ExcelBuilder(MultipartFile file, boolean ifMultiPart) {
 
-            //workbook = new HSSFWorkbook(is)
+        /*     String charset = (('A'..'Z') + ('0'..'9')).join('')
+        Integer length = 9
+        String randomString = RandomStringUtils.random(length, charset.toCharArray())
+
+        File tempFile = file.transferTo(new File(randomString + ".xlsx"));
+        protocol()
+        tempFile.withInputStream {is ->
+            workbook = WorkbookFactory.create(is)
+        }*/
+        def is = file.inputStream
+        try {
+            protocol()
+            workbook = WorkbookFactory.create(is)
+            is.close()
+        } catch (IOException ex) {
+            log.error(ex.message)
+        }finally{
+           if (is) is.close()
+        }
+
+
+    }
+
+     void protocol() {
+        HSSFRow.metaClass.getAt = {int idx ->
+            def cell = delegate.getCell(idx)
+            if (!cell) {
+                return null
+            }
+            def value
+            switch (cell.cellType) {
+                case HSSFCell.CELL_TYPE_NUMERIC:
+                    if (DateUtil.isCellDateFormatted(cell)) {
+                        value = cell.dateCellValue
+                    } else {
+                        value = cell.numericCellValue
+                    }
+                    break
+                case HSSFCell.CELL_TYPE_BOOLEAN:
+                    value = cell.booleanCellValue
+                    break
+                default:
+                    value = cell.stringCellValue
+                    break
+            }
+            return value
+        }
+
+        XSSFRow.metaClass.getAt = {int idx ->
+            def cell = delegate.getCell(idx)
+            if (!cell) {
+                return null
+            }
+            def value
+            switch (cell.cellType) {
+                case XSSFCell.CELL_TYPE_NUMERIC:
+                    if (DateUtil.isCellDateFormatted(cell)) {
+                        value = cell.dateCellValue
+                    } else {
+                        value = cell.numericCellValue
+                    }
+                    break
+                case XSSFCell.CELL_TYPE_BOOLEAN:
+                    value = cell.booleanCellValue
+                    break
+                default:
+                    value = cell.stringCellValue
+                    break
+            }
+            return value
         }
     }
 
     def getSheet(idx) {
         def sheet
-        if(! idx) idx = 0
-        if(idx instanceof Number) {
+        if (!idx) idx = 0
+        if (idx instanceof Number) {
             sheet = workbook.getSheetAt(idx)
-        } else if(idx ==~ /^\d+$/) {
+        } else if (idx ==~ /^\d+$/) {
             sheet = workbook.getSheetAt(Integer.valueOf(idx))
         } else {
             sheet = workbook.getSheet(idx)
@@ -92,7 +168,7 @@ class ExcelBuilder {
     }
 
     def cell(idx) {
-        if(labels && (idx instanceof String)) {
+        if (labels && (idx instanceof String)) {
             idx = labels.indexOf(idx.toLowerCase())
         }
         return row[idx]
@@ -109,14 +185,14 @@ class ExcelBuilder {
         def rowIterator = sheet.rowIterator()
         def linesRead = 0
 
-        if(params.labels) {
-            labels = rowIterator.next().collect{it.toString().toLowerCase()}
+        if (params.labels) {
+            labels = rowIterator.next().collect {it.toString().toLowerCase()}
         }
-        offset.times{ rowIterator.next() }
+        offset.times { rowIterator.next() }
 
         closure.setDelegate(this)
 
-        while(rowIterator.hasNext() && linesRead++ < max) {
+        while (rowIterator.hasNext() && linesRead++ < max) {
             row = rowIterator.next()
             closure.call(row)
         }

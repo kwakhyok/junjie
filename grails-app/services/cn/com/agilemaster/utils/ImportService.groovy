@@ -8,6 +8,12 @@ import cn.com.agilemaster.DesignCategory
  * ImportService
  * A service class encapsulates the core business logic of a Grails application
  */
+
+class ImportException extends RuntimeException {
+    String message
+    String type
+}
+
 class ImportService {
 
     static transactional = true
@@ -18,32 +24,37 @@ class ImportService {
         }
     }
 
-    def createProjectsFromExcel(filePath, author) {
+    def createProjectsFromExcel(file, author) {
         def project
         def num = 0
         def rootProject = Project.findByCode('0000')
+
         if (rootProject) {
-            new ExcelBuilder(filePath).eachLine([labels: true]) {
-                project = Project.findByCode(cell(1).toString()) ?:
-                    new Project(code: cell(1), name: cell(2),
-                            parentProject: rootProject, description: '<稍后添加>', author: author).save()
+            try {
+                new ExcelBuilder(file,true).eachLine([labels: true]) {
+                    project = Project.findByCode(cell(1).toString()) ?:
+                        new Project(code: cell(1), name: cell(2),
+                                parentProject: rootProject, description: '<稍后添加>', author: author).save()
+                }
+            } catch (IOException ex) {
+                log.error(ex.message)
             }
 
         } else {
-            println('please add the root project first')
+            throw new ImportException(message: "The root project was not found!")
         }
     }
 
 
 
-    def createOrgsFromExcel(fileName, user) {
+    def createOrgsFromExcel(file, user) {
         def properties = new HashMap()
         def orgNum = 0
         def rootProject
         def project
         def rowNo
         try {
-            new ExcelBuilder(fileName).eachLine([labels: true]) {
+            new ExcelBuilder(file,true).eachLine([labels: true]) {
                 rowNo = it.rowNum
                 properties.name = cell(4)
                 properties.contact = cell(12)
@@ -71,21 +82,21 @@ class ImportService {
 
 
                 } else {
-                    organization.errors.each {print "row ${rowNo}: Validation error: ${it}" }
+                    organization.errors.each { println "row ${rowNo}: Validation error: ${it} \n" }
                 }
             }
-            println("${orgNum}  Organization were added!")
 
 
-        } catch (ex) {
-            println ex.message
+        } catch (RuntimeException ex) {
+            log.error(ex.message)
         }
+
 
     }
 
-    def importDesignCategories(filePath, user) {
+    def importDesignCategories(file) {
         def cat
-        new ExcelBuilder(filePath).eachLine([labels: false]) {
+        new ExcelBuilder(file,true).eachLine([labels: false]) {
             cat = DesignCategory.findByName(cell(0).toString()) ?: new DesignCategory(name: cell(0)).save(failOnError: true)
             println it.rowNum
             for (i in 1..40) {
@@ -98,3 +109,4 @@ class ImportService {
     }
 
 }
+
