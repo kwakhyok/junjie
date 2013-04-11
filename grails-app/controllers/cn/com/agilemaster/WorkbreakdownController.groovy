@@ -15,20 +15,31 @@ class WorkbreakdownController {
 
 
     def addWorks = {
-        def wbs = Workbreakdown.list(max: 1, sort: "code", order: "desc").get(0)
-        def titles = ['立项工作', '设计工作', '行政审批', '招标采购', '施工管理', '验收移交', '项目管理']
+
+        def wbs
+        //wbs = Workbreakdown.list(max: 1, sort: "code", order: "desc").get(0)
+        wbs = Workbreakdown.findByCode('20xxxxxx') ?: new Workbreakdown(code: '20xxxxxx', title: 'demo111').save(failOnError: true)
+
+        def titles = ['A': '立项工作', 'B': '设计工作', 'C': '行政审批', 'D': '招标采购',
+                'E': '施工管理', 'F': '验收移交', 'G': '项目管理']
+        def rootCode = 'ROOT'
         def work
         def description = '以下是项目的描述'
-        if (Work.count == 0) {
-            Work rootWork = new Work(title: '医院建设项目', description: description)
+        if (!wbs.works) {
+            Work rootWork = Work.findByCode(rootCode) ?: new Work(code: rootCode, title: '医院建设项目', description: description)
             wbs.addToWorks(rootWork)
-            titles.eachWithIndex {title, i ->
-                work = new Work(title: title, description: "${i}  ${description}", parentWork: rootWork)
+            titles.each {
+                work = Work.findByCode(it.key) ?: new Work(code: it.key,
+                        title: it.value, description: "${it.value}  ${description}", parentWork: rootWork)
                 wbs.addToWorks(work)
             }
             wbs.save(failOnError: true)
         }
-        redirect(action: 'show', params: [id:wbs.id])
+        redirect(action: 'show', params: [id: wbs.id])
+    }
+
+    def createWork = {
+
     }
 
     def listWorksAsJson = {
@@ -40,22 +51,32 @@ class WorkbreakdownController {
             wbs = Workbreakdown.get(params.wbsId)
             def works = wbs.works
             rootWork = works.find {work ->
-                if (! work.parentWork) {return true}
+                if (!work.parentWork) {return true}
                 return false
             }
 
-            works.each{work ->
-               if (work.parentWork){
-                  restWorks.add(work)
-               }
+            works.each {work ->
+                if (work.parentWork) {
+                    restWorks.add(work)
+                }
             }
         }
-        def results = [
-                'rootItem' : rootWork,
-                'items' : restWorks
-        ]
+        def results = []
+        if (rootWork) {
+            results = [
+                    'rootItem': rootWork,
+                    'items': restWorks
+            ]
+
+        }
         render results as JSON
     }
 
-
+    def listAllWorksAsJson={
+        def wbs
+        if(params.id){
+            wbs = Workbreakdown.findById(params.id)
+            render wbs?.works as JSON
+        }
+    }
 }

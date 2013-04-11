@@ -9,6 +9,7 @@ class Work {
     /* Default (injected) attributes of GORM */
 //	Long	id
 //	Long	version
+    String code
     String title
     String description
     Work parentWork
@@ -25,6 +26,7 @@ class Work {
     }
 
     static constraints = {
+        code  size:1..10, unique: true, blank:false
         title size: 1..10, blank: false
         description size: 1..1000, nullable: true
     }
@@ -34,6 +36,6 @@ class Work {
       */
 //	@Override	// Override toString for a nicer / more descriptive UI 
 	public String toString() {
-		return "${title}";
+		return "${code} - ${title}";
 	}
 }

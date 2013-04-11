@@ -133,6 +133,23 @@
                    <blockquote>/Users/guo/Documents/Development/AgileMaster滨州医学院文档/设计.xlsx</blockquote>
                </div>
            </g:uploadForm>
+
+
+            <g:uploadForm id="wbsForm" action="importWBS">
+                <div class="control-group">
+                    <label class="control-label" for="inputExcel3">WBS文件路径</label>
+                    <div class="controls">
+                        %{--<input type="text" id="inputExcel3" name="filePath" class="input-xxlarge" value="/Users/guo/Documents/Development/AgileMaster滨州医学院文档/设计.xlsx">--}%
+                        <input type="file" id="inputExcel4" name="wbsFile">
+                        <span class="help-inline"></span>
+                        <g:submitButton class="btn btn-danger" name="importWBS" value="导入" />
+                    </div>
+                    <blockquote>/Users/guo/Documents/Development/AgileMaster滨州医学院文档/wbs.xlsx</blockquote>
+                </div>
+            </g:uploadForm>
+
+
+
         </div>
     </div>
 

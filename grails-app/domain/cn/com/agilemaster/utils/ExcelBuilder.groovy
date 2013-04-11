@@ -98,7 +98,7 @@ class ExcelBuilder {
         } catch (IOException ex) {
             log.error(ex.message)
         }finally{
-           if (is) is.close()
+            is?.close()
         }
 
 

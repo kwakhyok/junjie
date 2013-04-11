@@ -87,8 +87,10 @@
             rootItem.image = "http://www.basicprimitives.com/demo/images/photos/a.png";
             for (var index = 0; index < items.length; index++) {
                 var itemD = new primitives.orgdiagram.ItemConfig();
+                console.log(index);
                 itemD.title = items[index].title;
                 itemD.description = items[index].description;
+                console.log(itemD.code + ' \'s parent is: ' + items[index].parentWork);
                 itemD.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
                 rootItem.items.push(itemD);
             }
@@ -121,8 +123,9 @@
 
         /*  == .live(), but in jquery 1.8 there's more preformant way! */
         $(document).delegate('#wbsMenu li a', 'click', function (event, data) {
-            console.log(event.type);
-            $.getJSON("listWorksAsJson", {wbsId:3}, function (data) {
+            console.log('this: ' +  $(this).children('span.hidden').text() + ' type: ' +  event.type);
+            var myWbsId = $(this).children('span.hidden').text();
+            $.getJSON("listWorksAsJson", {wbsId:myWbsId}, function (data) {
 
                 console.log(data.rootItem.title);
 
@@ -156,7 +159,7 @@
                 options.rootItem = rootItem;
                 options.cursorItem = rootItem;
                 options.hasSelectorCheckbox = primitives.common.Enabled.True;
-                console.log(options.rootItem.title);
+                console.log('root title' + options.rootItem.title);
               //  jQuery("#orgdiagram").orgDiagram(options);
               //  main();
             }
@@ -183,8 +186,8 @@
                         </button>
                         <ul class="dropdown-menu" id="wbsMenu">
                             <g:each in="${Workbreakdown.list()}" var="wbs">
-                                <li><g:link action="listWorksAsJson" params='[wbsId: "${wbs.id}"]'><i
-                                        class="halflings-icon star"></i>${wbs.title}</g:link></li>
+                                <li><a href="#"><i
+                                        class="halflings-icon star"></i><span class="hidden">${wbs.id}</span><span>${wbs.title}</span></a></li>
                             </g:each>
                         </ul>
                     </div>

@@ -49,6 +49,15 @@ class AdministratorController {
         redirect(controller: 'design', action: 'index')
     }
 
+    def importWBS = {
+        def mhf = request.getFile('wbsFile')
+        importService.createWBSFromExcel('2013xxxx', '20133最新计划', mhf)
+        //importService.printExcelFile(mhf)
+        redirect(controller: 'workbreakdown', action: 'index')
+    }
+
+
+
     def listDesigns = {}
 
     def listBidCats = {}
