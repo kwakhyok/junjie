@@ -7,5 +7,5 @@ package cn.com.agilemaster
 class PurchaseController {
 
     static scaffold = BidSection
-//	def index = { }
+	def index = { }
 }

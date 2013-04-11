@@ -112,7 +112,7 @@
                     <label class="control-label" for="inputExcel2">项目信息Excel</label>
                     <div class="controls">
                         %{--<input type="text" id="inputExcel2" name="filePath" class="input-xxlarge" value="/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx">--}%
-                        <input type="file" id="inputExcel2" name="filePath">
+                        <input type="file" id="inputExcel2" name="projectFile">
                         <span class="help-inline"></span>
                         <g:submitButton class="btn btn-danger" name="importProjects" value="导入"/>
                     </div>

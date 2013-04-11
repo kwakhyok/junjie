@@ -104,6 +104,36 @@ class AgilemasterTagLib {
 
 
     }
+    /*
+    * @attr span REQUIRED must be the number between 1 and 12
+    * @attr icon REQUIRED must be icons in this theme
+    * @attr title REQUIRED must be the title of the box
+    * @attr canFold REQUIRED must be true or False to provide the folding and close buttons
+    * */
+    def boxContainer = {attrs, body ->
+        def span = attrs.span
+        def icon = attrs.icon
+        def title = attrs.title
+        def canFold = attrs.canFold
+        out << "<div class='box span" + span + " '>"
+        out << "<div class='box-header'>"
+        out << "<h2><i class='halflings-icon "
+        out << icon
+        out << " '></i><span class=\"break\"></span>"
+        out << title
+        out << "</h2>"
+        if (canFold == 'true'){
+            out <<"<div class=\"box-icon\">" +
+                    "<a href=\"#\" class=\"btn-minimize\"><i class=\"halflings-icon chevron-up\"></i></a>" +
+                    "<a href=\"#\" class=\"btn-close\"><i class=\"halflings-icon remove\"></i></a>" +
+                    "</div>"
+        }
+        out << "</div>"
+        out << "<div class='box-content'>"
+        out << body()
+        out << "</div></div>"
+
+    }
 
 
     static String calculateFromNow(Date date){

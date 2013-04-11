@@ -1,4 +1,30 @@
 modules = {
+
+    boostrap_core {
+        resource url: 'acm/css/bootstrap.min.css'
+        resource url: 'acm/css/bootstrap-responsive.min.css'
+        resource url: 'acm/js/bootstrap.min.js'
+    }
+
+    jquery_core{
+        resource url: 'acm/js/jquery-1.9.1.min.js'
+    }
+
+    jquery_ui_core{
+
+        dependsOn('jquery_core')
+        resource url: 'acm/css/jquery-ui-1.8.21.custom.css'
+        resource url: 'acm/js/jquery-ui-1.10.0.custom.min.js'
+    }
+    j_primitive {
+        //dependsOn('boostrap_core')
+        //dependsOn('jquery_core')
+        dependsOn('jquery_ui_core')
+        resource url:'primitives/primitives.latest.css'
+        resource url:'primitives/primitives.min.js'
+
+    }
+
     application {
         resource url: 'js/application.js'
     }
@@ -9,11 +35,11 @@ modules = {
     }
 
 
+
+
     acm {
         resource url: 'acm/css/bootstrap.min.css'
         resource url: 'acm/css/bootstrap-responsive.min.css'
-
-
         resource url: 'acm/css/jquery-ui-1.8.21.custom.css'
         resource url: 'acm/css/fullcalendar.css'
         resource url: 'acm/css/chosen.css'
