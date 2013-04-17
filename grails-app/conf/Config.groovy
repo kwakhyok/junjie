@@ -114,3 +114,5 @@ chat {
 
 grails.config.defaults.locations = [KickstartResources, JunjieResources]
 
+//grails.converters.json.default.deep = true
+

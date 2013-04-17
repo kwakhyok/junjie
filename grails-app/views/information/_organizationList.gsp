@@ -3,6 +3,7 @@
     <table class="table table-striped table-bordered bootstrap-datatable datatable">
         <thead>
         <tr>
+            <th>项目</th>
             <th>名称</th>
             <th>地址</th>
             <th>联系人</th>
@@ -13,6 +14,7 @@
         <tbody>
         <g:each in="${organizationList}" var="org">
             <tr>
+                <td>${org.activities.collect{it.bidSection?.title}.join(',')}</td>
                 <td>${org.name}</td>
                 <td>${org.address}</td>
                 <td>${org.contact}</td>

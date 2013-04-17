@@ -12,7 +12,7 @@
             //main();
         });
 
-        function main(){
+        function main() {
             ResizePlaceholder();
             SetupWidget();
             $(window).resize(function () {
@@ -31,73 +31,39 @@
             }
         }
 
-        function SetupWidget1() {
+        function SetupWidget(data) {
             var options = new primitives.orgdiagram.Config();
             var rootItem = new primitives.orgdiagram.ItemConfig();
-            rootItem.title = "Title 4";
-            rootItem.description = "Description";
+            rootItem.title = data.title;
+            rootItem.description = data.description;
             rootItem.image = "http://www.basicprimitives.com/demo/images/photos/a.png";
-            for (var index = 0; index < 5; index++) {
-                var itemD = new primitives.orgdiagram.ItemConfig();
-                itemD.title = index.toString() + " Title";
-                itemD.description = index.toString() + " Description";
-                itemD.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
-                rootItem.items.push(itemD);
-            }
-
-            var itemB = new primitives.orgdiagram.ItemConfig();
-            itemB.title = "B Title";
-            itemB.description = "B Description";
-            itemB.image = "http://www.basicprimitives.com/demo/images/photos/b.png";
-            rootItem.items.push(itemB);
-            for (var index = 0; index < 5; index++) {
-                var itemD = new primitives.orgdiagram.ItemConfig();
-                itemD.title = index.toString() + " Title";
-                itemD.description = index.toString() + " Description";
-                itemD.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
-                itemB.items.push(itemD);
-            }
-
-            var itemC = new primitives.orgdiagram.ItemConfig();
-            itemC.title = "C Title";
-            itemC.description = "C Description";
-            itemC.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
-            rootItem.items.push(itemC);
-
-            for (var index = 0; index < 5; index++) {
-                var itemD = new primitives.orgdiagram.ItemConfig();
-                itemD.title = index.toString() + " Title";
-                itemD.description = index.toString() + " Description";
-                itemD.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
-                itemC.items.push(itemD);
-            }
-
-            options.rootItem = rootItem;
-            options.cursorItem = rootItem;
-            options.hasSelectorCheckbox = primitives.common.Enabled.True;
-            jQuery("#orgdiagram").orgDiagram(options);
-        }
-
-
-        function SetupWidget2(root, items) {
-            var options = new primitives.orgdiagram.Config();
-            var rootItem = new primitives.orgdiagram.ItemConfig();
-            rootItem.title = root.title;
-            rootItem.description = root.description;
-            rootItem.image = "http://www.basicprimitives.com/demo/images/photos/a.png";
-            for (var index = 0; index < items.length; index++) {
-                var itemD = new primitives.orgdiagram.ItemConfig();
-                console.log(index);
-                itemD.title = items[index].title;
-                itemD.description = items[index].description;
-                console.log(itemD.code + ' \'s parent is: ' + items[index].parentWork);
-                itemD.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
-                rootItem.items.push(itemD);
+            var subWorks = data.subWorks;
+            for (var index = 0; index < subWorks.length; index++) {
+                var subItem = new primitives.orgdiagram.ItemConfig();
+                subItem.code = subWorks[index].code;
+                console.log(subItem.code);
+                subItem.title = subWorks[index].title;
+                subItem.description = subWorks[index].description;
+                subItem.image = "http://www.basicprimitives.com/demo/images/photos/b.png";
+                if (subWorks[index].hasOwnProperty('subWorks')) {
+                    var subSubWorks = subWorks[index].subWorks;
+                    for (var j = 0; j < subSubWorks.length; j++) {
+                        console.log(j + ": " + subSubWorks[j].code);
+                        var subSubItem = new primitives.orgdiagram.ItemConfig();
+                        subSubItem.code = subSubWorks[j].code;
+                        subSubItem.title = subSubWorks[j].title;
+                        subSubItem.description = subSubWorks[j].description;
+                        subSubItem.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
+                        subItem.items.push(subSubItem);
+                    }
+                }
+                rootItem.items.push(subItem);
             }
             options.rootItem = rootItem;
             options.cursorItem = rootItem;
-            options.hasSelectorCheckbox = primitives.common.Enabled.True;
+            options.hasSelectorCheckbox = primitives.common.Enabled.False;
             $("#orgdiagram").orgDiagram(options);
+
         }
 
         function ResizePlaceholder() {
@@ -108,64 +74,25 @@
              "width":bodyWidth + "px",
              "height":bodyHeight + "px"
              });*/
-            jQuery("#orgdiagram").addClass('span11');
+            jQuery("#orgdiagram").addClass('span12');
 
         }
-
-        /* $(function(){
-         $('#wbsMenu li a').live('click',function(event,data){
-         event.preventDefault();
-         })
-         });*/
-
-
 
 
         /*  == .live(), but in jquery 1.8 there's more preformant way! */
         $(document).delegate('#wbsMenu li a', 'click', function (event, data) {
-            console.log('this: ' +  $(this).children('span.hidden').text() + ' type: ' +  event.type);
+            console.log('this: ' + $(this).children('span.hidden').text() + ' type: ' + event.type);
             var myWbsId = $(this).children('span.hidden').text();
             $.getJSON("listWorksAsJson", {wbsId:myWbsId}, function (data) {
-
-                console.log(data.rootItem.title);
-
-                $.each(data.items, function(i, item){
-                    console.log(i + ":" + item.title);
-                });
-
                 ResizePlaceholder();
-                SetupWidget2(data.rootItem, data.items);
+                SetupWidget(data);
                 $(window).resize(function () {
                     onWindowResize();
                 });
 
-                var items = [];
-                $.each(data, function (key, val) {
-                    items.push('<li>' + key + ":" + val + "</li>");
-                    parseMe(key,val);
-                });
-                $('<ul/>', {'class':'my-new-list', html:items.join('')}).appendTo('body');
+                event.preventDefault();
             });
-            event.preventDefault();
         });
-
-        function parseMe(key, val){
-            console.log('parse me: ' + key + ':' + val);
-            if(key == 'rootItem'){
-                var options = new primitives.orgdiagram.Config();
-                var rootItem = new primitives.orgdiagram.ItemConfig();
-                rootItem.title = val.title;
-                rootItem.description = val.description;
-                options.rootItem = rootItem;
-                options.cursorItem = rootItem;
-                options.hasSelectorCheckbox = primitives.common.Enabled.True;
-                console.log('root title' + options.rootItem.title);
-              //  jQuery("#orgdiagram").orgDiagram(options);
-              //  main();
-            }
-
-        }
-
     </r:script>
 </head>
 
@@ -187,7 +114,8 @@
                         <ul class="dropdown-menu" id="wbsMenu">
                             <g:each in="${Workbreakdown.list()}" var="wbs">
                                 <li><a href="#"><i
-                                        class="halflings-icon star"></i><span class="hidden">${wbs.id}</span><span>${wbs.title}</span></a></li>
+                                        class="halflings-icon star"></i><span
+                                        class="hidden">${wbs.id}</span><span>${wbs.title}</span></a></li>
                             </g:each>
                         </ul>
                     </div>

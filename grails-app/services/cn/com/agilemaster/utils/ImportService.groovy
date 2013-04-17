@@ -5,6 +5,12 @@ import cn.com.agilemaster.Organization
 import cn.com.agilemaster.DesignCategory
 import cn.com.agilemaster.Workbreakdown
 import cn.com.agilemaster.Work
+import cn.com.agilemaster.Specialist
+import java.text.DecimalFormat
+import org.apache.lucene.analysis.cn.ChineseAnalyzer
+import cn.com.agilemaster.Projectbreakdown
+import cn.com.agilemaster.BidSection
+import cn.com.agilemaster.BidActivity
 
 /**
  * ImportService
@@ -21,71 +27,34 @@ class ImportService {
     static transactional = true
 
     def printExcelFile(file) {
-        new ExcelBuilder(file,true).eachLine([labels: true]) {
+        new ExcelBuilder(file, true).eachLine([labels: true]) {
             println "firstcolumn on row ${it.rowNum} = ${cell(0)}"
         }
     }
 
-    def createWBSFromExcel(code, title, file) {
-        def wbs = Workbreakdown.findByCode(code) ?: new Workbreakdown(code: code, title: title).save(failOnError: true)
-        def rootCode = 'ROOT'
-        def work
-        def codeArray = []
-        def parentCode
-        def parentWork
-        try {
-            new ExcelBuilder(file, true).eachLine([labels: true]) {
-                if (cell(0) == rootCode) { // root work
-                    wbs.addToWorks(Work.findByCode(cell(0)) ?: new Work(code: cell(0),
-                            title: cell(1), description: cell(2))).save(failOnError: true)
-                    println ("row${it.rowNum}" + cell(0) + cell(1) + cell(2))
-                } else{
-                    println ("row${it.rowNum}: " + cell(0) + cell(1) + cell(2))
-                    codeArray = cell(0).split('\\.')
-                    println ("row${it.rowNum}: ${cell(0)}: ${codeArray.size()}" )
-                    if (codeArray.size() == 1 && codeArray[0] != rootCode) { // 1st Level
-                        parentWork = Work.findByCode(rootCode)
-                    } else if (codeArray.size() == 2) { // 2nd Level
-                        parentWork = Work.findByCode(codeArray[0])
-                    } else if (codeArray.size() == 3 ) {
-                        parentWork = Work.findByCode(codeArray[0] + '.' + codeArray[1])
-                    } else if (codeArray.size() == 4) {
-                        parentWork = Work.findByCode(codeArray[0] + '.' + codeArray[1] + '.' + codeArray[2])
-                    }
-                    wbs.addToWorks(Work.findByCode(cell(0)) ?: new Work(code: cell(0), title: cell(1),
-                            description: cell(2),parentWork: parentWork)).save(failOnError: true)
-                }
+    def createSpecialistsFromExcel(file){
+        Specialist.executeUpdate('delete from Specialist')
+        DecimalFormat df = new DecimalFormat("0")
+        def telephone
+        new ExcelBuilder(file,true).eachLine([labels: true]){
+        //    println "${it.rowNum} : ${cell(0)}"
+            if(it.rowNum > 1 && cell(0)){
+               telephone = cell(2) instanceof Double ? df.format(cell(2)) : cell(2)
+               new Specialist(name: cell(0), organization: cell(1), telephone: telephone, memo: cell(4)).save(flush: true)
             }
-        } catch (IOException ex){
-            log.error('Importing WBS encounts errors: ' + ex.message)
-            throw new ImportException(message:  ex.message)
-        }
-    }
-
-    def createProjectsFromExcel(file, author) {
-        def project
-        def num = 0
-        def rootProject = Project.findByCode('0000')
-
-        if (rootProject) {
-            try {
-                new ExcelBuilder(file, true).eachLine([labels: true]) {
-                    project = Project.findByCode(cell(1)) ?:
-                        new Project(code: cell(1), name: cell(2),
-                                parentProject: rootProject, description: '<稍后添加>', author: author).save()
-                }
-            } catch (IOException ex) {
-                log.error(ex.message)
-            }
-
-        } else {
-            throw new ImportException(message: "The root project was not found!")
         }
     }
 
 
 
-    def createOrgsFromExcel(file, user) {
+    def createBidOrgsFromExcel(file, user) {
+        Collection<BidActivity>  existedActs = BidActivity.findAll()
+        existedActs*.delete()
+        Collection<Organization> existedOrgs = Organization.findAll()
+        existedOrgs*.delete()
+        Collection<BidSection> existedBidSections = BidSection.findAll()
+        existedBidSections*.delete()
+
         def properties = new HashMap()
         def orgNum = 0
         def rootProject
@@ -93,6 +62,7 @@ class ImportService {
         def rowNo
         try {
             new ExcelBuilder(file, true).eachLine([labels: true]) {
+                def rootCode = 'ROOT'
                 rowNo = it.rowNum
                 properties.name = cell(4)
                 properties.contact = cell(12)
@@ -109,18 +79,25 @@ class ImportService {
                 properties.fax = cell(7)
                 properties.email = cell(9)
                 def organization = Organization.findByName(properties.name) ?: new Organization()
+                def bidSection
+                def bidActivity
                 organization.properties = properties
                 if (organization.save()) {
                     orgNum++
-                    rootProject = Project.findByCode('0000')
-                    project = Project.findByName(cell(2)) ?:
-                        new Project(name: cell(2),
-                                description: '<无描述>',
-                                parentProject: rootProject, author: user).save()
-
-
+                    rootProject = Project.findByCode(rootCode)
+                    bidSection = BidSection.findByCode(String.valueOf(cell(1)))?:
+                        new BidSection(code: cell(1),title: cell(2),project: rootProject)
+                    bidActivity =  new BidActivity(tags: '投标', organization: organization)
+                    bidSection.addToActivities(bidActivity) // all of bidsections are a task of a rootProject
+                   // println "The ${orgNum}th of Org!"
+                    if(!bidSection.save(flush: true)){       // to ensure the activity is persisted in the database
+                       println ("${it.rowNum} row has errors: \n")
+                       bidSection.errors.each{println it}
+                    }else{
+                        println "${it.rowNum} saved! Activity:${bidActivity}"
+                    }
                 } else {
-                    organization.errors.each { println "row ${rowNo}: Validation error: ${it} \n" }
+                    organization.errors.each { println "row ${rowNo}: \n ${it} \n" }
                 }
             }
 
@@ -136,7 +113,7 @@ class ImportService {
         def cat
         new ExcelBuilder(file, true).eachLine([labels: false]) {
             cat = DesignCategory.findByName(cell(0)) ?: new DesignCategory(name: cell(0)).save(failOnError: true)
-            println it.rowNum
+            // println it.rowNum
             for (i in 1..40) {
                 if (cell(i) && cell(i) != '') {
                     DesignCategory.findByName(cell(i)) ?: new DesignCategory(name: cell(i), parentCategory: cat).save(failOnError: true)
@@ -146,5 +123,112 @@ class ImportService {
         }
     }
 
+    def importWorkTreeFromExcel(file, wbsCode) {
+        def works = []
+        def wbs = Workbreakdown.findByCode(wbsCode) ?:
+            new Workbreakdown(code: wbsCode, title: '2013年度', description: 'xxx').save(failOnError: true)
+        if (wbs) {
+            wbs.works?.removeAll()
+            wbs.save(failOnError: true)
+            try {
+                new ExcelBuilder(file, true).eachLine([labels: true]) {
+                    works.push(new Work(code: cell(0), title: cell(1), description: cell(2)))
+                }
+                //build the tree and establish the hierarchies
+                def rootWork = works.find {it.code = 'ROOT'}
+                rootWork.wbs = wbs
+                works.remove(rootWork)
+                rootWork = Work.findByCode('ROOT') ?: rootWork.save(flush: true)
+
+
+
+                def build
+                build = {p, list ->
+                    list.groupBy {it.code.split('\\.').first()}.each {el, sublist ->
+                        p.wbs = wbs
+                        p.save(failOnError: true)
+                        def aLevel = Work.findByCode(el)
+                        if (!aLevel) {
+                            aLevel = sublist[0]
+                            aLevel.wbs = wbs
+                            aLevel.parentWork = p
+                            aLevel.save(failOnError: true)
+                        }
+                        el = sublist[0]
+                        if (el.parentWork != rootWork) el.parentWork = aLevel
+                        if (sublist.size() > 1) build(el, sublist[1..-1])
+                    }
+                }
+                build(rootWork, works.sort {it.code.length()})
+                works.each {
+                    it.wbs = wbs
+                    wbs.addToWorks(it)
+                }
+                wbs.addToWorks(rootWork)
+                wbs.save(failOnError: true)
+
+            } catch (IOException ex) {
+                throw new ImportException(message: 'WBS Excel File has errors!' + ex.message)
+            }
+        }
+    }
+
+
+    def importPBSFromExcel(file, pbsCode){
+
+        def projects = []
+        def pbs = Projectbreakdown.findByCode(pbsCode) ?:
+            new Projectbreakdown(code: pbsCode, title: '2013年度').save(failOnError: true)
+        if (pbs) {
+            pbs.projects?.removeAll()
+            pbs.save(failOnError: true)
+            try {
+                new ExcelBuilder(file, true).eachLine([labels: true]) {
+                    projects.push(new Project(code: cell(0), name: cell(1), description: cell(2)))
+                }
+                //build the tree and establish the hierarchies
+                def rootProject = projects.find {it.code = 'ROOT'}
+                rootProject.pbs = pbs
+                projects.remove(rootProject)
+                rootProject = Project.findByCode('ROOT') ?: rootProject.save(flush: true)
+
+
+
+                def build
+                build = {p, list ->
+                    list.groupBy {it.code.split('\\.').first()}.each {el, sublist ->
+                        //println "p: ${p.code}"
+                        //println "before el: ${el}"
+                        //println "sublist:${sublist}"
+                        p.pbs = pbs
+                        p.save(failOnError: true)
+
+                        def aLevel = Project.findByCode(el)
+                        if (!aLevel) {
+                            aLevel = sublist[0]
+                            aLevel.pbs = pbs
+                            aLevel.parentProject = p
+                            aLevel.save(failOnError: true)
+                        }
+                        el = sublist[0]
+                        //println "after el: ${el}"
+                        if (el.parentProject != rootProject) el.parentProject = aLevel
+
+                        if (sublist.size() > 1) build(el, sublist[1..-1])
+                    }
+                }
+                build(rootProject, projects.sort {it.code.length()})
+                projects.each {
+                    it.pbs = pbs
+                    pbs.addToProjects(it)
+                }
+                pbs.addToProjects(rootProject)
+                pbs.save(failOnError: true)
+
+            } catch (IOException ex) {
+                throw new ImportException(message: 'PBS Excel File has errors!' + ex.message)
+            }
+        }
+    }
 }
 

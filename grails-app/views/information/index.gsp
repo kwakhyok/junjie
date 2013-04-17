@@ -52,8 +52,7 @@
                 </div>
 
                 <div class="tab-pane " id="specialist">
-                    <h1>专家</h1>
-
+                    <g:render template="specialistList"/>
                 </div>
 
                 <div class="tab-pane " id="participant">
@@ -62,13 +61,13 @@
                 </div>
 
                 <div class="tab-pane active" id="bid">
-                    <g:render template="organizationList"/>
+                    <g:render template="organizationList" model="[organizationList: bidingOrgs]"/>
 
                 </div>
 
                 <div class="tab-pane active" id="intention">
                     <g:render template="organizationList"
-                              model="[organizationList: organizationInstanceList, organizationTotal: organizationInstanceTotal]"/>
+                              model="[organizationList: intentionOrgs]"/>
                 </div>
             </div>
         </div>

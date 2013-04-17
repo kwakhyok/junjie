@@ -117,14 +117,15 @@ class TaskService {
 /* create demo WBS and PBS */
 
     def createWbsAndPbs(code, prjName, user) {
-        def prj = Project.findByCode(code) ?: new Project(code: code , name: prjName, description: '项目的简单描述',
+        def pbs = Projectbreakdown.findByCode('PBS01')?: new Projectbreakdown(code: 'PBS01', title: '医院建设项目').save(failOnError: true)
+        def prj = Project.findByCode(code) ?: new Project(pbs: pbs, code: code , name: prjName, description: '项目的简单描述',
                 author: user).save(failOnError: true)
 
         //WBS demo
         (1..2).each { j ->
             def wbs = Workbreakdown.findByCode(j.toString()) ?:
                 new Workbreakdown(code: j.toString(),
-                        title: "201${j}度", status: 'archived').save(failOnError: true)
+                        title: "201${j}年度", status: 'archived').save(failOnError: true)
             (1..9).each {i ->
                 wbs.addToTasks(new Task(project: prj,
                         title: "DemoTask${i}",
@@ -146,10 +147,10 @@ class TaskService {
 
         //PBS Demo
         (1..4).each { j ->
-            def pbs = Projectbreakdown.findByCode(j.toString()) ?: new Projectbreakdown(code: j.toString(), title: "201${j}度",
-                    status: 'on-progress', project: prj).save(failOnError: true)
+            def pbs1 = Projectbreakdown.findByCode(j.toString()) ?: new Projectbreakdown(code: j.toString(), title: "201${j}度",
+                    status: 'on-progress').save(failOnError: true)
             (1..9).each {i ->
-                pbs.addToTasks(new Task(project: prj,
+                pbs1.addToTasks(new Task(project: prj,
                         title: "ProjectDemoTask${i}",
                         code: "${j}.${i}",
                         status: "drafted").save(failOnError: true))

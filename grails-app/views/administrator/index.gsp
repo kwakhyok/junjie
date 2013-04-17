@@ -107,20 +107,6 @@
                 <blockquote>e.g.: /Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx</blockquote>
             </g:uploadForm>
 
-            <g:uploadForm id="projectForm" action="importProjects">
-                <div class="control-group">
-                    <label class="control-label" for="inputExcel2">项目信息Excel</label>
-                    <div class="controls">
-                        %{--<input type="text" id="inputExcel2" name="filePath" class="input-xxlarge" value="/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx">--}%
-                        <input type="file" id="inputExcel2" name="projectFile">
-                        <span class="help-inline"></span>
-                        <g:submitButton class="btn btn-danger" name="importProjects" value="导入"/>
-                    </div>
-                    <blockquote>/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx</blockquote>
-                </div>
-                <span></span>
-            </g:uploadForm>
-
            <g:uploadForm id="designCategoryForm" action="importDesignCategories">
                <div class="control-group">
                    <label class="control-label" for="inputExcel3">资料文路径</label>
@@ -145,6 +131,34 @@
                         <g:submitButton class="btn btn-danger" name="importWBS" value="导入" />
                     </div>
                     <blockquote>/Users/guo/Documents/Development/AgileMaster滨州医学院文档/wbs.xlsx</blockquote>
+                </div>
+            </g:uploadForm>
+
+
+            <g:uploadForm id="pbsForm" action="importPBS">
+                <div class="control-group">
+                    <label class="control-label" for="inputExcel4">PBS文件路径</label>
+                    <div class="controls">
+                        %{--<input type="text" id="inputExcel3" name="filePath" class="input-xxlarge" value="/Users/guo/Documents/Development/AgileMaster滨州医学院文档/设计.xlsx">--}%
+                        <input type="file" id="inputExcel4" name="pbsFile">
+                        <span class="help-inline"></span>
+                        <g:submitButton class="btn btn-danger" name="importPBS" value="导入" />
+                    </div>
+                    <blockquote>/Users/guo/Documents/Development/AgileMaster滨州医学院文档/pbs.xlsx</blockquote>
+                </div>
+            </g:uploadForm>
+
+
+            <g:uploadForm id="specialistForm" action="importSpecialist">
+                <div class="control-group">
+                    <label class="control-label" for="inputExcel5">专家库文档</label>
+                    <div class="controls">
+                        %{--<input type="text" id="inputExcel3" name="filePath" class="input-xxlarge" value="/Users/guo/Documents/Development/AgileMaster滨州医学院文档/设计.xlsx">--}%
+                        <input type="file" id="inputExcel5" name="specialistFile">
+                        <span class="help-inline"></span>
+                        <g:submitButton class="btn btn-danger" name="importSpecialist" value="导入" />
+                    </div>
+                    <blockquote>/Users/guo/Documents/Development/AgileMaster滨州医学院文档/工程/专家库名单.xlsx</blockquote>
                 </div>
             </g:uploadForm>
 

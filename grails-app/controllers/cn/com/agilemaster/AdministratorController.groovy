@@ -33,15 +33,10 @@ class AdministratorController {
 
     def importOrgs = {
         def mhf = request.getFile('orgFile')
-        importService.createOrgsFromExcel(mhf, session.currentUser)
+        importService.createBidOrgsFromExcel(mhf, session.currentUser)
         redirect(controller:'information',action: 'index')
     }
 
-    def importProjects = {
-        def mhf = request.getFile('projectFile')
-        importService.createProjectsFromExcel(mhf, session.currentUser)
-        redirect(controller: 'information', action: 'index')
-    }
 
     def importDesignCategories = {
         def mhf = request.getFile('categoryFile')
@@ -51,9 +46,27 @@ class AdministratorController {
 
     def importWBS = {
         def mhf = request.getFile('wbsFile')
-        importService.createWBSFromExcel('2013xxxx', '20133最新计划', mhf)
+        importService.importWorkTreeFromExcel(mhf, '4')
+        def wbs = Workbreakdown.findByCode('4')
+       /* wbs.works.each{
+            println "${it.code}-${it.title}-parent: ${it.parentWork?.code}"
+        }*/
+        //importService.createWBSFromExcel('2013xxxx', '20133最新计划', mhf)
         //importService.printExcelFile(mhf)
-        redirect(controller: 'workbreakdown', action: 'index')
+        redirect(controller: 'workbreakdown', action: 'listWorksAsJson', params: [wbsId:4])
+    }
+
+    def importSpecialist = {
+        def mhf = request.getFile('specialistFile')
+        importService.createSpecialistsFromExcel(mhf)
+        redirect(controller: 'information', action: 'index')
+    }
+
+
+    def importPBS = {
+        def mhf = request.getFile('pbsFile')
+        importService.importPBSFromExcel(mhf,'1')
+        redirect(controller: 'project', action: 'list', params: [pbsId:4])
     }
 
 

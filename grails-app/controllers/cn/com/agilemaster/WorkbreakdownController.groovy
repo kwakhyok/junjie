@@ -45,36 +45,54 @@ class WorkbreakdownController {
     def listWorksAsJson = {
 
         def wbs
-        def restWorks = []
         def rootWork
         if (params.wbsId) {
             wbs = Workbreakdown.get(params.wbsId)
-            def works = wbs.works
-            rootWork = works.find {work ->
-                if (!work.parentWork) {return true}
-                return false
-            }
+            def jsonMap = [:]
+            def workList = []
+            rootWork = wbs?.works?.find {it.isRootWork()}
+            def works = wbs?.works?.findAll {!it.isRootWork()}
+            works.each{println it.code}
+            jsonMap.put('code', rootWork.code)
+            jsonMap.put('title', rootWork.title)
+            jsonMap.put('description', rootWork.description)
 
-            works.each {work ->
-                if (work.parentWork) {
-                    restWorks.add(work)
+            works.each { work ->
+
+                if (!work.subWorks.isEmpty()) {
+                    // A, B, C, D, E
+                    def workMap = [:]
+                    workMap.put('code', work.code)
+                    workMap.put('title', work.title)
+                    workMap.put('description', work.description)
+
+
+                    //workMap.put('subWorks', work.subWorks.collect{it.code}) // do....
+                    def subWorks = []
+                    work.subWorks.each{
+                        def subWorkMap = [:]
+                        subWorkMap.put('code',it.code)
+                        subWorkMap.put('title',it.title)
+                        subWorkMap.put('description',it.description)
+                        subWorks.add(subWorkMap)
+                    }
+                    workMap.put('subWorks',subWorks)
+                    workList.add(workMap)
                 }
-            }
-        }
-        def results = []
-        if (rootWork) {
-            results = [
-                    'rootItem': rootWork,
-                    'items': restWorks
-            ]
 
+
+            }
+            jsonMap.put('subWorks', workList)
+
+            JSON.use('deep')
+            render jsonMap as JSON
         }
-        render results as JSON
     }
 
-    def listAllWorksAsJson={
+
+    def listAllWorksAsJson = {
         def wbs
-        if(params.id){
+        if (params.id) {
             wbs = Workbreakdown.findById(params.id)
             render wbs?.works as JSON
         }

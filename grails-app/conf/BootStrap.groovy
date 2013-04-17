@@ -66,7 +66,7 @@ class BootStrap {
         assert testUser.addToRoles(userRole).save(failOnError: true)
 
 
-        taskService.createWbsAndPbs('0000','牟平人民医院(滨州医学院附属医院)建设项目', adminUser)
+        taskService.createWbsAndPbs('ROOT','牟平人民医院(滨州医学院附属医院)建设项目', adminUser)
         taskService.planLastDemoTasks(3)
 
 //        importService.createProjectsFromExcel("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx", adminUser)

@@ -1,30 +1,28 @@
 package cn.com.agilemaster.utils
 
+import org.springframework.web.multipart.MultipartFile
+import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFCell
-import org.apache.poi.hssf.usermodel.HSSFDateUtil
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import org.apache.poi.ss.usermodel.Workbook
-import org.apache.poi.ss.usermodel.WorkbookFactory
+import org.apache.poi.ss.usermodel.DateUtil
 import org.apache.poi.xssf.usermodel.XSSFRow
 import org.apache.poi.xssf.usermodel.XSSFCell
-import org.apache.poi.ss.usermodel.DateUtil
-import org.springframework.web.multipart.MultipartFile
-import org.apache.commons.lang.RandomStringUtils
 
 /**
- * Groovy Builder that extracts data from
- * Microsoft Excel spreadsheets.
- * @author Yi Guo shamelessly copied and changed a bit. snapcode from  http://www.technipelago.se/content/technipelago/blog/44 Goran Ehrsson
+ * Created with IntelliJ IDEA.
+ * User: guo
+ * Date: 13-4-15
+ * Time: AM10:12
+ * To change this template use File | Settings | File Templates.
  */
-class ExcelBuilder {
+class StringExcelBuilder {
 
     def workbook
     def labels
     def row
 
 
-    ExcelBuilder(MultipartFile file, boolean ifMultiPart) {
+    StringExcelBuilder(MultipartFile file) {
 
         def is = file.inputStream
         try {
@@ -40,29 +38,13 @@ class ExcelBuilder {
 
     }
 
-     void protocol() {
+    void protocol() {
         HSSFRow.metaClass.getAt = {int idx ->
             def cell = delegate.getCell(idx)
             if (!cell) {
                 return null
             }
-            def value
-            switch (cell.cellType) {
-                case HSSFCell.CELL_TYPE_NUMERIC:
-                    if (DateUtil.isCellDateFormatted(cell)) {
-                        value = cell.dateCellValue
-                    } else {
-                        value = cell.numericCellValue
-                    }
-                    break
-                case HSSFCell.CELL_TYPE_BOOLEAN:
-                    value = cell.booleanCellValue
-                    break
-                default:
-                    value = cell.stringCellValue
-                    break
-            }
-            return value
+            return cell.stringCellValue
         }
 
         XSSFRow.metaClass.getAt = {int idx ->
@@ -70,23 +52,7 @@ class ExcelBuilder {
             if (!cell) {
                 return null
             }
-            def value
-            switch (cell.cellType) {
-                case XSSFCell.CELL_TYPE_NUMERIC:
-                    if (DateUtil.isCellDateFormatted(cell)) {
-                        value = cell.dateCellValue
-                    } else {
-                        value = cell.numericCellValue
-                    }
-                    break
-                case XSSFCell.CELL_TYPE_BOOLEAN:
-                    value = cell.booleanCellValue
-                    break
-                default:
-                    value = cell.stringCellValue
-                    break
-            }
-            return value
+            return cell.stringCellValue
         }
     }
 

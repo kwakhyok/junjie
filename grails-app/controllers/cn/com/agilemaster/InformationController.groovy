@@ -12,15 +12,11 @@ import grails.converters.JSON
 
 class InformationController {
 
-    def organizationService
-
     def index = {
-        def orgs = Organization.list()
-
-        //importService.printExcelFile("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx")
-
-
-        render(view: 'index', model: [organizationInstanceList:orgs, organizationInstanceTotal: orgs.size()])
+        def intentionOrgs = BidActivity.findAllByTags('意向').collect{it.organization}
+        def bidingOrgs = BidActivity.findAllByTags('投标').collect{it.organization}
+        println "Orgs: ${Organization.count}, BidActivity: ${BidActivity.count}, BidSection: ${BidSection.count}"
+        render(view: 'index', model: [intentionOrgs:intentionOrgs, bidingOrgs:bidingOrgs])
     }
 
 
