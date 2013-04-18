@@ -67,6 +67,7 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
+        grails.profiler.disable = true
         // TODO: grails.serverURL = "http://www.agilemaster.com.cn"
     }
 }

@@ -1,8 +1,6 @@
 package cn.com.agilemaster
 
-import grails.converters.XML
 import grails.converters.JSON
-
 
 /**
  * InformationController

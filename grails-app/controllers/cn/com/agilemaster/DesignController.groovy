@@ -13,7 +13,7 @@ class DesignController {
          def sub
          def result = new HashMap<String, List>()
          rootCategories.each{
-             cat = DesignCategory.findByName(it) ?: new DesignCategory(name:  it)
+             cat = DesignCategory.findByName(it) ?: new DesignCategory(name:  it).save()
              sub = DesignCategory.findAllByParentCategory(cat)
              result.put(it, sub)
          }

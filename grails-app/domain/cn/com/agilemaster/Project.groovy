@@ -12,7 +12,7 @@ class Project {
     String code
     String name
     String description
-    Project parentProject = null
+    Project parentProject
     User author
 
 
@@ -23,13 +23,14 @@ class Project {
 	static belongsTo	= [pbs:Projectbreakdown]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
 	static hasMany		= [tasks:Task, subProjects:Project]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
-//	static mappedBy		= []	// specifies which property should be used in a mapping 
+	static mappedBy		= [subProjects: 'parentProject']	// specifies which property should be used in a mapping
 	
     static mapping = {
+        subProjects(fetch: 'join')
     }
     
 	static constraints = {
-        code (size: 1..10, nullable: true)
+        code (size: 1..10, unique: 'pbs',blank: false)
         name(size: 1..30,  blank: false)
         description(size: 1..5000, nullable: true)
         author(nullable: true)
@@ -41,6 +42,19 @@ class Project {
 	 */
 //	@Override	// Override toString for a nicer / more descriptive UI 
 	public String toString() {
-		return "${name}";
+		return "${code} - ${name}";
 	}
+
+    Project getRootProject(){
+        if(parentProject) return parentProject.getRootProject()
+        else return this
+    }
+
+    boolean isRootProject(){
+        !parentProject
+    }
+
+    boolean isLeafProject(){
+        return subProjects?.isEmpty()
+    }
 }

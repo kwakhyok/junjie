@@ -1930,12 +1930,12 @@ function charts() {
 
     /* ---------- Pie chart ---------- */
     var data = [
-        { label:"Internet Explorer", data:12},
-        { label:"Mobile", data:27},
-        { label:"Safari", data:85},
-        { label:"Opera", data:64},
-        { label:"Firefox", data:90},
-        { label:"Chrome", data:112}
+        { label:"门诊楼", data:12},
+        { label:"待摊投资", data:27},
+        { label:"其他应收款", data:85},
+        { label:"病房楼", data:64},
+        { label:"生活区", data:90},
+        { label:"其他", data:112}
     ];
 
     if ($("#piechart").length) {

@@ -9,6 +9,16 @@
 </head>
 
 <body>
+
+<div class="row-fluid sortable">
+    <am:boxContainer canFold="true" span="6" icon="list-alt" title="投资方投资比率">
+        <div id="piechart" style="height: 300px"></div>
+    </am:boxContainer>
+    <am:boxContainer canFold="true" span="6" icon="list-alt" title="分项目投资比率">
+        <div id="donutchart" style="height: 300px"></div>
+    </am:boxContainer>
+</div>
+
 <div class="row-fluid">
 
     <div class="box">
@@ -46,6 +56,7 @@
         </div>
     </div>
 </div>
+
 <div class="row-fluid">
     <h2>Investment</h2>
 

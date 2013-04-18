@@ -47,27 +47,24 @@ class WorkbreakdownController {
         def wbs
         def rootWork
         if (params.wbsId) {
-            wbs = Workbreakdown.get(params.wbsId)
+            wbs = Workbreakdown.findByCode(params.wbsId)
             def jsonMap = [:]
             def workList = []
             rootWork = wbs?.works?.find {it.isRootWork()}
             def works = wbs?.works?.findAll {!it.isRootWork()}
-            works.each{println it.code}
+            //works.each{println it.code}
             jsonMap.put('code', rootWork.code)
             jsonMap.put('title', rootWork.title)
             jsonMap.put('description', rootWork.description)
 
             works.each { work ->
 
-                if (!work.subWorks.isEmpty()) {
+                if (!work.subWorks?.isEmpty()) {
                     // A, B, C, D, E
                     def workMap = [:]
                     workMap.put('code', work.code)
                     workMap.put('title', work.title)
                     workMap.put('description', work.description)
-
-
-                    //workMap.put('subWorks', work.subWorks.collect{it.code}) // do....
                     def subWorks = []
                     work.subWorks.each{
                         def subWorkMap = [:]
@@ -95,6 +92,49 @@ class WorkbreakdownController {
         if (params.id) {
             wbs = Workbreakdown.findById(params.id)
             render wbs?.works as JSON
+        }
+    }
+
+
+    def listProjectsAsJson = {
+        def pbs
+        def rootPrj
+        if (params.pbsCode){
+            pbs = Projectbreakdown.findByCode(params.pbsCode)
+            if (pbs){
+                def jsonMap = [:]
+                def projectList = []
+                rootPrj = pbs.projects.find{it.isRootProject()}
+                def projects = pbs.projects.findAll{!it.isRootProject()}
+                jsonMap.put('code', rootPrj.code)
+                jsonMap.put('name', rootPrj.name)
+                jsonMap.put('description', rootPrj.description)
+                projects.each{project ->
+                   if (!project.subProjects?.isEmpty()){
+                       def prjMap = [:]
+                       prjMap.put('code',project.code)
+                       prjMap.put('name',project.name)
+                       prjMap.put('description',project.description)
+                       def subPrjs = []
+                       project.subProjects?.each{sprj ->
+                           def sPrjMap = [:]
+                           sPrjMap.put('code',sprj.code)
+                           sPrjMap.put('name',sprj.name)
+                           sPrjMap.put('description',sprj.description)
+                           subPrjs.add(sPrjMap)
+                       }
+                       prjMap.put('subProjects', subPrjs)
+                       projectList.add(prjMap)
+                   }
+                }
+                jsonMap.put('subProjects',projectList)
+                render jsonMap as JSON
+
+            }
+            else{
+               println "params" + params
+               render "<h2>${params.pbsCode} PBS was not found</h2>"
+            }
         }
     }
 }

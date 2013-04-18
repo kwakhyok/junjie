@@ -146,7 +146,7 @@ class TaskService {
         }
 
         //PBS Demo
-        (1..4).each { j ->
+        (1..3).each { j ->
             def pbs1 = Projectbreakdown.findByCode(j.toString()) ?: new Projectbreakdown(code: j.toString(), title: "201${j}度",
                     status: 'on-progress').save(failOnError: true)
             (1..9).each {i ->

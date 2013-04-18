@@ -28,7 +28,7 @@ class ImportService {
 
     def printExcelFile(file) {
         new ExcelBuilder(file, true).eachLine([labels: true]) {
-            println "firstcolumn on row ${it.rowNum} = ${cell(0)}"
+          //  println "firstcolumn on row ${it.rowNum} = ${cell(0)}"
         }
     }
 
@@ -91,13 +91,13 @@ class ImportService {
                     bidSection.addToActivities(bidActivity) // all of bidsections are a task of a rootProject
                    // println "The ${orgNum}th of Org!"
                     if(!bidSection.save(flush: true)){       // to ensure the activity is persisted in the database
-                       println ("${it.rowNum} row has errors: \n")
+                       log.error("${it.rowNum} row has errors: \n")
                        bidSection.errors.each{println it}
                     }else{
-                        println "${it.rowNum} saved! Activity:${bidActivity}"
+                       // println "${it.rowNum} saved! Activity:${bidActivity}"
                     }
                 } else {
-                    organization.errors.each { println "row ${rowNo}: \n ${it} \n" }
+                    organization.errors.each { log.error "row ${rowNo}: \n ${it} \n" }
                 }
             }
 
@@ -124,6 +124,10 @@ class ImportService {
     }
 
     def importWorkTreeFromExcel(file, wbsCode) {
+        Collection<Workbreakdown> wbss = Workbreakdown.findAll()
+        wbss*.delete()
+        Collection<Work> existedWorks = Work.findAll()
+        existedWorks*.delete()
         def works = []
         def wbs = Workbreakdown.findByCode(wbsCode) ?:
             new Workbreakdown(code: wbsCode, title: '2013年度', description: 'xxx').save(failOnError: true)
@@ -132,25 +136,19 @@ class ImportService {
             wbs.save(failOnError: true)
             try {
                 new ExcelBuilder(file, true).eachLine([labels: true]) {
-                    works.push(new Work(code: cell(0), title: cell(1), description: cell(2)))
+                    works.push(new Work(code: cell(0), title: cell(1), description: cell(2), wbs: wbs))
                 }
                 //build the tree and establish the hierarchies
-                def rootWork = works.find {it.code = 'ROOT'}
-                rootWork.wbs = wbs
+                def rootWork = works.find {it.code == 'ROOT'}
                 works.remove(rootWork)
                 rootWork = Work.findByCode('ROOT') ?: rootWork.save(flush: true)
-
-
-
                 def build
                 build = {p, list ->
                     list.groupBy {it.code.split('\\.').first()}.each {el, sublist ->
-                        p.wbs = wbs
                         p.save(failOnError: true)
                         def aLevel = Work.findByCode(el)
                         if (!aLevel) {
                             aLevel = sublist[0]
-                            aLevel.wbs = wbs
                             aLevel.parentWork = p
                             aLevel.save(failOnError: true)
                         }
@@ -161,7 +159,6 @@ class ImportService {
                 }
                 build(rootWork, works.sort {it.code.length()})
                 works.each {
-                    it.wbs = wbs
                     wbs.addToWorks(it)
                 }
                 wbs.addToWorks(rootWork)
@@ -178,17 +175,17 @@ class ImportService {
 
         def projects = []
         def pbs = Projectbreakdown.findByCode(pbsCode) ?:
-            new Projectbreakdown(code: pbsCode, title: '2013年度').save(failOnError: true)
+            new Projectbreakdown(code: pbsCode, title: '滨州医学院烟台附院在建项目').save(failOnError: true)
         if (pbs) {
             pbs.projects?.removeAll()
-            pbs.save(failOnError: true)
+            pbs.save(failOnError: true, flush: true)
             try {
                 new ExcelBuilder(file, true).eachLine([labels: true]) {
                     projects.push(new Project(code: cell(0), name: cell(1), description: cell(2)))
                 }
                 //build the tree and establish the hierarchies
-                def rootProject = projects.find {it.code = 'ROOT'}
-                rootProject.pbs = pbs
+                projects*.pbs = pbs
+                def rootProject = projects.find {it.code == 'ROOT'}
                 projects.remove(rootProject)
                 rootProject = Project.findByCode('ROOT') ?: rootProject.save(flush: true)
 
@@ -200,13 +197,11 @@ class ImportService {
                         //println "p: ${p.code}"
                         //println "before el: ${el}"
                         //println "sublist:${sublist}"
-                        p.pbs = pbs
                         p.save(failOnError: true)
 
-                        def aLevel = Project.findByCode(el)
+                        def aLevel = Project.findByCodeAndPbs(el, pbs)
                         if (!aLevel) {
                             aLevel = sublist[0]
-                            aLevel.pbs = pbs
                             aLevel.parentProject = p
                             aLevel.save(failOnError: true)
                         }
@@ -219,7 +214,6 @@ class ImportService {
                 }
                 build(rootProject, projects.sort {it.code.length()})
                 projects.each {
-                    it.pbs = pbs
                     pbs.addToProjects(it)
                 }
                 pbs.addToProjects(rootProject)

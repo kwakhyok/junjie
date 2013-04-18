@@ -1,4 +1,4 @@
-<%@ page import="cn.com.agilemaster.Workbreakdown" %>
+<%@ page import="cn.com.agilemaster.Projectbreakdown; cn.com.agilemaster.Workbreakdown" %>
 <<html>
 <head>
     <title>${meta(name: 'app.name')} -- WBS管理</title>
@@ -9,29 +9,49 @@
         var m_timer = null;
 
         jQuery(document).ready(function () {
-            //main();
+            /*  == .live(), but in jquery 1.8 there's more preformant way! */
+            $(document).delegate('#wbsMenu li a', 'click', function (event, data) {
+                // console.log('this: ' + $(this).children('span.hidden').text() + ' type: ' + event.type);
+                var myWbsId = $(this).children('span.hidden').text();
+                $.getJSON("listWorksAsJson", {wbsId:myWbsId}, function (data) {
+                    ResizePlaceholder('#orgdiagram');
+                    SetupWBSWidget(data);
+                    $(window).resize(function () {
+                        onWindowResize('#orgdiagram');
+                    });
+
+                    event.preventDefault();
+                });
+            });
+
+
+            $(document).delegate('#pbsMenu li a', 'click', function (event, data) {
+                var myPbsCode = $(this).children('span.hidden').text();
+                $.getJSON("listProjectsAsJson", {pbsCode:myPbsCode}, function (data) {
+                    ResizePlaceholder('#pbsdiagram');
+                    SetupPBSWidget(data);
+                    $(window).resize(function () {
+                        onWindowResize('#pbsdiagram');
+                    });
+                    event.preventDefault();
+                });
+            });
+
         });
 
-        function main() {
-            ResizePlaceholder();
-            SetupWidget();
-            $(window).resize(function () {
-                onWindowResize();
-            });
-        }
 
-        function onWindowResize() {
+        function onWindowResize(diagramDiv) {
             if (m_timer == null) {
                 m_timer = window.setTimeout(function () {
                     ResizePlaceholder();
-                    jQuery("#orgdiagram").orgDiagram("update", primitives.orgdiagram.UpdateMode.Refresh)
+                    jQuery(diagramDiv).orgDiagram("update", primitives.orgdiagram.UpdateMode.Refresh)
                     window.clearTimeout(m_timer);
                     m_timer = null;
                 }, 300);
             }
         }
 
-        function SetupWidget(data) {
+        function SetupWBSWidget(data) {
             var options = new primitives.orgdiagram.Config();
             var rootItem = new primitives.orgdiagram.ItemConfig();
             rootItem.title = data.title;
@@ -41,24 +61,36 @@
             for (var index = 0; index < subWorks.length; index++) {
                 var subItem = new primitives.orgdiagram.ItemConfig();
                 subItem.code = subWorks[index].code;
-                console.log(subItem.code);
-                subItem.title = subWorks[index].title;
+                //console.log(subItem.code);
+                subItem.title = subWorks[index].code + " " + subWorks[index].title;
                 subItem.description = subWorks[index].description;
                 subItem.image = "http://www.basicprimitives.com/demo/images/photos/b.png";
                 if (subWorks[index].hasOwnProperty('subWorks')) {
                     var subSubWorks = subWorks[index].subWorks;
                     for (var j = 0; j < subSubWorks.length; j++) {
-                        console.log(j + ": " + subSubWorks[j].code);
+                        //console.log(j + ": " + subSubWorks[j].code);
                         var subSubItem = new primitives.orgdiagram.ItemConfig();
                         subSubItem.code = subSubWorks[j].code;
-                        subSubItem.title = subSubWorks[j].title;
+                        subSubItem.title = subSubWorks[j].code + " " + subSubWorks[j].title;
                         subSubItem.description = subSubWorks[j].description;
                         subSubItem.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
                         subItem.items.push(subSubItem);
                     }
+                    subItem.items.sort(function (a, b) {
+                        var codeA = a.code;
+                        var codeB = b.code;
+                        if (codeA > codeB) return 1;
+                        if (codeA < codeB) return -1;
+                    });
                 }
                 rootItem.items.push(subItem);
             }
+            rootItem.items.sort(function (a, b) {
+                var codeA = a.code;
+                var codeB = b.code;
+                if (codeA > codeB) return 1;
+                if (codeA < codeB) return -1;
+            });
             options.rootItem = rootItem;
             options.cursorItem = rootItem;
             options.hasSelectorCheckbox = primitives.common.Enabled.False;
@@ -66,7 +98,51 @@
 
         }
 
-        function ResizePlaceholder() {
+        function SetupPBSWidget(data) {
+            var options = new primitives.orgdiagram.Config();
+            var rootItem = new primitives.orgdiagram.ItemConfig();
+            rootItem.title = data.name;
+            rootItem.description = data.description;
+            rootItem.image = "http://www.basicprimitives.com/demo/images/photos/a.png";
+            var subProjects = data.subProjects;
+            for (var index = 0; index < subProjects.length; index++) {
+                var subItem = new primitives.orgdiagram.ItemConfig();
+                subItem.code = subProjects[index].code;
+                subItem.title = subProjects[index].code + " " + subProjects[index].name;
+                subItem.description = subProjects[index].description;
+                subItem.image = "http://www.basicprimitives.com/demo/images/photos/b.png";
+                if (subProjects[index].hasOwnProperty('subProjects')) {
+                    var subSubProjects = subProjects[index].subProjects;
+                    for (var j = 0; j < subSubProjects.length; j++) {
+                        var subSubItem = new primitives.orgdiagram.ItemConfig();
+                        subSubItem.code = subSubProjects[j].code;
+                        subSubItem.title = subSubProjects[j].code + " " + subSubProjects[j].name;
+                        subSubItem.description = subSubProjects[j].description;
+                        subSubItem.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
+                        subItem.items.push(subSubItem);
+                    }
+                    subItem.items.sort(function (a, b) {
+                        var codeA = a.code;
+                        var codeB = b.code;
+                        if (codeA > codeB) return 1;
+                        if (codeA < codeB) return -1;
+                    });
+                }
+                rootItem.items.push(subItem);
+            }
+            rootItem.items.sort(function (a, b) {
+                var codeA = a.code;
+                var codeB = b.code;
+                if (codeA > codeB) return 1;
+                if (codeA < codeB) return -1;
+            });
+            options.rootItem = rootItem;
+            options.cursorItem = rootItem;
+            options.hasSelectorCheckbox = primitives.common.Enabled.False;
+            $("#pbsdiagram").orgDiagram(options);
+        }
+
+        function ResizePlaceholder(diagramDiv) {
             /*       var bodyWidth = $(window).width() - 200
              var bodyHeight = $(window).height() - 200
              jQuery("#orgdiagram").css(
@@ -74,25 +150,11 @@
              "width":bodyWidth + "px",
              "height":bodyHeight + "px"
              });*/
-            jQuery("#orgdiagram").addClass('span12');
+            jQuery(diagramDiv).addClass('span11');
 
         }
 
 
-        /*  == .live(), but in jquery 1.8 there's more preformant way! */
-        $(document).delegate('#wbsMenu li a', 'click', function (event, data) {
-            console.log('this: ' + $(this).children('span.hidden').text() + ' type: ' + event.type);
-            var myWbsId = $(this).children('span.hidden').text();
-            $.getJSON("listWorksAsJson", {wbsId:myWbsId}, function (data) {
-                ResizePlaceholder();
-                SetupWidget(data);
-                $(window).resize(function () {
-                    onWindowResize();
-                });
-
-                event.preventDefault();
-            });
-        });
     </r:script>
 </head>
 
@@ -105,17 +167,17 @@
         </ul>
 
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane active" style="min-height: 400px" id="wbsPane">
+            <div class="tab-pane active" style="min-height: 600px" id="wbsPane">
                 <div class="box-conent buttons">
                     <div class="btn-group">
-                        <button class="btn btn-large">选择版本..</button>
+                        <button class="btn btn-large">选择WBS版本..</button>
                         <button class="btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" id="wbsMenu">
                             <g:each in="${Workbreakdown.list()}" var="wbs">
                                 <li><a href="#"><i
                                         class="halflings-icon star"></i><span
-                                        class="hidden">${wbs.id}</span><span>${wbs.title}</span></a></li>
+                                        class="hidden">${wbs.code}</span><span>${wbs.title}</span></a></li>
                             </g:each>
                         </ul>
                     </div>
@@ -127,8 +189,26 @@
                      style="min-height: 360px; position:absolute; overflow:hidden; border-width:1px;"></div>
             </div>
 
-            <div class="tab-pane" style="min-height: 360px" id="pbsPane">
-                <h2>PBS pane</h2>
+            <div class="tab-pane" style="min-height: 600px" id="pbsPane">
+                <div class="box-conent buttons">
+                    <div class="btn-group">
+                        <button class="btn btn-large">选择PBS版本..</button>
+                        <button class="btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" id="pbsMenu">
+                            <g:each in="${Projectbreakdown.list()}" var="pbs">
+                                <li><a href="#"><i
+                                        class="halflings-icon star"></i><span
+                                        class="hidden">${pbs.code}</span><span>${pbs.title}</span></a></li>
+                            </g:each>
+                        </ul>
+                    </div>
+                    <g:link class="btn btn-large btn-primary" action="addWorks">Add Works</g:link>
+                </div>
+
+
+                <div id="pbsdiagram"
+                     style="min-height: 360px; position:absolute; overflow:hidden; border-width:1px;"></div>
             </div>
         </div>
     </am:boxContainer>

@@ -1,8 +1,5 @@
 package cn.com.agilemaster
 
-import org.springframework.web.multipart.MultipartHttpServletRequest
-import org.springframework.web.multipart.MultipartFile
-
 /**
  * AdministratorController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
@@ -47,13 +44,13 @@ class AdministratorController {
     def importWBS = {
         def mhf = request.getFile('wbsFile')
         importService.importWorkTreeFromExcel(mhf, '4')
-        def wbs = Workbreakdown.findByCode('4')
+ //       def wbs = Workbreakdown.findByCode('4')
        /* wbs.works.each{
             println "${it.code}-${it.title}-parent: ${it.parentWork?.code}"
         }*/
         //importService.createWBSFromExcel('2013xxxx', '20133最新计划', mhf)
         //importService.printExcelFile(mhf)
-        redirect(controller: 'workbreakdown', action: 'listWorksAsJson', params: [wbsId:4])
+        redirect(controller: 'workbreakdown', action: 'index')
     }
 
     def importSpecialist = {
@@ -65,8 +62,8 @@ class AdministratorController {
 
     def importPBS = {
         def mhf = request.getFile('pbsFile')
-        importService.importPBSFromExcel(mhf,'1')
-        redirect(controller: 'project', action: 'list', params: [pbsId:4])
+        importService.importPBSFromExcel(mhf,'PB000')
+        redirect(controller: 'workbreakdown', action: 'index')
     }
 
 

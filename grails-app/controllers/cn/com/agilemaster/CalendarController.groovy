@@ -7,5 +7,5 @@ package cn.com.agilemaster
 class CalendarController {
 
     //static scaffold = true
-//	def index = { }
+	def index = { }
 }

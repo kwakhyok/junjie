@@ -1,16 +1,6 @@
-import cn.com.agilemaster.UserRole
 import cn.com.agilemaster.Role
 import cn.com.agilemaster.User
-import cn.com.agilemaster.Organization
-import cn.com.agilemaster.BidSection
-import cn.com.agilemaster.Project
-import cn.com.agilemaster.Investment
-import cn.com.agilemaster.Design
-import cn.com.agilemaster.DesignCategory
 import cn.com.agilemaster.UserProfile
-import cn.com.agilemaster.Workbreakdown
-import cn.com.agilemaster.Projectbreakdown
-import cn.com.agilemaster.Task
 
 class BootStrap {
 
@@ -66,8 +56,8 @@ class BootStrap {
         assert testUser.addToRoles(userRole).save(failOnError: true)
 
 
-        taskService.createWbsAndPbs('ROOT','牟平人民医院(滨州医学院附属医院)建设项目', adminUser)
-        taskService.planLastDemoTasks(3)
+     //   taskService.createWbsAndPbs('ROOT','牟平人民医院(滨州医学院附属医院)建设项目', adminUser)
+     //   taskService.planLastDemoTasks(3)
 
 //        importService.createProjectsFromExcel("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx", adminUser)
 

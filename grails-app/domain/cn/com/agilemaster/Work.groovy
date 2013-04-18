@@ -29,7 +29,7 @@ class Work {
     static fetchMode = [subWorks: 'eager', parentWork:'eager']
 
     static constraints = {
-        code  size:1..10, unique: true, blank:false
+        code  size:1..10, unique: 'wbs', blank:false
         title size: 1..10, blank: false
         description size: 1..1000, nullable: true
     }
@@ -44,7 +44,7 @@ class Work {
     }
 
     boolean isLeafWork(){
-        return subWorks.isEmpty()
+        return subWorks?.isEmpty()
     }
 
     boolean isRootWork(){

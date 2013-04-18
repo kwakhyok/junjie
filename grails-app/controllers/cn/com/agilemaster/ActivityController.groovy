@@ -1,7 +1,6 @@
 package cn.com.agilemaster
 
 import org.springframework.dao.DataIntegrityViolationException
-import org.grails.datastore.mapping.validation.ValidationException
 
 /**
  * ActivityController

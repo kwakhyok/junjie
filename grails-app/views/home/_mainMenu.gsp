@@ -5,16 +5,17 @@
             <li><g:link controller="home"><i class="fa-icon-bar-chart"></i><span
                     class="hidden-tablet">主页</span></g:link></li>
             <shiro:hasPermission permission="information:*">
-                <li><g:link controller="information"><i class="fa-icon-folder-open"></i><span
+                <li><g:link controller="information"><i class="fa-icon-exclamation-sign"></i><span
                         class="hidden-tablet">信息</span></g:link></li>
             </shiro:hasPermission>
 
             <li>
-                <a class="dropmenu" href="#"><i class="fa-icon-user-md"></i><span class="hidden-tablet">沟通</span></a>
+                <a class="dropmenu" href="#"><i class="fa-icon-folder-close-alt"></i><span
+                        class="hidden-tablet">沟通</span></a>
                 <ul>
                     <shiro:hasPermission permission="message:*">
-                        <li><g:link controller="message"><i class="fa-icon-envelope"></i><span
-                                class="hidden-tablet">沟通</span></g:link></li>
+                        <li><g:link controller="message"><i class="fa-icon-comments-alt"></i><span
+                                class="hidden-tablet">消息</span></g:link></li>
                     </shiro:hasPermission>
                     <shiro:hasPermission permission="supervision:*">
                         <li><g:link controller="supervision"><i class="fa-icon-eye-open"></i><span
@@ -24,12 +25,18 @@
             </li>
 
 
-
-
-
             <shiro:hasPermission permission="task:*">
-                <li><g:link controller="task"><i class="fa-icon-sitemap"></i><span
-                        class="hidden-tablet">范围</span></g:link></li>
+                <li>
+                    <a class="dropmenu" href="#"><i class="fa-icon-folder-close-alt"></i><span
+                            class="hidden-tablet">范围</span></a>
+                    <ul>
+                        <li><g:link controller="workbreakdown" class="submenu"><i class="fa-icon-sitemap"></i><span
+                                class="hidden-tablet">WBS</span></g:link></li>
+                        <li><g:link controller="task"><i class="fa-icon-tasks"></i><span
+                                class="hidden-tablet">任务</span></g:link></li>
+                    </ul>
+                </li>
+
             </shiro:hasPermission>
             <li>
                 <a class="dropmenu" href="#"><i class="fa-icon-folder-close-alt"></i><span
@@ -57,6 +64,12 @@
             <shiro:hasPermission permission="investment:*">
                 <li><g:link controller="investment"><i class="fa-icon-money"></i><span
                         class="hidden-tablet">投资</span></g:link></li>
+            </shiro:hasPermission>
+
+
+            <shiro:hasPermission permission="calendar:*">
+                <li><g:link controller="calendar"><i class="fa-icon-calendar"></i><span
+                        class="hidden-tablet">工作日志</span></g:link></li>
             </shiro:hasPermission>
 
             <shiro:hasPermission permission="administrator:*">

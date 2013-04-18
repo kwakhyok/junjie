@@ -1,16 +1,12 @@
 package cn.com.agilemaster.utils
 
-import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFCell
-import org.apache.poi.hssf.usermodel.HSSFDateUtil
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import org.apache.poi.ss.usermodel.Workbook
-import org.apache.poi.ss.usermodel.WorkbookFactory
-import org.apache.poi.xssf.usermodel.XSSFRow
-import org.apache.poi.xssf.usermodel.XSSFCell
+import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.ss.usermodel.DateUtil
+import org.apache.poi.ss.usermodel.WorkbookFactory
+import org.apache.poi.xssf.usermodel.XSSFCell
+import org.apache.poi.xssf.usermodel.XSSFRow
 import org.springframework.web.multipart.MultipartFile
-import org.apache.commons.lang.RandomStringUtils
 
 /**
  * Groovy Builder that extracts data from

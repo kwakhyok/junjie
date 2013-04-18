@@ -1,8 +1,7 @@
 package cn.com.agilemaster
 
-import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.scheduling.TaskScheduler
 import grails.converters.JSON
+import org.springframework.dao.DataIntegrityViolationException
 
 /**
  * TaskController
