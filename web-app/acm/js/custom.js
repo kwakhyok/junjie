@@ -379,7 +379,9 @@ function template_functions() {
     $("input:checkbox, input:radio, input:file").not('[data-no-uniform="true"],#uniform-is-ajax').uniform();
 
     /* ---------- Choosen ---------- */
-    $('[data-rel="chosen"],[rel="chosen"]').chosen();
+    $('[data-rel="chosen"],[rel="chosen"]').chosen(
+
+    );
 
     /* ---------- Tabs ---------- */
     $('#myTab a:first').tab('show');
@@ -446,7 +448,10 @@ function template_functions() {
         "sDom":"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
         "sPaginationType":"bootstrap",
         "oLanguage":{
-            "sLengthMenu":"_MENU_ 条记录/页"
+            "sLengthMenu":"_MENU_ 条记录/页",
+            "sSearch":"搜索:",
+            "sInfo":"从_START_到_END_, 共有_TOTAL_条记录",
+            "sInfoEmpty":"0条记录"
         }
     });
     $('.btn-close').click(function (e) {

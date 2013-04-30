@@ -9,10 +9,8 @@
 </head>
 
 <body>
-<div class="container-fluid sortable">
-
+<div class="container-fluid">
     <div style="position:relative" class="gantt" id="GanttChartDIV"></div>
-
 </div>
 
 </body>

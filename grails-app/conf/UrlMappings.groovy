@@ -20,7 +20,7 @@ class UrlMappings {
 
 
         "/" {
-            controller = 'home'
+            controller = 'newHome'
             action = {'newindex'}
             view = {'newindex'}
         }

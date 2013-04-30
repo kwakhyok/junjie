@@ -1,5 +1,8 @@
 package cn.com.agilemaster
 
+import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
+
+
 /**
  * TaskService
  * A service class encapsulates the core business logic of a Grails application
@@ -10,6 +13,10 @@ class TaskService {
 
     static transactional = true
 
+    private User getCurrentUser(){
+        userService.getCurrentUser()
+    }
+
     def planTask(def taskId, Map properties) {
         def task = Task.get(taskId)
         if (task) {
@@ -17,7 +24,7 @@ class TaskService {
                     startDate: properties.startDate,
                     endDate: properties.endDate,
                     completeRatio: 0.0f,
-                    author: userService.getCurrentUser()
+                    author: getCurrentUser()
             )
             //plan.properties = properties
             task.addToPlans(plan).save(failOnError: true)
@@ -51,9 +58,9 @@ class TaskService {
 
     def getTasksByCurrentUser() {
         //  def tasks = []
-        def currentUser = userService.getCurrentUser()
+        def currentUser =
 
-        TaskPlan.findAllByAssignedUser(currentUser).collect {it.task}.unique()
+        TaskPlan.findAllByAssignedUser(getCurrentUser()).collect {it.task}.unique()
 
 
     }

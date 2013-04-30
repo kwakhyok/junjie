@@ -3165,6 +3165,8 @@ blockquote {
 /* Page: Messages
 =================================================================== */
 
+
+
 ul.messagesList {
 	list-style: none;
 	margin: 0px;
@@ -3199,6 +3201,13 @@ ul.messagesList li.odd {
 	background: #fff !important;
 }
 
+ul.messagesList li span.select{
+    display: inline-block;;
+    width: 10%;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
 ul.messagesList li span.from {
 	display: inline-block;
 	width: 25%;
@@ -3209,7 +3218,7 @@ ul.messagesList li span.from {
 
 ul.messagesList li span.title {
 	display: inline-block;
-	width: 55%;
+	width: 45%;
 	font-weight: 300;
 	white-space: nowrap;
 	overflow:hidden !important;
@@ -3517,4 +3526,55 @@ ul.messagesList li span.date {
 		background-size: 100%;
 	}
     
+}
+
+/* Searchable Datatable Messages
+================================================================== */
+table.messagesList{
+    margin: 0px;
+    font-size: 12px;
+}
+table.messagesList tr {
+    background: #f9f9f9;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+table.messagesList tr td span.glyphicons{
+    padding: 5px 0 5px 25px;
+}
+table.messagesList tr td span.glyphicons i:before {
+    font-size: 14px;
+    margin: -2px 100px 0px 5px;
+    color: #3b3b41;
+}
+table.messagesList tr:nth-child(odd) {
+    background: #fff !important;
+}
+table.messagesList tr.odd {
+    background: #fff !important;
+}
+
+table.messagesList tr td span {
+    display: inline-block;
+}
+table.messagesList tr td.from {
+    width: 25%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+table.messagesList tr td.title {
+    width: 55%;
+    font-weight: 300;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+table.messagesList tr td.date {
+    width: 15%;
+    text-align: right;
 }

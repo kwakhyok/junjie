@@ -10,6 +10,7 @@ class Design{
 //	Long	id
 //	Long	version
     String designRequirement
+    String title
     byte[] attached
     String delivery
     BigDecimal designFee
@@ -50,15 +51,3 @@ class Design{
 		return "${title} ${category}";
 	}
 }
-
-
-
-/*
-public enum DesignCategory {INTERIOR, INTELLIGENCE, INFORMATION, MUNICIPAL, LANDSCAPE, HOC */
-/*hyperbaric oxygen chamber*//*
-,
-LINEAR_ACCELERATOR,  SEWAGE_TREATMENT, MARED_ORIENTED, HEMODIALYSIS, KITCHEN, DRINKING_WATER,
-PURE_WATER, MEDICAL_GAS, OPERATING_ROOM, ICU, PROTECTIVE_DESIGN, CRL, */
-/*center of reproductivie lab*//*
-
-}*/

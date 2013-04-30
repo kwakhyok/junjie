@@ -11,7 +11,10 @@ import org.junit.*
 @TestFor(Message)
 class MessageTests {
 
-    void testSomething() {
-       fail "Implement me"
+    void testSave() {
+       mockDomain(User)
+       def msg = new Message(sender: new User(username: 'yiguo', passwordHash: 'abde'),
+       title: 'testMsg', body: '<h1>New Message</h1>').save(failOnError: true)
+       assert Message.count == 1
     }
 }

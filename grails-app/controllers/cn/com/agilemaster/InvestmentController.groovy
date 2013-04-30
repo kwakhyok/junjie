@@ -1,5 +1,7 @@
 package cn.com.agilemaster
 
+import cn.com.agilemaster.utils.ExcelBuilder
+
 /**
  * InvestmentController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
@@ -15,7 +17,7 @@ class InvestmentController {
     }
 
     def createDemoPlan = {
-        def project = Project.findByCode('0000') // find the root project
+        def project = Project.findByCode('ROOT') // find the root project
 
         def investment = Investment.findByTitle(demoTitle) ?: new Investment(project: project,
                 author: session.currentUser, title:demoTitle, projectSum: 100000.00, isPaid: false).save(failOnError: true)
@@ -59,6 +61,15 @@ class InvestmentController {
         }
         actual.each{println it.key + ":" + it.value}
         plan.each{println it.key + ":" + it.value}
+    }
+
+    def create2013InvestmentPlan = {
+        def mhf = request.getFile('investmentPlanFile')
+        new ExcelBuilder(mhf,true).eachLine([labels: true]){
+            if(it.rowNum > 2){
+                println "${it.rowNum}: ${cell(1)} -- ${cell(2)}"
+            }
+        }
     }
 
 

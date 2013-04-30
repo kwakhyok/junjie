@@ -9,7 +9,19 @@
 </head>
 
 <body>
-
+<div class="row-fluid">
+    <g:uploadForm id="investmentUploadForm" action="create2013InvestmentPlan">
+        <div class="control-group">
+            <label class="control-label" for="inputExcel3">投资需求文件</label>
+            <div class="controls">
+                <input class='input-xxlarge' type="file" id="inputExcel3" name="investmentPlanFile">
+                <span class="help-inline"></span>
+                <g:submitButton class="btn btn-danger" name="create2013InvestmentPlan" value="导入资金需求文化"/>
+            </div>
+            <blockquote>/Users/guo/Documents/Development/AgileMaster滨州医学院文档/2013资金需求计划（含甲供材）.xls</blockquote>
+        </div>
+    </g:uploadForm>
+</div>
 <div class="row-fluid sortable">
     <am:boxContainer canFold="true" span="6" icon="list-alt" title="投资方投资比率">
         <div id="piechart" style="height: 300px"></div>

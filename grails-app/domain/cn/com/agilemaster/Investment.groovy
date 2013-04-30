@@ -10,7 +10,7 @@ class Investment{
 //	Long	id
 //	Long	version
     String title
-    Project project
+    Project rootProject
     float projectSum /* unit as 10k RMB*/
 
     boolean isPaid = false
@@ -24,7 +24,7 @@ class Investment{
 //	static belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
 	static hasMany		= [plan:InvestmentAction, actualPayment:InvestmentAction]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
-//	static mappedBy		= []	// specifies which property should be used in a mapping 
+//	static mappedBy		= [plan: 'investmentItem', actualPayment: 'paidItem']	// specifies which property should be used in a mapping
 
     static mapping = {
         plan (sort: 'paymentDate', batchSize: 10, order: 'desc')
@@ -32,7 +32,7 @@ class Investment{
     }
 
     static constraints = {
-        title(size: 1..100, blank: false,unique: true)
+      //  title(size: 1..100, blank: false,unique: true)
     }
 
     /*
@@ -40,6 +40,6 @@ class Investment{
       */
 //	@Override	// Override toString for a nicer / more descriptive UI 
 	public String toString() {
-		return "${project?.name} [${projectSum}]  万元";
+		return "${rootProject?.name} --${work} ${projectSum} 万元";
 	}
 }

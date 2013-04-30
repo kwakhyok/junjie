@@ -43,16 +43,16 @@
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
-                    <g:render template="/home/messageNotification"/>
+                    <g:render template="/newHome/messageNotification"/>
                     <!-- start: Notifications Dropdown -->
-                    <g:render template="/home/progressNotification"/>
+                    <g:render template="/newHome/progressNotification"/>
                     <!-- end: Notifications Dropdown -->
                     <!-- start: Message Dropdown -->
-                    <g:render template="/home/privateNotification"/>
+                    <g:render template="/newHome/privateNotification"/>
                     <!-- end: Message Dropdown -->
 
                     <!-- start: User Dropdown -->
-                    <g:render template="/home/userOperation"/>
+                    <g:render template="/newHome/userOperation"/>
                     <!-- end: User Dropdown -->
                 </ul>
             </div>
@@ -63,7 +63,7 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <g:render template="/home/mainMenu"/>
+        <g:render template="/newHome/mainMenu"/>
         <div id="content" class="span11">
             <g:layoutBody/>
         </div>

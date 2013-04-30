@@ -1,6 +1,9 @@
 import cn.com.agilemaster.Role
 import cn.com.agilemaster.User
 import cn.com.agilemaster.UserProfile
+import cn.com.agilemaster.Message
+import cn.com.agilemaster.MessageRecipient
+import cn.com.agilemaster.MessageTag
 
 class BootStrap {
 
@@ -25,11 +28,11 @@ class BootStrap {
         def adminRole = Role.findByName(defaultAdminRole) ?: new Role(name: defaultAdminRole).save(flush: true, failOnError: true)
         def userRole = Role.findByName(defaultUserRole) ?: new Role(name: defaultUserRole).save(flush: true, failOnError: true)
 
-        adminPermissions.each{
+        adminPermissions.each {
             adminRole.addToPermissions(it).save(flush: true, failOnError: true)
         }
-        userPermissions.each{
-            userRole.addToPermissions(it).save(flush: true,failOnError: true)
+        userPermissions.each {
+            userRole.addToPermissions(it).save(flush: true, failOnError: true)
         }
 
         def testUser = User.findByUsername(defaultTestUser) ?: new User(username: defaultTestUser,
@@ -55,17 +58,38 @@ class BootStrap {
         assert adminUser.addToRoles(adminRole).addToRoles(userRole).save(failOnError: true)
         assert testUser.addToRoles(userRole).save(failOnError: true)
 
-
-     //   taskService.createWbsAndPbs('ROOT','牟平人民医院(滨州医学院附属医院)建设项目', adminUser)
-     //   taskService.planLastDemoTasks(3)
+        //   taskService.createWbsAndPbs('ROOT','牟平人民医院(滨州医学院附属医院)建设项目', adminUser)
+        //   taskService.planLastDemoTasks(3)
 
 //        importService.createProjectsFromExcel("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx", adminUser)
 
 //        importService.createOrgsFromExcel("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx", adminUser)
 //        importService.importDesignCategories("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/设计.xlsx",adminUser)
-       // organizationService.createDemoOrganizations(adminUser)
-
+        // organizationService.createDemoOrganizations(adminUser)
+        createDemoMessages(adminUser)
     }
+
+    def createDemoMessages(sender){
+        (1..20).each {
+            def tagIndex = it % 4
+            def params = [title: "氧气室招投标....${it}",
+                    body: "<h1>xxxxxxxx</h1>",
+                    tag:MessageTag.values()[tagIndex],
+                    recipients: 'admin,test']
+            def msg = new Message(title: params.title, body: params.body,
+                    sender: sender, tag: params.tag)
+            def recipients = params.recipients.split(',')
+            recipients.each { recipient ->
+                msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipient)))
+            }
+            if (msg.save(failOnError: true)) {
+                println "MESSAGE was created! ${msg.title}"
+            } else {
+                msg.errors.each {println it}
+            }
+        }
+    }
+
     def destroy = {
     }
 

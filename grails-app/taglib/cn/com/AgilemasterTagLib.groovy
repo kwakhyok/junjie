@@ -4,6 +4,8 @@ import cn.com.agilemaster.User
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.subject.Subject
 import org.apache.shiro.session.Session
+import cn.com.agilemaster.MessageTag
+import cn.com.agilemaster.MessageStatus
 
 /**
  * AgilemasterTagLib
@@ -38,9 +40,9 @@ class AgilemasterTagLib {
         def username = currentUser.principal.toString()
         //def username = attrs.username
         def user = User.findByUsername(username)
-        if (user && currentUser.isAuthenticated()){
-            out << user.profile?.lastName+user.profile?.firstName+" (" + user.profile?.position + ")"
-        }else{
+        if (user && currentUser.isAuthenticated()) {
+            out << user.profile?.lastName + user.profile?.firstName + " (" + user.profile?.position + ")"
+        } else {
             out << "匿名用户"
         }
     }
@@ -49,17 +51,65 @@ class AgilemasterTagLib {
     * */
     def formatUser = { attrs ->
         def user = attrs.user
-        if (user){
-            out << user.profile?.lastName+user.profile?.firstName+" (" + user.profile?.position + ")"
-        }else{
+        if (user) {
+            out << user.profile?.lastName + user.profile?.firstName + " (" + user.profile?.position + ")"
+        } else {
             out << '未知用户'
         }
     }
+    /*
+    * @attr message REQUIRED Domain Message Class
+    * @attr class REQUIRED style class
+    * */
 
+    def outBoxTableEntry = {attrs ->
+        def recipient = attrs.messageRecipient
+        def tag = recipient.message?.tag
+        def status = recipient.status
+        out << "<tr class=\"' + attrs.class + '\">"
+        out << "<td><input type=\"checkbox\"></td>"
+        out << "<td class=\"from\">"
+        def statusClass = (status == MessageStatus.UNREAD) ? "glyphicons dislikes" : "glyphicons star"
+        out << "<span class=\"${statusClass}\"><i></i></span>"
+        out << recipient.message?.sender?.profile
+        if (recipient.message?.uploadedFile?.size() > 0){
+            out << " <span class=\"glyphicons paperclip\"><i></i></span>"
+        }
+        out << "</td>"
+        def tagLabel
+
+        switch (tag) {
+            case MessageTag.BID:
+                tagLabel = "<span class=\"label label-warning\">投标</span>"
+                break
+            case MessageTag.INVESTMENT:
+                tagLabel = "<span class=\"label label-success\">投资</span>"
+                break
+            case MessageTag.SUPERVISION:
+                tagLabel = "<span class=\"label label-inverse\">监理</span>"
+                break
+            case MessageTag.DESIGN:
+                tagLabel = "<span class=\"label label-important\">设计</span>"
+                break
+            case MessageTag.NORMAL:
+                tagLabel = ""
+                break
+            default:
+                tagLabel = ""
+                break
+        }
+
+        out << "<td>" + tagLabel + "&nbsp;"
+        out << recipient.message?.title
+        out << "</td>"
+        out << "<td class=\"date\">${am.dateFromNow(date: recipient.message?.dateCreated)}</td>"
+        out << "<td>dddd</td>"
+
+    }
 
     /*
-    *  @attr status REQUIRED inList:['drafted', 'planned', 'processing','completed']
-    * */
+   *  @attr status REQUIRED inList:['drafted', 'planned', 'processing','completed']
+   * */
     def formatTaskStatus = { attrs ->
         def status = attrs.status
         if (status == 'drafted') {
@@ -67,7 +117,7 @@ class AgilemasterTagLib {
         } else {
             if (status == 'planned') {
                 out << "<span class='label label-inverse'>已分配</span>"
-              //out << render(template: '/templates/percentageSlider', model: [ratio:0])
+                //out << render(template: '/templates/percentageSlider', model: [ratio:0])
             } else if (status == 'processing') {
                 out << "<span class='label label-info'>执行中</span>"
             } else if (status == 'completed') {
@@ -83,11 +133,11 @@ class AgilemasterTagLib {
     * */
 
     def taskCompletionSlider = { attrs ->
-       def task = attrs.task
-       def plan = task?.currentPlan
-       def complete = plan?.completeRatio
-       def ratio = complete ? Math.round(complete * 100) / 100 : 80
-       out << render(template:"/templates/percentageSlider", model: [ratio: 30])
+        def task = attrs.task
+        def plan = task?.currentPlan
+        def complete = plan?.completeRatio
+        def ratio = complete ? Math.round(complete * 100) / 100 : 80
+        out << render(template: "/templates/percentageSlider", model: [ratio: 30])
     }
 
     /*
@@ -100,7 +150,7 @@ class AgilemasterTagLib {
         def complete = plan?.completeRatio
         def ratio = complete ? Math.round(complete * 100) / 100 : 80
         task.metaClass.percentage = ratio
-        out << render(template: '/templates/taskPercentageEntry', model: [task:task])
+        out << render(template: '/templates/taskPercentageEntry', model: [task: task])
 
 
     }
@@ -122,8 +172,8 @@ class AgilemasterTagLib {
         out << " '></i><span class=\"break\"></span>"
         out << title
         out << "</h2>"
-        if (canFold == 'true'){
-            out <<"<div class=\"box-icon\">" +
+        if (canFold == 'true') {
+            out << "<div class=\"box-icon\">" +
                     "<a href=\"#\" class=\"btn-minimize\"><i class=\"halflings-icon chevron-up\"></i></a>" +
                     "<a href=\"#\" class=\"btn-close\"><i class=\"halflings-icon remove\"></i></a>" +
                     "</div>"
@@ -136,7 +186,7 @@ class AgilemasterTagLib {
     }
 
 
-    static String calculateFromNow(Date date){
+    static String calculateFromNow(Date date) {
         def now = new Date()
         def diff = Math.abs(now.time - date.time)
         final long second = 1000
@@ -145,17 +195,17 @@ class AgilemasterTagLib {
         final long day = hour * 24
         final long week = day * 7
 
-        def niceTime  = ""
+        def niceTime = ""
         long calc = 0
 
         calc = Math.floor(diff / week)
-        if(calc){
+        if (calc) {
             niceTime += calc + "周"
             diff %= week
         }
 
         calc = Math.floor(diff / day)
-        if(calc){
+        if (calc) {
             niceTime += calc + "天"
             diff %= day
         }
@@ -173,10 +223,10 @@ class AgilemasterTagLib {
         }
        */
 
-        if(!niceTime){
+        if (!niceTime) {
             niceTime = "刚才"
-        }else{
-            niceTime += (date.time > now.time)? "之后" : "之前"
+        } else {
+            niceTime += (date.time > now.time) ? "之后" : "之前"
         }
 
         return niceTime
