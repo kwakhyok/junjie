@@ -13,17 +13,17 @@
  ===================================================================*/
 
 .highlightRow{
-    background-color:#a5a5a5;
+    background-color: #c0c0c0;
 }
 
 .clickableRow{
     cursor: pointer;
 }
 
-.hidden-id{
-    /* nothing special */
-    font-size:50px;
+.messagesList tr.even:hover, .messagesList tr.odd:hover{
+    background-color: #f2fff8;
 }
+
 
 /* Basic
 =================================================================== */
@@ -1057,6 +1057,18 @@ ul.messages li .message {
           	border-radius: 4px;
 }
 
+.label-cool,
+.badge-cool {
+    border-color: #8c23ff;
+    background-color: #8c23ff;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, hsl(11, 95%, 76%)), color-stop(100%, hsl(11, 95%, 61%)));
+    background-image: -webkit-linear-gradient(top, hsl(11, 95%, 76%), hsl(11, 95%, 61%));
+    background-image: -moz-linear-gradient(top, hsl(11, 95%, 76%), hsl(11, 95%, 61%));
+    background-image: -ms-linear-gradient(top, hsl(11, 95%, 76%), hsl(11, 95%, 61%));
+    background-image: -o-linear-gradient(top, hsl(11, 95%, 76%), hsl(11, 95%, 61%));
+    background-image: linear-gradient(top, hsl(11, 95%, 76%), hsl(11, 95%, 61%));
+}
+
 .label-important,
 .badge-important {
   	border-color: #FA5833;
@@ -1151,6 +1163,19 @@ ul.messages li .message {
 	background-image: -ms-linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
 	background-image: -o-linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
 	background-image: linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
+}
+
+
+.label-normal[href],
+.badge-normal[href] {
+    border-color: #b4e912;
+    background-color: #b4e912;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, hsl(200, 80%, 82%)), color-stop(100%, hsl(200, 81%, 67%)));
+    background-image: -webkit-linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
+    background-image: -moz-linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
+    background-image: -ms-linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
+    background-image: -o-linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
+    background-image: linear-gradient(top, hsl(200, 80%, 82%), hsl(200, 81%, 67%));
 }
 
 /* Quick Buttons

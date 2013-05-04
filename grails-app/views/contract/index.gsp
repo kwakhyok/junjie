@@ -21,11 +21,11 @@
             </ul>
 
             <div id="myTabContent" class="tab-content">
-                <div class="tab-pane" id="account">
+                <div class="tab-pane active" id="account">
                     <g:render template="contractList" bean="${ledgerList}" var="contractList"/>
                 </div>
 
-                <div class="tab-pane active" id="payment">
+                <div class="tab-pane" id="payment">
                     <g:render template="contractList" bean="${paymentList}" var="contractList"/>
 
                 </div>

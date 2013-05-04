@@ -66,13 +66,13 @@ class AgilemasterTagLib {
         def recipient = attrs.messageRecipient
         def tag = recipient.message?.tag
         def status = recipient.status
-        out << "<tr class=\"' + attrs.class + '\">"
+        out << "<tr class=\"" + attrs.class + "\">"
         out << "<td><input type=\"checkbox\"></td>"
         out << "<td class=\"from\">"
         def statusClass = (status == MessageStatus.UNREAD) ? "glyphicons dislikes" : "glyphicons star"
         out << "<span class=\"${statusClass}\"><i></i></span>"
         out << recipient.message?.sender?.profile
-        if (recipient.message?.uploadedFile?.size() > 0){
+        if (recipient.message?.uploadedFile?.size() > 0) {
             out << " <span class=\"glyphicons paperclip\"><i></i></span>"
         }
         out << "</td>"
@@ -103,13 +103,24 @@ class AgilemasterTagLib {
         out << recipient.message?.title
         out << "</td>"
         out << "<td class=\"date\">${am.dateFromNow(date: recipient.message?.dateCreated)}</td>"
-        out << "<td>dddd</td>"
+
+        //out << "<td><span class='label label-info'>回</span><span class='label label-important'>转</span></td>"
+        //out << "</tr>"
 
     }
 
-    /*
-   *  @attr status REQUIRED inList:['drafted', 'planned', 'processing','completed']
+/*
+   *  @attr tags REQUIRED
    * */
+    def messageTagLabel = { attrs ->
+        def messageTags = attrs.tags
+        messageTags.each {tag ->
+            out << "<span class=\"label " + tag.label + "\">" + tag.name + "</span>"
+        }
+    }
+/*
+*  @attr status REQUIRED inList:['drafted', 'planned', 'processing','completed']
+* */
     def formatTaskStatus = { attrs ->
         def status = attrs.status
         if (status == 'drafted') {
@@ -128,9 +139,9 @@ class AgilemasterTagLib {
         }
     }
 
-    /*
-    *  @attr task REQUIRED must be the task domain class , used in task list to record the completion of a task
-    * */
+/*
+*  @attr task REQUIRED must be the task domain class , used in task list to record the completion of a task
+* */
 
     def taskCompletionSlider = { attrs ->
         def task = attrs.task
@@ -140,9 +151,9 @@ class AgilemasterTagLib {
         out << render(template: "/templates/percentageSlider", model: [ratio: 30])
     }
 
-    /*
-    * @attr task REQUIRED must be the task domain class , used in header main menu
-    * */
+/*
+* @attr task REQUIRED must be the task domain class , used in header main menu
+* */
 
     def renderTaskPercentage = { attrs ->
         def task = attrs.task
@@ -154,12 +165,12 @@ class AgilemasterTagLib {
 
 
     }
-    /*
-    * @attr span REQUIRED must be the number between 1 and 12
-    * @attr icon REQUIRED must be icons in this theme
-    * @attr title REQUIRED must be the title of the box
-    * @attr canFold REQUIRED must be true or False to provide the folding and close buttons
-    * */
+/*
+* @attr span REQUIRED must be the number between 1 and 12
+* @attr icon REQUIRED must be icons in this theme
+* @attr title REQUIRED must be the title of the box
+* @attr canFold REQUIRED must be true or False to provide the folding and close buttons
+* */
     def boxContainer = {attrs, body ->
         def span = attrs.span
         def icon = attrs.icon

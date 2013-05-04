@@ -37,7 +37,7 @@
                     <div class="controls">
                         <select id="tags" class="input-xxlarge" multiple data-rel="chosen"
                                 data-placeholder="请选择标签..." name="tags">
-                            <g:each in="${cn.com.agilemaster.MessageTag.values()}" var="tag">
+                            <g:each in="${cn.com.agilemaster.MessageTag.list()}" var="tag">
                                 <option>${tag}</option>
                             </g:each>
                         </select>

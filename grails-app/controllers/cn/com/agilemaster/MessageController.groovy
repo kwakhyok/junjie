@@ -40,6 +40,6 @@ class MessageController {
     }
 
     def reply = {
-
+        render(template: 'newMessage')
     }
 }

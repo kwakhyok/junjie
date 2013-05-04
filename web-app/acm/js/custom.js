@@ -361,7 +361,7 @@ function template_functions() {
     });
 
     /* ---------- Text editor ---------- */
-    $('.cleditor').cleditor();
+    $('.cleditor').cleditor({});
 
 
     /* ---------- Datapicker ---------- */
@@ -454,6 +454,9 @@ function template_functions() {
             "sInfoEmpty":"0条记录"
         }
     });
+
+
+
     $('.btn-close').click(function (e) {
         e.preventDefault();
         $(this).parent().parent().parent().fadeOut();
@@ -669,7 +672,7 @@ function template_functions() {
         range:"min",
         min:0,
         max:100,
-        value:60,
+        value:60
     });
 
     $("#sliderVertical-2").slider({
@@ -677,7 +680,7 @@ function template_functions() {
         range:"min",
         min:0,
         max:100,
-        value:40,
+        value:40
     });
 
     $("#sliderVertical-3").slider({
@@ -685,7 +688,7 @@ function template_functions() {
         range:"min",
         min:0,
         max:100,
-        value:30,
+        value:30
     });
 
     $("#sliderVertical-4").slider({
@@ -693,7 +696,7 @@ function template_functions() {
         range:"min",
         min:0,
         max:100,
-        value:15,
+        value:15
     });
 
     $("#sliderVertical-5").slider({
@@ -701,7 +704,7 @@ function template_functions() {
         range:"min",
         min:0,
         max:100,
-        value:40,
+        value:40
     });
 
     $("#sliderVertical-6").slider({
@@ -709,7 +712,7 @@ function template_functions() {
         range:"min",
         min:0,
         max:100,
-        value:80,
+        value:80
     });
 
     $("#sliderVertical-7").slider({
@@ -1329,7 +1332,7 @@ function charts() {
                 },
                 colors:["#bdea74", "#eae874", "#2FABE9", "#FA5833"],
                 xaxis:{ticks:15, tickDecimals:0},
-                yaxis:{ticks:5, tickDecimals:0},
+                yaxis:{ticks:5, tickDecimals:0}
             });
 
         function showTooltip(x, y, contents) {
@@ -1433,7 +1436,7 @@ function charts() {
                 },
                 colors:["#3B5998"],
                 xaxis:{ticks:6, tickDecimals:0},
-                yaxis:{ticks:3, tickDecimals:0},
+                yaxis:{ticks:3, tickDecimals:0}
             });
 
         function showTooltip(x, y, contents) {
@@ -1537,7 +1540,7 @@ function charts() {
                 },
                 colors:["#1BB2E9"],
                 xaxis:{ticks:6, tickDecimals:0},
-                yaxis:{ticks:3, tickDecimals:0},
+                yaxis:{ticks:3, tickDecimals:0}
             });
 
         function showTooltip(x, y, contents) {
@@ -1601,12 +1604,12 @@ function charts() {
                             { opacity:1 },
                             { opacity:0.5 }
                         ] }
-                    },
+                    }
                 },
                 grid:{ hoverable:true,
                     clickable:true,
                     tickColor:"#f6f6f6",
-                    borderWidth:0,
+                    borderWidth:0
                 },
                 colors:["#CBE968"],
                 xaxis:{ticks:0, tickDecimals:0, tickFormatter:function (v, a) {
@@ -1614,7 +1617,7 @@ function charts() {
                 }},
                 yaxis:{ticks:5, tickDecimals:0, tickFormatter:function (v) {
                     return v
-                }},
+                }}
 
             });
         }
@@ -1676,11 +1679,11 @@ function charts() {
                 grid:{ hoverable:true,
                     clickable:true,
                     tickColor:"#eee",
-                    borderWidth:0,
+                    borderWidth:0
                 },
                 colors:["#b1d3d4"],
                 xaxis:{ticks:11, tickDecimals:0},
-                yaxis:{ticks:11, tickDecimals:0},
+                yaxis:{ticks:11, tickDecimals:0}
             });
 
         function showTooltip(x, y, contents) {
@@ -1745,7 +1748,7 @@ function charts() {
             ], {
                 series:{
                     lines:{ show:true,
-                        lineWidth:2,
+                        lineWidth:2
                     },
                     points:{ show:true },
                     shadowSize:2
@@ -2043,8 +2046,8 @@ function charts() {
             xaxis:{ show:false },
             colors:["#FA5833"],
             grid:{    tickColor:"#f9f9f9",
-                borderWidth:0,
-            },
+                borderWidth:0
+            }
         };
         var plot = $.plot($("#serverLoad"), [ getRandomData() ], options);
 
@@ -2071,7 +2074,7 @@ function charts() {
             colors:["#F4A506"],
             grid:{    tickColor:"#dddddd",
                 borderWidth:0
-            },
+            }
         };
         var plot = $.plot($("#realtimechart"), [ getRandomData() ], options);
 

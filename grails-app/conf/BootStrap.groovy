@@ -69,23 +69,29 @@ class BootStrap {
         createDemoMessages(adminUser)
     }
 
-    def createDemoMessages(sender){
-        (1..20).each {
-            def tagIndex = it % 4
-            def params = [title: "氧气室招投标....${it}",
-                    body: "<h1>xxxxxxxx</h1>",
-                    tag:MessageTag.values()[tagIndex],
-                    recipients: 'admin,test']
-            def msg = new Message(title: params.title, body: params.body,
-                    sender: sender, tag: params.tag)
-            def recipients = params.recipients.split(',')
-            recipients.each { recipient ->
-                msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipient)))
-            }
-            if (msg.save(failOnError: true)) {
-                println "MESSAGE was created! ${msg.title}"
-            } else {
-                msg.errors.each {println it}
+    def createDemoMessages(sender) {
+
+        def tags = ['label-info': '设计', 'label-important': '投资', 'label-cool': '施工',
+                'label-inverse': '合同', 'label-success': '监理', 'label-warning': '总览', 'label-normal': '采购']
+        def messageTag
+        tags.each {tag ->
+            messageTag = new MessageTag(name: tag.value, label: tag.key).save(flush: true)
+            (1..5).each {
+                def params = [title: "氧气室招投标....${it}",
+                        body: "<h1>xxxxxxxx</h1>",
+                        recipients: 'admin,test']
+                def msg = new Message(title: params.title, body: params.body,
+                        sender: sender)
+                msg.addToTags(messageTag)
+                def recipients = params.recipients.split(',')
+                recipients.each { recipient ->
+                    msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipient)))
+                }
+                if (msg.save(failOnError: true)) {
+                    println "MESSAGE was created! ${msg.title} -- ${msg.tags}"
+                } else {
+                    msg.errors.each {println it}
+                }
             }
         }
     }

@@ -63,6 +63,13 @@
                         class="hidden-tablet">合同</span></g:link></li>
             </shiro:hasPermission>
 
+            <shiro:hasPermission permission="contract:*">
+
+                <li><g:link controller="contract"><i class="fa-icon-inbox"></i><span
+                        class="hidden-tablet">施工</span></g:link></li>
+            </shiro:hasPermission>
+
+
             <shiro:hasPermission permission="investment:*">
                 <li><g:link controller="investment"><i class="fa-icon-money"></i><span
                         class="hidden-tablet">投资</span></g:link></li>
