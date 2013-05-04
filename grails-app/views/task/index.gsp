@@ -151,21 +151,8 @@
     --}%
 </div>
 
-<div id="errors">errors</div>
 
-%{--
-<div class="control-group">
-    <label class="control-label" for="selectError2">Multiple Select / Tags</label>
-    <div class="controls">
-        <select id="selectError2" multiple data-rel="chosen">
-            <option>Option 1</option>
-            <option selected>Option 2</option>
-            <option>Option 3</option>
-            <option>Option 4</option>
-            <option>Option 5</option>
-        </select>
-    </div>
-</div>--}%
+
 
 <div class="modal hide fade" id="planTaskModal" style="display: block;">
 </div>

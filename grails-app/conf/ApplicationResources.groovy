@@ -115,4 +115,10 @@ modules = {
         resource url: 'acm/js/custom.js'
 
     }
+
+    bootstrap_editable{
+        dependsOn('jquery_core','boostrap_core')
+        resource url: 'css/bootstrap-editable.css'
+        resource url: 'js/bootstrap-editable.js'
+    }
 }

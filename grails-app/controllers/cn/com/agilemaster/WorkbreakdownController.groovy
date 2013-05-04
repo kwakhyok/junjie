@@ -66,14 +66,14 @@ class WorkbreakdownController {
                     workMap.put('title', work.title)
                     workMap.put('description', work.description)
                     def subWorks = []
-                    work.subWorks.each{
+                    work.subWorks.each {
                         def subWorkMap = [:]
-                        subWorkMap.put('code',it.code)
-                        subWorkMap.put('title',it.title)
-                        subWorkMap.put('description',it.description)
+                        subWorkMap.put('code', it.code)
+                        subWorkMap.put('title', it.title)
+                        subWorkMap.put('description', it.description)
                         subWorks.add(subWorkMap)
                     }
-                    workMap.put('subWorks',subWorks)
+                    workMap.put('subWorks', subWorks)
                     workList.add(workMap)
                 }
 
@@ -95,46 +95,80 @@ class WorkbreakdownController {
         }
     }
 
-
     def listProjectsAsJson = {
         def pbs
         def rootPrj
-        if (params.pbsCode){
+        if (params.pbsCode) {
             pbs = Projectbreakdown.findByCode(params.pbsCode)
-            if (pbs){
+            if (pbs) {
                 def jsonMap = [:]
                 def projectList = []
-                rootPrj = pbs.projects.find{it.isRootProject()}
-                def projects = pbs.projects.findAll{!it.isRootProject()}
+                rootPrj = pbs.projects.find {it.isRootProject()}
+                def projects = pbs.projects.findAll {!it.isRootProject()}
                 jsonMap.put('code', rootPrj.code)
                 jsonMap.put('name', rootPrj.name)
                 jsonMap.put('description', rootPrj.description)
-                projects.each{project ->
-                   if (!project.subProjects?.isEmpty()){
-                       def prjMap = [:]
-                       prjMap.put('code',project.code)
-                       prjMap.put('name',project.name)
-                       prjMap.put('description',project.description)
-                       def subPrjs = []
-                       project.subProjects?.each{sprj ->
-                           def sPrjMap = [:]
-                           sPrjMap.put('code',sprj.code)
-                           sPrjMap.put('name',sprj.name)
-                           sPrjMap.put('description',sprj.description)
-                           subPrjs.add(sPrjMap)
-                       }
-                       prjMap.put('subProjects', subPrjs)
-                       projectList.add(prjMap)
-                   }
+                projects.each {project ->
+                    if (!project.subProjects?.isEmpty()) {
+                        def prjMap = [:]
+                        prjMap.put('code', project.code)
+                        prjMap.put('name', project.name)
+                        prjMap.put('description', project.description)
+                        def subPrjs = []
+                        project.subProjects?.each {sprj ->
+                            def sPrjMap = [:]
+                            sPrjMap.put('code', sprj.code)
+                            sPrjMap.put('name', sprj.name)
+                            sPrjMap.put('description', sprj.description)
+                            subPrjs.add(sPrjMap)
+                        }
+                        prjMap.put('subProjects', subPrjs)
+                        projectList.add(prjMap)
+                    }
                 }
-                jsonMap.put('subProjects',projectList)
+                jsonMap.put('subProjects', projectList)
                 render jsonMap as JSON
 
             }
-            else{
-               println "params" + params
-               render "<h2>${params.pbsCode} PBS was not found</h2>"
+            else {
+                println "params" + params
+                render "<h2>${params.pbsCode} PBS was not found</h2>"
             }
         }
     }
+
+    def turnWBSWorksIntoTasks = {
+        if (params.wbsId) {
+            def wbs = Workbreakdown.findById(params.wbsId)
+            def project = Project.list().find {it.isRootProject()}
+            if (!project) {
+                flash.message = "请先导入项目"
+                redirect(action: "index")
+            } else {
+                if (wbs) {
+                    def task
+                    wbs.works?.each { work ->
+                        task = Task.findByCode(work.code) ?: new Task(code: work.code)
+                        task.project = project
+                        task.title = work.title
+                        task.description = work.description
+                        if (!task.save(failOnError: true)) {
+                            log.error "Task ${task.code} was not saved! "
+                        }
+                    }
+                    redirect(controller: 'task', action: 'list')
+                }
+
+            }
+
+        }
+    }
+
+    def turnIntoWork = {
+        if (params.workId) {
+            def work = Work.get(params.workId)
+
+        }
+    }
+
 }
