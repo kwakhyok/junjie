@@ -81,5 +81,21 @@
                 </li>
             </ul>
         </div>
+
+        <form class="replyForm"method="post" action="">
+
+            <fieldset>
+                <textarea tabindex="3" class="input-xlarge span12 cleditor" id="message" name="body" rows="12" placeholder="Click here to reply"></textarea>
+
+                <div class="actions">
+
+                    <button tabindex="3" type="submit" class="btn btn-success">huifu </button>
+
+                </div>
+
+            </fieldset>
+
+        </form>
+
     </div>
 

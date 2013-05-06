@@ -18,7 +18,7 @@
     <td class="date ">
         <am:dateFromNow date="${message.dateCreated}"/>
     </td>
-    <td class=" ">
+    <td class="">
         <a href="#" class="replyBtn label label-info">回复</a>
         <a href="#" class="forwardBtn label label-success">转发</a>
     </td>

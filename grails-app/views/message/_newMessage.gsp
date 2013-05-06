@@ -10,14 +10,14 @@
             <div class="control-group">
                 %{-- <label class="control-label" for="messageTitle">题目</label>--}%
                 <div class="controls">
-                    <input class="input-xxlarge focused" id="messageTitle" type="text" value="键入发文题目…" name="title">
+                    <input class="input-xlarge focused" id="messageTitle" type="text" value="键入发文题目…" name="title">
                 </div>
             </div>
 
             <div class="control-group">
                 %{--<label class="control-label" for="recipients">发送给...</label>--}%
                 <div class="controls">
-                    <select id="recipients" class="input-xxlarge" multiple data-rel="chosen"
+                    <select id="recipients" class="input-xlarge" multiple data-rel="chosen"
                             data-placeholder="请选择收件人..." name="recipients">
                         <g:each in="${User.list()}" var="user">
                             <option>${user}</option>
@@ -38,7 +38,6 @@
                     </select>
                 </div>
             </div>
-
 
             <div class="control-group hidden-phone">
                 %{--<label class="control-label" for="messageBody">正文</label>--}%

@@ -33,6 +33,7 @@
 
     <div class="span5 noMarginLeft hide" id="showMessagePanel">
         <g:render template="messageDetail"/>
+
     </div>
 
 </div>

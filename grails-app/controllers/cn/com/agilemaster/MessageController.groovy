@@ -1,6 +1,7 @@
 package cn.com.agilemaster
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile
+import grails.converters.JSON
 
 /**
  * MessageController
@@ -40,6 +41,30 @@ class MessageController {
     }
 
     def reply = {
-        render(template: 'newMessage')
+
+    }
+
+    def ajaxReply = {
+        def jsonMap = [:]
+        if(params.msgId){
+           def mainMsg = Message.get(params.msgId)
+           jsonMap.put('title', "RE:" + mainMsg.title)
+           jsonMap.put('mainBody', mainMsg.body)
+           jsonMap.put('reply', mainMsg.sender)
+           jsonMap.put('sender', session.currentUser)
+           //TODO render main messages Files
+        }
+
+        render jsonMap as JSON
+    }
+
+    def forward = {
+
+    }
+
+    def ajaxForward = {
+        def jsonMap = [:]
+        //TODO render main messages in Forward
+        render jsonMap as JSON
     }
 }
