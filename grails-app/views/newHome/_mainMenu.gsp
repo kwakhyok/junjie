@@ -65,7 +65,7 @@
 
             <shiro:hasPermission permission="contract:*">
 
-                <li><g:link controller="contract"><i class="fa-icon-inbox"></i><span
+                <li><g:link controller="construction"><i class="fa-icon-inbox"></i><span
                         class="hidden-tablet">施工</span></g:link></li>
             </shiro:hasPermission>
 

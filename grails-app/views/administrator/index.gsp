@@ -5,10 +5,11 @@
     <title>${meta(name: 'app.name')} -- 系统后台操作</title>
     <meta content="loggedinacm" name="layout"/>
     <r:require module="acm"/>
+    <r:require module="datatable_tabletools"/>
 </head>
 
 <body>
-<div class="row-fluid">
+<div class="row-fluid hide">
 
     <a class="quick-button span2">
         <i class="fa-icon-group"></i>
@@ -46,6 +47,81 @@
 
     <div class="clearfix"></div>
 </div>
+
+<div class="box-header">
+    <h2><i class="halflings-icon th"></i><span class="break"></span>用户管理</h2>
+</div>
+<div class="box-content">
+    <ul class="nav tab-menu nav-tabs" id="myTab">
+        <li class="active"><a href="#usersPanel">普通用户</a></li>
+        <li><a href="#rolesPanel">所有角色</a></li>
+        <li><a href="#groupsPanel">所有群组</a></li>
+        <li><a href="#adminsPanel">所有管理员</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane active" id="usersPanel">
+            UsersPanel
+
+
+            <%@ page import="cn.com.agilemaster.User" %>
+            <g:set var="userInstanceList" value="${User.list()}"/>
+
+           <table class="table myDatatable">
+            <thead>
+            <tr>
+                <th>1</th>
+                <th>1</th>
+                <th>1</th>
+                <th>1</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+            </tr>
+            </tbody>
+           </table>
+
+
+
+
+
+        </div>
+        <div class="tab-pane" id="rolesPanel">
+            RolesPanel
+        </div>
+        <div class="tab-pane" id="groupsPanel">
+            GroupsPanel
+        </div>
+        <div class="tab-pane" id="adminsPanel">
+            AdminsPanel
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="row-fluid">
     <div class="box span6" onTablet="span6" onDesktop="span6">
@@ -190,5 +266,71 @@
 <div class="row-fluid">
 
 </div>
+<r:script>
+$(document).ready(function(){
+
+ /*   $('table.myDatatable').dataTable({
+        "sDom":"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6 pull-right'p>>",
+        "sPaginationType":"bootstrap",
+        "oLanguage":{
+            "sLengthMenu":"_MENU_ 条记录/页",
+            "sSearch":"搜索:",
+            "sInfo":"从_START_到_END_, 共有_TOTAL_条记录",
+            "sInfoEmpty":"0条记录"
+        }
+    });*/
+
+    $('table.myDatatable').dataTable({
+        "sDom":"<'row-fluid'<'span6'T><'span6'f>r>t",
+        "sPaginationType":"bootstrap",
+        "oLanguage":{
+            "sLengthMenu":"_MENU_ 条记录/页",
+            "sSearch":"搜索:",
+            "sInfo":"从_START_到_END_, 共有_TOTAL_条记录",
+            "sInfoEmpty":"0条记录"
+        },
+        "oTableTools":{
+            "sSwfPath": "/swf/copy_csv_xls_pdf.swf",
+            "aButtons":[
+                "copy",
+                "print",
+                {
+                    "sExtends":"collection",
+                    "sButtonText":'保存为<span class="caret"/>',
+                    "aButtons":["csv", "xls", "pdf"]
+                }
+            ]
+        },
+        "bRetrieve":true,
+        "bDestroy":true
+    });
+});
+
+// Set the classes that TableTools uses to something suitable for Bootstrap
+$.extend( true, $.fn.DataTable.TableTools.classes, {
+    "container": "btn-group",
+    "buttons": {
+        "normal": "btn",
+        "disabled": "btn disabled"
+    },
+    "collection": {
+        "container": "DTTT_dropdown dropdown-menu",
+        "buttons": {
+            "normal": "",
+            "disabled": "disabled"
+        }
+    }
+} );
+
+// Have the collection use a bootstrap compatible dropdown
+$.extend( true, $.fn.DataTable.TableTools.DEFAULTS.oTags, {
+    "collection": {
+        "container": "ul",
+        "button": "li",
+        "liner": "a"
+    }
+} );
+
+</r:script>
 </body>
 </html>

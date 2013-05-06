@@ -457,6 +457,10 @@ function template_functions() {
 
 
 
+
+    /*------------------------------Datatable customization finished ----------------*/
+
+
     $('.btn-close').click(function (e) {
         e.preventDefault();
         $(this).parent().parent().parent().fadeOut();
@@ -2366,6 +2370,8 @@ $.extend($.fn.dataTableExt.oPagination, {
         }
     }
 });
+
+
 
 /* ---------- Page width functions ---------- */
 

@@ -1,23 +1,25 @@
+<%@ page import="cn.com.agilemaster.User" %>
+<g:set var="userInstanceList" value="${User.list()}"/>
 <section id="list-user" class="first">
 
-    <table class="table table-bordered">
+    <table class="table table-condensed" id="userTable">
         <thead>
         <tr>
 
-            <g:sortableColumn property="username" title="username"/>
+            <th>username</th>
 
-            <g:sortableColumn property="fullname" title="name"/>
+            <th>fullname</th>
 
-            <g:sortableColumn property="email" title="email"/>
+            <th>email</th>
 
-            <g:sortableColumn property="position" title="position"/>
+            <th>position</th>
 
-            <g:sortableColumn property="telephone" title="telephone"/>
+            <th>telephone</th>
         </tr>
         </thead>
         <tbody>
         <g:each in="${userInstanceList}" status="i" var="userInstance">
-            <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+            <tr>
 
                 <td><g:link action="show"
                             id="${userInstance.id}">${fieldValue(bean: userInstance, field: "username")}</g:link></td>
@@ -33,8 +35,4 @@
         </g:each>
         </tbody>
     </table>
-
-    <div class="pagination">
-        <bs:paginate total="${userInstanceTotal}"/>
-    </div>
 </section>
