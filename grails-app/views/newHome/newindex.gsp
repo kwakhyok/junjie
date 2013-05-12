@@ -1,9 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <meta name="layout" content="loggedinacm"/>
-    <r:require module="acm"/>
-
+    <meta name="layout" content="main"/>
+    <r:require module="acme"/>
 </head>
 
 <body>
@@ -25,8 +24,5 @@
 
 </div>
 
-<div class="row-fluid" style="margin-top: -20px;padding-top: 0">
-    <g:profilerOutput/>
-</div>
 </body>
 </html>

@@ -26,6 +26,8 @@ class AgilemasterTagLib {
         def niceDate = calculateFromNow(date)
         out << niceDate
     }
+
+
     /*
     *   @attr date REQUIRED should be Date type
     * */
@@ -220,13 +222,13 @@ class AgilemasterTagLib {
             niceTime += calc + "天"
             diff %= day
         }
-/*
+
         calc = Math.floor(diff / hour)
         if(calc){
             niceTime += calc + "小时"
             diff %= hour
         }
-
+/*
         calc = Math.floor(diff / minute)
         if(calc){
             niceTime += calc + "分"

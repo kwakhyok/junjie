@@ -1,8 +1,8 @@
 package cn.com.agilemaster
 
-class Role {
-    String name
+class Role implements Serializable{
 
+    String name
     static hasMany = [ users: User, permissions: String ]
     static belongsTo = User
 

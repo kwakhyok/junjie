@@ -39,7 +39,7 @@ class UserProfile {
         email email: true
         fax nullable: true
         memo size: 0..100, nullable: true
-        photo(nullable: true)
+        photo(maxSize: 1024*1024*10, nullable: true)
 
     }
 
@@ -48,6 +48,6 @@ class UserProfile {
       */
 //	@Override	// Override toString for a nicer / more descriptive UI 
 	public String toString() {
-		return "${lastName} ${firstName}";
+		return "${lastName}${firstName}";
 	}
 }

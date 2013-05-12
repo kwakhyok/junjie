@@ -10,7 +10,7 @@ class MessageTag {
 //	Long	id
 //	Long	version
     String name
-    String label
+    String label        /* css class name defining the message tag */
     /* Automatic timestamping of GORM */
 //	Date	dateCreated
 //	Date	lastUpdated

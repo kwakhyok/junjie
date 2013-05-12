@@ -1,3 +1,5 @@
+/*FIlE NAME: custom.js*/
+
 /* -------------------- Check Browser --------------------- */
 
 function browser() {
@@ -443,6 +445,7 @@ function template_functions() {
         }
     });
 
+
     /* ---------- Datable ---------- */
     $('.datatable').dataTable({
         "sDom":"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
@@ -452,7 +455,22 @@ function template_functions() {
             "sSearch":"搜索:",
             "sInfo":"从_START_到_END_, 共有_TOTAL_条记录",
             "sInfoEmpty":"0条记录"
-        }
+        },
+        "bRetrieve":true,
+        "bDestroy":true
+    });
+
+    $('table.myDataTable').dataTable({
+        "sDom":"<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
+        "sPaginationType":"bootstrap",
+        "oLanguage":{
+            "sLengthMenu":"_MENU_ 条记录/页",
+            "sSearch":"搜索:",
+            "sInfo":"从_START_到_END_, 共有_TOTAL_条记录",
+            "sInfoEmpty":"0条记录"
+        },
+        "bRetrieve":true,
+        "bDestroy":true
     });
 
 

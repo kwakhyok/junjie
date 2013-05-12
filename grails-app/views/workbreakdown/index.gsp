@@ -1,21 +1,40 @@
 <%@ page import="cn.com.agilemaster.Task; cn.com.agilemaster.Work; cn.com.agilemaster.Projectbreakdown; cn.com.agilemaster.Workbreakdown" %>
 <<html>
 <head>
-    <title>${meta(name: 'app.name')} -- WBS管理</title>
-    <meta content="loggedinacm" name="layout"/>
-    <r:require module="acm"/>
-    <r:require module="j_primitive"/>
-    <r:script>
+<title>${meta(name: 'app.name')} -- WBS管理</title>
+<meta content="main" name="layout"/>
+<r:require module="acme"/>
+<r:require module="j_primitive"/>
+<r:require module="bootstrap_editable"/>
+<r:script>
         var m_timer = null;
+
+        var currentWbsId = $('#wbsMenu  li:last  a  span.hidden').text();
+
+        function showTaskOrgChart(){
+            console.log('begin to show the task org chart');
+            $.getJSON('listTasksAsJson', {wbsId:currentWbsId}, function(data){
+                ResizePlaceholder('#orgdiagram');
+                GetWBSTask(data);
+                $(window).resize(function(){
+                    onWindowResize('#orgdiagram');
+                });
+            });
+        }
+
+        $(function(){
+             showTaskOrgChart();
+        });
 
         jQuery(document).ready(function () {
             /*  == .live(), but in jquery 1.8 there's more preformant way! */
             $(document).delegate('#wbsMenu li a', 'click', function (event, data) {
                 // console.log('this: ' + $(this).children('span.hidden').text() + ' type: ' + event.type);
                 var myWbsId = $(this).children('span.hidden').text();
-                $.getJSON("listWorksAsJson", {wbsId:myWbsId}, function (data) {
+                $.getJSON("listTasksAsJson", {wbsId:myWbsId}, function (data) {
                     ResizePlaceholder('#orgdiagram');
-                    SetupWBSWidget(data);
+                   // SetupWBSWidget(data);
+                    GetWBSTask(data);
                     $(window).resize(function () {
                         onWindowResize('#orgdiagram');
                     });
@@ -98,6 +117,83 @@
 
         }
 
+        var rootImg = "${createLinkTo(dir: 'acm/img', file: 'avatar8.jpg')}";
+        var level1Img = "${createLinkTo(dir: 'acm/img', file: 'avatar6.jpg')}";
+        var level2Img = "${createLinkTo(dir: 'acm/img', file: 'avatar7.jpg')}";
+        function GetWBSTask(data) {
+            var options = new primitives.orgdiagram.Config();
+            var rootItem = new primitives.orgdiagram.ItemConfig();
+            rootItem.title = data.title;
+            rootItem.description = data.description;
+            rootItem.image = rootImg;
+            var subTasks = data.subTasks;
+            for (var index = 0; index < subTasks.length; index++) {
+                var subItem = new primitives.orgdiagram.ItemConfig();
+                subItem.code = subTasks[index].code;
+                //console.log(subItem.code);
+                subItem.title = subTasks[index].code + " " + subTasks[index].title;
+                subItem.description = subTasks[index].description;
+                subItem.image = level1Img;
+                if (subTasks[index].hasOwnProperty('subTasks')) {
+                    var subSubWorks = subTasks[index].subTasks;
+                    for (var j = 0; j < subSubWorks.length; j++) {
+                        //console.log(j + ": " + subSubWorks[j].code);
+                        var subSubItem = new primitives.orgdiagram.ItemConfig();
+                        subSubItem.code = subSubWorks[j].code;
+                        subSubItem.title = subSubWorks[j].code + " " + subSubWorks[j].title;
+                        subSubItem.description = subSubWorks[j].description;
+                        subSubItem.image = level2Img;
+                        subItem.items.push(subSubItem);
+                    }
+                    subItem.items.sort(function (a, b) {
+                        var codeA = a.code;
+                        var codeB = b.code;
+                        if (codeA > codeB) return 1;
+                        if (codeA < codeB) return -1;
+                    });
+                }
+                rootItem.items.push(subItem);
+            }
+            rootItem.items.sort(function sortCode(a, b){
+           var al = a.code.split("\\.");
+           var bl = b.code.split("\\.");
+           if(al.length > 0){
+            var i=0;
+            while(i < al.length){
+                if(parseInt(al[i]) > parseInt(bl[i])) return 1;
+                if(parseInt(al[i]) < parseInt(bl[i])) return -1;
+                if(parseInt(al[i]) == parseInt(bl[i])){
+                     i++;
+                }
+            }
+           }
+           return 0;
+       });
+            options.rootItem = rootItem;
+            options.cursorItem = rootItem;
+            options.hasSelectorCheckbox = primitives.common.Enabled.False;
+            $("#orgdiagram").orgDiagram(options);
+
+        }
+
+       function sortCode(a, b){
+           var al = a.code.split("\\.");
+           var bl = b.code.split("\\.");
+           if(al.length > 0){
+            var i=0;
+            while(i < al.length){
+                if(parseInt(al[i]) > parseInt(bl[i])) return 1;
+                if(parseInt(al[i]) < parseInt(bl[i])) return -1;
+                if(parseInt(al[i]) == parseInt(bl[i])){
+                     i++;
+                }
+            }
+           }
+           return 0;
+       }
+
+
+
         function SetupPBSWidget(data) {
             var options = new primitives.orgdiagram.Config();
             var rootItem = new primitives.orgdiagram.ItemConfig();
@@ -154,8 +250,7 @@
 
         }
 
-
-    </r:script>
+</r:script>
 </head>
 
 <body>
@@ -164,8 +259,10 @@
 
     <am:boxContainer icon="list" span="12" title="范围管理" canFold="false">
         <ul class="nav tab-menu nav-tabs" id="myTab">
-            <li class="active"><a href="#wbsPane">WBS工作分解</a></li>
-            <li><a href="#pbsPane">PBS工作分解</a></li>
+            <li class="active"><a href="#wbsPane"><i class="fa-icon-sitemap"></i><span class="break"></span>WBS</a></li>
+            <li><a href="#taskListPanel"><i class="fa-icon-list"></i><span class="break"></span>工作列表</a></li>
+            <li><a href="#pbsPane"><i class="fa-icon-sitemap"></i><span class="break"></span>PBS</a></li>
+            <li><a href="#projectListPanel"><i class="fa-icon-list-alt"></i><span class="break"></span>项目列表</a></li>
         </ul>
 
         <div id="myTabContent" class="tab-content">
@@ -180,13 +277,10 @@
                             <g:each in="${Workbreakdown.list()}" var="wbs">
                                 <li><a href="#"><i class="halflings-icon star"></i><span
                                         class="hidden">${wbs.code}</span><span>${wbs.title}</span></a>
-                                    <g:link class="btn btn-mini" action="turnWBSWorksIntoTasks"
-                                            params="[wbsId: wbs.id]">变</g:link>
                                 </li>
                             </g:each>
                         </ul>
                     </div>
-                    <g:link class="btn btn-large btn-primary" action="addWorks">Add Works</g:link>
                 </div>
 
                 <div id="orgdiagram"
@@ -216,67 +310,61 @@
                 <div id="pbsdiagram"
                      style="min-height: 360px; position:absolute; overflow:hidden; border-width:1px;"></div>
             </div>
+
+            <div class="tab-pane" id="taskListPanel">
+                <g:render template="taskList" model="[filteredTask: Task.list()]"/>
+            </div>
+
+            <div class="tab-pane" id="projectListPanel">
+            </div>
+
         </div>
     </am:boxContainer>
 </div>
+<r:script>
+    $(function () {
+        $.fn.editable.defaults.mode = 'popup';
+        $('.editable-assignedUser').editable({
+            value:2,
+            source:[
+                {value:1, text:'郭奕'},
+                {value:2, text:'成仔'}
+            ]
+        });
+        $('.editable-participants').editable({
+            value:2,
+            source:[
+                {value:1, text:'郭奕'},
+                {value:2, text:'成仔'}
+            ]
+        });
 
-<div class="row-fluid">
-    <am:boxContainer title="工作/项目分解列表" canFold="false" icon="list" span="12">
-        <ul class="nav tab-menu nav-tabs" id="myTab">
-            <li class="active"><a href="#workPane">工作</a></li>
-            <li><a href="#taskPane">任务</a></li>
-        </ul>
+        $('.editable-endDate').editable({
+            datepicker:{
+                weekStart:1
+            }
+        });
 
-        <div id="myTabContent" class="tab-content">
-            <div class="tab-pane active" id="workPane">
 
-                <table class="table datatable bootstrap-datatable">
-                    <thead>
-                    <tr>
-                        <th>编号</th>
-                        <th>名称</th>
-                        <th>描述</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <g:each in="${Work.list()}" var="work">
-                        <tr><td>${work.code}</td>
-                            <td>${work.title}</td>
-                            <td>${work.description}</td>
-                            <td>
-                                <g:link action="turnIntoTask" params="[workId: work.id]"
-                                        class="label label-important" alt="xxxx">T</g:link>
-                            </td></tr>
-                    </g:each>
-                </table>
+        $('table#myDataTable').dataTable({
+            "sDom":"<'row-fluid'<'span4 taskoperation'><'span4'l><'span4'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
+            "sPaginationType":"bootstrap",
+            "oLanguage":{
+                "sLengthMenu":"_MENU_ 条记录/页",
+                "sSearch":"搜索:",
+                "sInfo":"从_START_到_END_, 共有_TOTAL_条记录",
+                "sInfoEmpty":"0条记录"
+            },
+            "bRetrieve":true,
+            "bDestroy":true
+        });
 
-            </div>
 
-            <div class="tab-pane" id="taskPane">
+        $('div.taskoperation').append(
+                $('div.tableMenu').html()
+        );
 
-                <table class="table table-datatable datatable bootstrap-datatable">
-                    <thead>
-                    <tr>
-                        <th>编号</th>
-                        <th>名称</th>
-                        <th>描述</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <g:each in="${Task.list()}" var="task">
-                        <tr><td>${task.code}</td>
-                            <td>${task.title}</td>
-                            <td>${task.description}</td>
-                            <td>
-                                <g:link action="turnIntoTask" params="[taskId: task.id]"
-                                        class="label label-important" alt="xxxx">T</g:link>
-                            </td></tr>
-                    </g:each>
-                </table>
-
-            </div>
-        </div>
-    </am:boxContainer>
-</div>
+    });
+</r:script>
 </body>
 </html>

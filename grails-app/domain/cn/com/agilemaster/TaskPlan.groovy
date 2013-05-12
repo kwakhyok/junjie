@@ -13,8 +13,9 @@ class TaskPlan {
     Date startDate
     Date endDate
     User assignedUser
-    Set<String> participants
+    Set<User> participants
     float completeRatio
+
     Date dateCreated
     Date lastUpdated
     String priority = 'high'

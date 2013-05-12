@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>君捷项目管理</title>
-    <meta content="kickstart" name="layout"/>
+    <meta content="main" name="layout"/>
     <link rel="stylesheet" href="${createLinkTo(dir: 'css', file: 'jsgantt.css')}"/>
 
     <script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'jsgantt.js')}"/>

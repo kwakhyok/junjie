@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="${session.'org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'}">
 <head>
-    <title>${meta(name: 'app.name')} -- 施工管理</title>
+    <title>${meta(name: 'app.name')} | 施工管理</title>
     <meta content="main" name="layout"/>
+    <r:require module="acme"/>
 </head>
 
 <body>

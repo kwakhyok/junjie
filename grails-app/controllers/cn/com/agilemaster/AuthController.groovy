@@ -21,6 +21,7 @@ class AuthController {
         // Support for "remember me"
         if (params.rememberMe) {
             authToken.rememberMe = true
+
         }
         
         // If a controller redirected to this page, redirect back

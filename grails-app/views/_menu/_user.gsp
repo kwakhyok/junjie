@@ -54,7 +54,6 @@
 <%--</sec:ifLoggedIn>--%>
 	</li>
 </ul>
-<script type="text/javascript" src="${createLinkTo(dir:'js', file:'bootstrap.js')}"></script>
 <noscript>
 <ul class="nav pull-right">
 	<li class="">

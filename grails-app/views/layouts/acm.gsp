@@ -5,23 +5,15 @@
 <head>
     <title><g:layoutTitle default="${meta(name: 'app.name')}"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-	  	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<link id="ie-style" href="${createLinkTo(dir:'acm/css',file:'ie.css')}" rel="stylesheet">
-	<![endif]-->
-
-    <!--[if IE 9]>
-		<link id="ie9style" href="${createLinkTo(dir:'acm/css',file:'ie9.css')}" rel="stylesheet">
-	<![endif]-->
-
-    <link rel="shortcut icon" href="${createLinkTo(dir:'acm/img', file:'favicon.ico')}">
-
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="${createLinkTo(dir:'acm/ico',file:'apple-touch-icon-144-precomposed.png')}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="${createLinkTo(dir:'acm/ico',file:'apple-touch-icon-114-precomposed.png')}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="${createLinkTo(dir:'acm/ico',file:'apple-touch-icon-72-precomposed.png')}">
+    <link rel="apple-touch-icon-precomposed" href="${createLinkTo(dir:'acm/ico',file:'apple-touch-icon-57-precomposed.png')}">
+    <link rel="shortcut icon" href="${createLinkTo(dir:'acm/ico',file:'favicon.png')}">
+    <!-- end: Favicon and Touch Icons -->
     <g:layoutHead/>
     <r:layoutResources/>
-
 </head>
 
 <body>

@@ -26,7 +26,12 @@ class Message {
 	static mappedBy		= [reMessages: 'mainMessage', fwdMessages: 'mainMessage']	// specifies which property should be used in a mapping
 
     static mapping = {
+        recipients cascade:  "all-delete-orphan"
+        reMessages cascade: "all-delete-orphan"
+        fwdMessages cascade: "all-delete-orphan"
     }
+
+    static fetchMode = [recipients: 'eager']
 
     static constraints = {
         title(size: 1..50, blank: false)

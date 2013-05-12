@@ -3,9 +3,8 @@
 <html>
 <head>
     <title>${meta(name: 'app.name')} -- 系统后台操作</title>
-    <meta content="loggedinacm" name="layout"/>
-    <r:require module="acm"/>
-    <r:require module="datatable_tabletools"/>
+    <meta content="main" name="layout"/>
+    <r:require module="tabletools"/>
 </head>
 
 <body>
@@ -104,23 +103,6 @@
     </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <div class="row-fluid">

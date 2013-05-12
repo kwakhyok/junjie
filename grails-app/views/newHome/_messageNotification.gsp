@@ -15,16 +15,21 @@
             def mTimes = [1, 3, 5, 10, 20]
 
         %>
-        <g:each in="${MessageRecipient.findAllByRecipient(session.currentUser)?.collect{it.message}}" status="i" var="message">
-           %{-- <% Collections.shuffle(mTimes) %>--}%
-            <li>
-                <a href="#">+<i class="halflings-icon white user"></i><span class="message">${message.title}</span><span
-                        class="time">${2}小时</span></a>
-            </li>
-        </g:each>
+        <g:if test="${session.currentUser}">
+            <g:each in="${MessageRecipient.findAllByRecipient(session.currentUser)?.collect {it.message}}" status="i"
+                    var="message">
+            %{-- <% Collections.shuffle(mTimes) %>--}%
+                <li>
+                    <a href="#">+<i class="halflings-icon white user"></i><span
+                            class="message">${message.title}</span><span
+                            class="time">2小时</span></a>
+                </li>
+            </g:each>
 
-        <li>
-            <a class="dropdown-menu-sub-footer">查看所有消息提示</a>
-        </li>
+            <li>
+                <a class="dropdown-menu-sub-footer">查看所有消息提示</a>
+            </li>
+        </g:if>
+
     </ul>
 </li>

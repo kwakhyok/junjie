@@ -1,6 +1,7 @@
 package cn.com.agilemaster
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 /**
  * WorkbreakdownController
@@ -9,10 +10,11 @@ import grails.converters.JSON
 class WorkbreakdownController {
 
     static scaffold = true
+
+    def taskService
+
     def index = {
-
     }
-
 
     def addWorks = {
 
@@ -41,6 +43,8 @@ class WorkbreakdownController {
     def createWork = {
 
     }
+
+
 
     def listWorksAsJson = {
 
@@ -84,6 +88,12 @@ class WorkbreakdownController {
             JSON.use('deep')
             render jsonMap as JSON
         }
+    }
+
+    def listTasksAsJson = {
+        def wbs = Workbreakdown.findByCode(params.wbsId)
+        def rootPrj = wbs.rootProject
+        render taskService.listTasksAsJson(rootPrj) as JSON
     }
 
 
@@ -168,6 +178,37 @@ class WorkbreakdownController {
         if (params.workId) {
             def work = Work.get(params.workId)
 
+        }
+    }
+
+
+    def updateTaskEndDate = {
+        render '<h1>UPDATE TASK END DATE</h1>'
+    }
+
+    def updateTaskAssignedUser = {
+
+    }
+
+    def updateTaskParticipants = {
+
+    }
+
+    def listLeafTasks = {
+        if(params.wbsCode){
+            def taskList = []
+            def wbs = Workbreakdown.findByCode(params.wbsCode)
+            def rootPrj = wbs?.rootProject
+            def tasks = Task.findAllByProject(rootPrj, [sort:'code'])
+            tasks.each{
+                if(!it.subTasks || it.subTasks?.size() == 0){
+                    taskList.add(it)
+                }
+            }
+            render template: 'taskList', model: [filteredTask: taskList]
+        }else{
+            flash.message = "没找到工作分解模型：${params.wbsCode}"
+            redirect(action: 'index')
         }
     }
 

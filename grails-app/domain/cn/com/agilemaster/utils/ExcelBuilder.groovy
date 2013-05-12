@@ -19,7 +19,6 @@ class ExcelBuilder {
     def labels
     def row
 
-
     ExcelBuilder(MultipartFile file, boolean ifMultiPart) {
 
         def is = file.inputStream
@@ -34,6 +33,13 @@ class ExcelBuilder {
         }
 
 
+    }
+
+    ExcelBuilder(File file){
+        protocol()
+        file.withInputStream {is ->
+            workbook = WorkbookFactory.create(is)
+        }
     }
 
      void protocol() {

@@ -4,18 +4,25 @@ import cn.com.agilemaster.UserProfile
 import cn.com.agilemaster.Message
 import cn.com.agilemaster.MessageRecipient
 import cn.com.agilemaster.MessageTag
+import cn.com.agilemaster.Projectbreakdown
+import cn.com.agilemaster.Project
 
 class BootStrap {
 
     def shiroSecurityService
     def grailsApplication
-    def taskService
     def importService
-    def organizationService
+    def userService
 
     def init = { servletContext ->
 
-        // get the default roles defined in JunjieResources.groovy
+        createPBS('ROOT', '医院建设管理');
+
+        importService.importLocalPBS('ROOT');
+
+        importService.importLocalWBS('ROOT', '医院建设管理');
+
+        // get the default roles defined in JunjieConfig.groovy
         def defaultAdminRole = grailsApplication.config.junjie.default.adminrole
         def defaultUserRole = grailsApplication.config.junjie.default.userrole
         def defaultTestUser = grailsApplication.config.junjie.default.testuser
@@ -55,18 +62,11 @@ class BootStrap {
                         enabled: true)).save(failOnError: true)
 
 
-        assert adminUser.addToRoles(adminRole).addToRoles(userRole).save(failOnError: true)
-        assert testUser.addToRoles(userRole).save(failOnError: true)
+        assert adminUser.addToRoles(adminRole).addToRoles(userRole).save(failOnError: true, flush: true)
+        assert testUser.addToRoles(userRole).save(failOnError: true, flush: true)
 
-        //   taskService.createWbsAndPbs('ROOT','牟平人民医院(滨州医学院附属医院)建设项目', adminUser)
-        //   taskService.planLastDemoTasks(3)
-
-//        importService.createProjectsFromExcel("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx", adminUser)
-
-//        importService.createOrgsFromExcel("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/资料管理2.xlsx", adminUser)
-//        importService.importDesignCategories("/Users/guo/Documents/Development/AgileMaster滨州医学院文档/设计.xlsx",adminUser)
-        // organizationService.createDemoOrganizations(adminUser)
         createDemoMessages(adminUser)
+        userService.createOtherDemoUsers()
     }
 
     def createDemoMessages(sender) {
@@ -88,13 +88,21 @@ class BootStrap {
                     msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipient)))
                 }
                 if (msg.save(failOnError: true)) {
-                    println "MESSAGE was created! ${msg.title} -- ${msg.tags}"
+                    log.info(msg)
                 } else {
                     msg.errors.each {println it}
                 }
             }
         }
     }
+
+
+    def createPBS(code, title){
+        def pbs = new Projectbreakdown(code:code ,title:title).save(flush: true, failOnError: true)
+        pbs.addToProjects(new Project(code:code, name:'xxxx' + title)).save(failOnError: true, flush: true)
+    }
+
+
 
     def destroy = {
     }

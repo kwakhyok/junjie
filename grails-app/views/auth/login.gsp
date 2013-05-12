@@ -4,10 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta content="acm" name="layout"/>
-    <!-- start: Favicon -->
-    <link rel="shortcut icon" href="${createLinkTo(dir: 'acm/img', file: 'favicon.ico')}"/>
-    <!-- end: Favicon -->
-    <r:require module="acm"/>
+    <r:require module="acme"/>
     <style type="text/css">
     body {
         background: url("${createLinkTo(dir:'acm/img', file:'bg-login.jpg')}") !important;
@@ -17,10 +14,6 @@
 </head>
 
 <body>
-
-<g:if test="${flash.message}">
-    <div class="message">${flash.message}</div>
-</g:if>
 
 <div class="container-fluid">
     <div class="row-fluid">
@@ -33,6 +26,11 @@
                 </div>
 
                 <h2>登录君捷项目管理系统 - 1.2</h2>
+
+                <g:if test="${flash.message}">
+                    <div class="message alert">${flash.message}</div>
+                </g:if>
+
 
                 <form class="form-horizontal" action="signIn" method="post">
                     <fieldset>

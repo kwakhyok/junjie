@@ -22,25 +22,32 @@ package cn.com.agilemaster
     /* Automatic timestamping of GORM */
 	Date	dateCreated
 	Date	lastUpdated
-
+    Task    parentTask
     /* prerequisite task */
     Task preTask
 
 	static belongsTo	= [project:Project]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
-	static hasMany		= [plans:TaskPlan, subTasks:Task]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
-//	static mappedBy		= []	// specifies which property should be used in a mapping 
+	static hasMany		= [subTasks:Task]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
+	static mappedBy		= [subTasks: 'parentTask']	// specifies which property should be used in a mapping
 
     static mapping = {
        sort 'dateCreated'
+       subTasks cascade: 'all-delete-orphan'
     }
 
     static constraints = {
-        code(size: 1..10, nullable: false)
+        code(size: 1..10, nullable: false, unique: 'project')
         title(size: 1..30, nullable: false)
         status(shared: 'taskStatus')
         description( nullable: true)
         currentPlan(nullable: true)
+        preTask(nullable: true)
+        parentTask(nullable: true)
+    }
+
+    def getAllSubTasks(){
+        subTasks ? subTasks + subTasks*.allSubTasks : []
     }
 
 
@@ -49,7 +56,7 @@ package cn.com.agilemaster
       */
 //	@Override	// Override toString for a nicer / more descriptive UI 
 	public String toString() {
-		return "${title}";
+		return "${code} ${title}";
 	}
 
 }

@@ -3,8 +3,8 @@
 <html>
 <head>
     <title>${meta(name: 'app.name')} -- 工作日志</title>
-    <meta content="loggedinacm" name="layout"/>
-    <r:require module="acm"/>
+    <meta content="main" name="layout"/>
+    <r:require module="acme"/>
 </head>
 
 <body>

@@ -3,8 +3,8 @@
 <html lang="">
 <head>
     <title>${meta(name: 'app.name')} -- 沟通管理</title>
-    <meta content="loggedinacm" name="layout"/>
-    <r:require modules="acm, application"/>
+    <meta content="main" name="layout"/>
+    <r:require modules="acme"/>
 </head>
 
 <body>

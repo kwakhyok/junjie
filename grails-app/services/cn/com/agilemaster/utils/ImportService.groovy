@@ -11,6 +11,7 @@ import org.apache.lucene.analysis.cn.ChineseAnalyzer
 import cn.com.agilemaster.Projectbreakdown
 import cn.com.agilemaster.BidSection
 import cn.com.agilemaster.BidActivity
+import cn.com.agilemaster.Task
 
 /**
  * ImportService
@@ -26,21 +27,23 @@ class ImportService {
 
     static transactional = true
 
+    def grailsApplication
+
     def printExcelFile(file) {
         new ExcelBuilder(file, true).eachLine([labels: true]) {
-          //  println "firstcolumn on row ${it.rowNum} = ${cell(0)}"
+            //  println "firstcolumn on row ${it.rowNum} = ${cell(0)}"
         }
     }
 
-    def createSpecialistsFromExcel(file){
+    def createSpecialistsFromExcel(file) {
         Specialist.executeUpdate('delete from Specialist')
         DecimalFormat df = new DecimalFormat("0")
         def telephone
-        new ExcelBuilder(file,true).eachLine([labels: true]){
-        //    println "${it.rowNum} : ${cell(0)}"
-            if(it.rowNum > 1 && cell(0)){
-               telephone = cell(2) instanceof Double ? df.format(cell(2)) : cell(2)
-               new Specialist(name: cell(0), organization: cell(1), telephone: telephone, memo: cell(4)).save(flush: true)
+        new ExcelBuilder(file, true).eachLine([labels: true]) {
+            //    println "${it.rowNum} : ${cell(0)}"
+            if (it.rowNum > 1 && cell(0)) {
+                telephone = cell(2) instanceof Double ? df.format(cell(2)) : cell(2)
+                new Specialist(name: cell(0), organization: cell(1), telephone: telephone, memo: cell(4)).save(flush: true)
             }
         }
     }
@@ -48,7 +51,7 @@ class ImportService {
 
 
     def createBidOrgsFromExcel(file, user) {
-        Collection<BidActivity>  existedActs = BidActivity.findAll()
+        Collection<BidActivity> existedActs = BidActivity.findAll()
         existedActs*.delete()
         Collection<Organization> existedOrgs = Organization.findAll()
         existedOrgs*.delete()
@@ -85,16 +88,16 @@ class ImportService {
                 if (organization.save()) {
                     orgNum++
                     rootProject = Project.findByCode(rootCode)
-                    bidSection = BidSection.findByCode(String.valueOf(cell(1)))?:
-                        new BidSection(code: cell(1),title: cell(2),project: rootProject)
-                    bidActivity =  new BidActivity(tags: '投标', organization: organization)
+                    bidSection = BidSection.findByCode(String.valueOf(cell(1))) ?:
+                        new BidSection(code: cell(1), title: cell(2), project: rootProject)
+                    bidActivity = new BidActivity(tags: '投标', organization: organization)
                     bidSection.addToActivities(bidActivity) // all of bidsections are a task of a rootProject
-                   // println "The ${orgNum}th of Org!"
-                    if(!bidSection.save(flush: true)){       // to ensure the activity is persisted in the database
-                       log.error("${it.rowNum} row has errors: \n")
-                       bidSection.errors.each{println it}
-                    }else{
-                       // println "${it.rowNum} saved! Activity:${bidActivity}"
+                    // println "The ${orgNum}th of Org!"
+                    if (!bidSection.save(flush: true)) {       // to ensure the activity is persisted in the database
+                        log.error("${it.rowNum} row has errors: \n")
+                        bidSection.errors.each {println it}
+                    } else {
+                        // println "${it.rowNum} saved! Activity:${bidActivity}"
                     }
                 } else {
                     organization.errors.each { log.error "row ${rowNo}: \n ${it} \n" }
@@ -162,7 +165,25 @@ class ImportService {
                     wbs.addToWorks(it)
                 }
                 wbs.addToWorks(rootWork)
-                wbs.save(failOnError: true)
+                wbs.save(failOnError: true, flush: true)
+
+                /* Turn leaf works as tasks, put root project as the relative project of each task */
+                def rootProject = Project.findByCode('ROOT')
+
+                if (rootProject) {
+                    wbs.works?.each {work ->
+                        rootProject.addToTasks(new Task(code: work.code, title: work.title,
+                                status: 'drafted'))
+                        assert rootProject.tasks
+
+                    }
+                    if (!rootProject.save(flush: true, failOnError: true)) {
+                        rootProject.errors.each {println it}
+                    }
+                } else {
+                    log.error("Root Project not found! ")
+                }
+
 
             } catch (IOException ex) {
                 throw new ImportException(message: 'WBS Excel File has errors!' + ex.message)
@@ -171,7 +192,7 @@ class ImportService {
     }
 
 
-    def importPBSFromExcel(file, pbsCode){
+    def importPBSFromExcel(file, pbsCode) {
 
         def projects = []
         def pbs = Projectbreakdown.findByCode(pbsCode) ?:
@@ -223,6 +244,96 @@ class ImportService {
                 throw new ImportException(message: 'PBS Excel File has errors!' + ex.message)
             }
         }
+    }
+
+
+    def importLocalWBS(projectCode, projectTitle) {
+        def configFilePath = grailsApplication.config.junjie.data.import.settings.wbsExcelPath
+        def file = new File(configFilePath.toString())
+        def pbs = Projectbreakdown.findByTitle(file.name) ?: new Projectbreakdown(code: Math.random().toString(), title: file.name).save(flush: true)
+        println pbs.title + " was created!"
+        def rootProject = Project.findByCode(projectCode) ?: new Project(code: projectCode, name: projectTitle, pbs: pbs).save(flush: true)
+        println rootProject.name + "  project was created!"
+        rootProject.tasks?.clear()
+        rootProject.save(flush: true)
+        def tasks = []
+        new ExcelBuilder(file).eachLine([labels: false]) {
+            def task =new Task(code: cell(0), title: cell(1), project: rootProject)
+            tasks.push(task)
+           // log.info "A new task was created: " + cell(1)
+            rootProject.addToTasks(task)
+        }
+        if (!rootProject.save(failOnError: true, flush: true)) {
+            println "First step: Tasks Was Not Added to Project ${projectCode} !"
+            return
+        }
+        def persistentTasks = rootProject.tasks
+        def tasksWithCode = persistentTasks.collectEntries {[it.code, it]}
+        persistentTasks.each { task ->
+            if (task.code.toString().contains('.')) {
+                def parentCode = task.code[0..task.code.lastIndexOf('.') - 1]
+                if (parentCode != '') {
+                    tasksWithCode[parentCode].addToSubTasks(task)
+                    tasksWithCode[parentCode].save(flush: true)
+                }
+            }else{
+                rootProject.addToTasks(task)
+            }
+            if(!task.save(flush: true, failOnError: true)){
+                println "Second step: Task Was Not Updated with parentTask:  ${task.code} !"
+                return
+            }
+            // archive the rest of wbs and keep the current wbs as on-progress
+            Workbreakdown.list().each{wbs ->
+                wbs.status = 'archived'
+                wbs.save(flush: true)
+            }
+            new Workbreakdown(code: projectCode, title: projectTitle, rootProject: rootProject).save(flush: true)
+        }
+
+    }
+
+    def importLocalPBS(pbsCode){
+        def configFilePath = grailsApplication.config.junjie.data.import.settings.pbsExcelPath
+        def file = new File(configFilePath.toString())
+        def pbs = Projectbreakdown.findByCode(pbsCode)?: new Projectbreakdown(code: pbsCode, title: file.name).save(flush: true)
+        println pbs.title + " was created!"
+        pbs.projects.clear() // delete all sub project, remember all-delete-orphan?
+        def rootProject = Project.findByCode(pbsCode)?: new Project(code: pbsCode, name:'医院建设项目', pbs: pbs)
+        if(!rootProject.save(flush: true, failOnError: true)){
+            println ('root project not found! ')
+            return
+        }
+        pbs.save(flush: true)
+        def projects = []
+        new ExcelBuilder(file).eachLine([labels: false]) {
+            def project =new Project(code: cell(0), name: cell(1))
+            projects.push(project)
+           // println "A new project was created: " + cell(1)
+            pbs.addToProjects(project)
+        }
+        if (!pbs.save(failOnError: true, flush: true)) {
+            println "First step: Tasks Was Not Added to Project ${pbsCode} !"
+        }
+        def persistentProjects = pbs.projects
+        def projectsWithCode = persistentProjects.collectEntries {[it.code, it]}
+        persistentProjects.each { project ->
+            if (project.code.toString().contains('.')) {
+                def parentCode = project.code[0..project.code.lastIndexOf('.') - 1]
+                if (parentCode != '') {
+                    //project.parentProject = projectsWithCode[parentCode]
+                    projectsWithCode[parentCode].addToSubProjects(project)
+                }
+            }else{
+                //project.parentProject = rootProject
+                rootProject.addToSubProjects(project)
+            }
+           // println "myCode: ${project.code}, parentCode: ${project.parentProject?.code}"
+            if(!project.save(flush: true, failOnError: true)){
+                println "First step: Task Was Not Updated with parentTask:  ${project.code} !"
+            }
+        }
+
     }
 }
 

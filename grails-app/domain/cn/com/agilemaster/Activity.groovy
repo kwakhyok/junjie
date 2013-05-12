@@ -13,13 +13,11 @@ class Activity {
     /* Automatic timestamping of GORM */
 	Date	dateCreated
 	Date	lastUpdated
-    User user
-    TaskPlan taskPlan
 
     String tag
     String description
 
-//	static belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
+	static belongsTo	= [user:User, taskPlan:TaskPlan]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
 //	static hasMany		= []	// tells GORM to associate other domain objects for a 1-n or n-m mapping
 //	static mappedBy		= []	// specifies which property should be used in a mapping
@@ -31,7 +29,7 @@ class Activity {
 
     static constraints = {
         tag shared: 'ActivityType'
-        description size: 1..100, nullable: true
+        description size: 1..1000, nullable: true
     }
 
     /*

@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>Grails Runtime Exception</title>
-		<meta name="layout" content="kickstart" />
+		<meta name="layout" content="main" />
 	</head>
 
   <body>

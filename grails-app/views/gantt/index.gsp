@@ -3,8 +3,7 @@
 <html lang="${session.'org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'}">
 <head>
     <title>${meta(name: 'app.name')} -- 进度管理</title>
-    <meta name="layout" content="loggedinacm"/>
-    <r:require module="acm"/>
+    <meta name="layout" content="main"/>
     <r:require module="jsgantt"/>
 </head>
 

@@ -4,6 +4,8 @@ package cn.com.agilemaster.utils
 
 import grails.test.mixin.*
 import org.junit.*
+import cn.com.agilemaster.Task
+import cn.com.agilemaster.Project
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
@@ -11,7 +13,12 @@ import org.junit.*
 @TestFor(ImportService)
 class ImportServiceTests {
 
-    void testSomething() {
-        fail "Implement me"
+    void testImportLocalWBS(){
+        mockFor(Project)
+
+        service.importLocalWBS('ROOT')
+        assert Task.list().size() > 0
     }
+
+
 }

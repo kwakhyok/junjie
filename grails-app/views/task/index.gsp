@@ -10,8 +10,8 @@
 <html>
 <head>
     <title>${meta(name: 'app.name')} -- 范围管理</title>
-    <meta content="loggedinacm" name="layout"/>
-    <r:require modules="acm"/>
+    <meta content="main" name="layout"/>
+    <r:require module="j_primitive"/>
 </head>
 
 <body>

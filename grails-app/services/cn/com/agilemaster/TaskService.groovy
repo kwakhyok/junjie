@@ -2,7 +2,6 @@ package cn.com.agilemaster
 
 import org.codehaus.groovy.grails.commons.ApplicationHolder as AH
 
-
 /**
  * TaskService
  * A service class encapsulates the core business logic of a Grails application
@@ -13,7 +12,7 @@ class TaskService {
 
     static transactional = true
 
-    private User getCurrentUser(){
+    private User getCurrentUser() {
         userService.getCurrentUser()
     }
 
@@ -27,22 +26,62 @@ class TaskService {
                     author: getCurrentUser()
             )
             //plan.properties = properties
-            task.addToPlans(plan).save(failOnError: true)
             task.currentPlan = plan
+            plan.save(flush: true)
         } else {
             log.error("Task with taskId: ${taskId} was not found")
         }
 
     }
 
-
-    def upTask(def taskId) {
-
+    private Map mappingTask(aTask) {
+        def map = [:]
+        map['code'] = aTask.code
+        map['title'] = aTask.title
+        map['description'] = aTask.description
+        map['startDate'] = aTask.currentPlan?.startDate
+        map['endDate'] = aTask.currentPlan?.endDate
+        map['assignedUser'] = aTask.currentPlan?.assignedUser?.profile?.toString()
+        return map
     }
 
-    def downTask(def taskId) {
-
+    def listTasksAsJson(project) {
+        def tasks = Task.findAllByProjectAndParentTask(project, null, [sort: 'code']);
+        def prjTaskList = []
+        tasks.each { aTask ->
+            if (!aTask.parentTask && aTask.code.lastIndexOf('.') < 0) {
+                def taskMap = mappingTask(aTask)
+                def taskList = []
+                aTask.subTasks?.each { sTask ->
+                    def subTaskMap = mappingTask(sTask)
+                    def subTaskList = []
+                    sTask.subTasks?.each { ssTask ->
+                        def ssTaskMap = mappingTask(ssTask)
+                        def ssTaskList = []
+                        ssTask.subTasks.each {sssTask ->
+                            def sssTaskMap = mappingTask(sssTask)
+                            ssTaskList.add(sssTaskMap)
+                        }
+                        ssTaskMap['subTasks'] = ssTaskList
+                        subTaskList.add(ssTaskMap)
+                    }
+                    subTaskMap['subTasks'] = subTaskList
+                    taskList.add(subTaskMap)
+                }
+                taskMap['subTasks'] = taskList
+                prjTaskList.add(taskMap)
+            }
+        }
+        def jsonMap = [:]
+        jsonMap['code'] = project.code
+        jsonMap['title'] = project.name
+        jsonMap['description'] = project.description
+        jsonMap['subTasks'] = prjTaskList
+        return jsonMap
     }
+
+
+
 
     def deleteTask(def taskId) {
         Task.get(taskId).delete()
@@ -60,14 +99,12 @@ class TaskService {
         //  def tasks = []
         def currentUser =
 
-        TaskPlan.findAllByAssignedUser(getCurrentUser()).collect {it.task}.unique()
+            TaskPlan.findAllByAssignedUser(getCurrentUser()).collect {it.task}.unique()
 
 
     }
 
-
     def findAllTasksByPriority(priority) {
-
         return TaskPlan.findAllByPriority(priority).collect {it.task}
     }
 
@@ -76,95 +113,37 @@ class TaskService {
     def planLastDemoTasks(wbsId) {
         def today = new Date()
         def wbs = Workbreakdown.get(wbsId)
-        def tasks = wbs.tasks
-        def priorities = ['high', 'medium', 'low']
-        def before = [3, 4, 5, 6, 7, 8, 9, 10]
-        def after = [3, 4, 5, 6, 7, 28, 9, 10]
-        def ratios = [0.0, 18.0, 20.0, 37.0, 85.0, 90.0, 50.0, 40.0]
-        if (tasks.size() > 0) {
-            tasks.each { task ->
-                Collections.shuffle(before)
-                Collections.shuffle(after)
-                Collections.shuffle(ratios)
-                Collections.shuffle(priorities)
-                def bDiff = before.get(0)
-                def aDiff = after.get(0)
-                def ratio = ratios.get(0)
-                def priority = priorities.get(0)
-                def newPlan = new TaskPlan(startDate: today - bDiff,
-                        endDate: today + aDiff, completeRatio: ratio,
-                        assignedUser: userService.getOneAdmin(),
-                        author: userService.getOneAdmin(),
-                        priority: priority)
-                task.addToPlans(newPlan)
-                task.status = 'planned'
-                task.currentPlan = newPlan
-                task.save(failOnError: true)
+        def tasks = wbs?.rootProject?.tasks
+        if (tasks) {
+            def priorities = ['high', 'medium', 'low']
+            def before = [3, 4, 5, 6, 7, 8, 9, 10]
+            def after = [3, 4, 5, 6, 7, 28, 9, 10]
+            def ratios = [0.0, 18.0, 20.0, 37.0, 85.0, 90.0, 50.0, 40.0]
+            if (tasks.size() > 0) {
+                tasks.each { task ->
+                    Collections.shuffle(before)
+                    Collections.shuffle(after)
+                    Collections.shuffle(ratios)
+                    Collections.shuffle(priorities)
+                    def bDiff = before.get(0)
+                    def aDiff = after.get(0)
+                    def ratio = ratios.get(0)
+                    def priority = priorities.get(0)
+                    def newPlan = new TaskPlan(startDate: today - bDiff,
+                            endDate: today + aDiff, completeRatio: ratio,
+                            assignedUser: userService.getOneAdmin(),
+                            author: userService.getOneAdmin(),
+                            participants: userService.getTwoRandomUsers(),
+                            priority: priority).save(failOnError: true, flush: true)
+                    task.status = 'planned'
+                    task.currentPlan = newPlan
+                    task.save(failOnError: true, flush: true)
+                }
             }
-        }
-        wbs.status='on-progress'
-        wbs.save(failOnError: true)
-    }
-
-    def recordTaskStatus(task, ratio) {
-        def plan = task?.currentPlan
-        if (plan) {
-            plan.completeRatio = ratio
-            plan.save(failOnError: true)
+            wbs.status = 'on-progress'
+            wbs.save(failOnError: true)
         }
     }
 
-    def recordAllTaskStatus() {
-        def startShuffle = [1..100]
-        def endShuffle = [0..80]
-        def date = new Date()
-
-    }
-
-/* create demo WBS and PBS */
-
-    def createWbsAndPbs(code, prjName, user) {
-        def pbs = Projectbreakdown.findByCode('PBS01')?: new Projectbreakdown(code: 'PBS01', title: '医院建设项目').save(failOnError: true)
-        def prj = Project.findByCode(code) ?: new Project(pbs: pbs, code: code , name: prjName, description: '项目的简单描述',
-                author: user).save(failOnError: true)
-
-        //WBS demo
-        (1..2).each { j ->
-            def wbs = Workbreakdown.findByCode(j.toString()) ?:
-                new Workbreakdown(code: j.toString(),
-                        title: "201${j}年度", status: 'archived').save(failOnError: true)
-            (1..9).each {i ->
-                wbs.addToTasks(new Task(project: prj,
-                        title: "DemoTask${i}",
-                        description: "幕墙招标",
-                        code: "${j}.${i}",
-                        status: "drafted").save(failOnError: true))
-            }
-        }
-        /* plan the last workbreakdown */
-        def wbs = Workbreakdown.findByCode('3') ?: new Workbreakdown(code: '3',
-                title: "2013年度", status: 'on-progress').save(failOnError: true)
-        (1..9).each {i ->
-            wbs.addToTasks(new Task(project: prj,
-                    title: "DemoTask${i}",
-                    description: "幕墙招标",
-                    code: "3.${i}",
-                    status: "planned").save(failOnError: true))
-        }
-
-        //PBS Demo
-        (1..3).each { j ->
-            def pbs1 = Projectbreakdown.findByCode(j.toString()) ?: new Projectbreakdown(code: j.toString(), title: "201${j}度",
-                    status: 'on-progress').save(failOnError: true)
-            (1..9).each {i ->
-                pbs1.addToTasks(new Task(project: prj,
-                        title: "ProjectDemoTask${i}",
-                        code: "${j}.${i}",
-                        status: "drafted").save(failOnError: true))
-            }
-        }
-
-
-    }
 
 }

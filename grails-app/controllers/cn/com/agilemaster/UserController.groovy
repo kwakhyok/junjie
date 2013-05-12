@@ -2,6 +2,7 @@ package cn.com.agilemaster
 
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authc.UsernamePasswordToken
+import grails.converters.JSON
 
 /**
  * UserController
@@ -46,7 +47,7 @@ class UserController {
             def authToken = new UsernamePasswordToken(user.username, command.password)
             SecurityUtils.subject.login(authToken)
 
-            redirect(controller: 'home', action: 'newindex')
+            redirect(controller: 'newhome', action: 'newindex')
         }else{
             def errorString = ''
             command.errors.each{
@@ -57,6 +58,18 @@ class UserController {
         }
 
 
+    }
+
+    def renderAvatar = {
+        def user = User.findByUsername(params.id)
+        if (user?.profile?.photo){
+            response.setContentLength(user.profile.photo.length)
+            response.outputStream.write(user.profile.photo)
+        }else{
+            def file = new File('/Users/guo/Documents/Development/workspaces/grails2/junjie/web-app/images/anonymous.jpeg')
+            response.setContentLength(file.length())
+            response.outputStream.write(file.getBytes())
+        }
     }
 }
 

@@ -13,7 +13,6 @@ class Project {
     String name
     String description
     Project parentProject
-    User author
 
 
 	/* Automatic timestamping of GORM */
@@ -26,14 +25,14 @@ class Project {
 	static mappedBy		= [subProjects: 'parentProject']	// specifies which property should be used in a mapping
 	
     static mapping = {
-        subProjects(fetch: 'join')
+        subProjects lazy: false, cascade: 'all-delete-orphan'
+        tasks lazy: false, cascade: 'all-delete-orphan'
     }
     
 	static constraints = {
         code (size: 1..10, unique: 'pbs',blank: false)
         name(size: 1..30,  blank: false)
         description(size: 1..5000, nullable: true)
-        author(nullable: true)
         parentProject(nullable: true)
     }
 	
@@ -56,5 +55,13 @@ class Project {
 
     boolean isLeafProject(){
         return subProjects?.isEmpty()
+    }
+
+    def getAllSubProjects(){
+        subProjects ? subProjects + subProjects*.allSubProjects.flatten() : []
+    }
+
+    def getAllSubTasks(){
+       tasks ? tasks + tasks*.allSubTasks.flatten() : []
     }
 }

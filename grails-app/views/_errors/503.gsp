@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>404 - Page Not Found!</title>
-		<meta name="layout" content="kickstart" />
+		<meta name="layout" content="main" />
 	</head>
 
 <body>

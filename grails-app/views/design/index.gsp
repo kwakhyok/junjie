@@ -3,8 +3,8 @@
 <html lang="${session.'org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'}">
 <head>
     <title>${meta(name: 'app.name')} -- 设计管理</title>
-    <meta content="loggedinacm" name="layout"/>
-    <r:require module="acm"/>
+    <meta content="main" name="layout"/>
+    <r:require module="acme"/>
 </head>
 
 <body>
