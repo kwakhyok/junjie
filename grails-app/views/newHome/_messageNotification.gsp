@@ -13,10 +13,12 @@
             def demoNotifications = ['新的任务下达', 'PVC地板招标公告需要您修改', '庞院长要求您催一下中控室的招标图纸',
                     '制氧机采购招标已经滞后', '地下防水发现漏水', '请签衬塑钢管购销合同']
             def mTimes = [1, 3, 5, 10, 20]
+            def currentUser = session.currentUser
+            currentUser?.refresh()
 
         %>
-        <g:if test="${session.currentUser}">
-            <g:each in="${MessageRecipient.findAllByRecipient(session.currentUser)?.collect {it.message}}" status="i"
+        <g:if test="${currentUser}">
+            <g:each in="${MessageRecipient.findAllByRecipient(currentUser)?.collect {it.message}}" status="i"
                     var="message">
             %{-- <% Collections.shuffle(mTimes) %>--}%
                 <li>

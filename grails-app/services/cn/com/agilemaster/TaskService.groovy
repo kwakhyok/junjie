@@ -42,6 +42,7 @@ class TaskService {
         map['startDate'] = aTask.currentPlan?.startDate
         map['endDate'] = aTask.currentPlan?.endDate
         map['assignedUser'] = aTask.currentPlan?.assignedUser?.profile?.toString()
+        map['photo'] = aTask.currentPlan?.assignedUser?.profile?.photo
         return map
     }
 
@@ -73,6 +74,7 @@ class TaskService {
             }
         }
         def jsonMap = [:]
+        jsonMap['id'] = project.id
         jsonMap['code'] = project.code
         jsonMap['title'] = project.name
         jsonMap['description'] = project.description
@@ -112,7 +114,7 @@ class TaskService {
 
     def planLastDemoTasks(wbsId) {
         def today = new Date()
-        def wbs = Workbreakdown.get(wbsId)
+        def wbs = Workbreakdown.findByCode(wbsId)
         def tasks = wbs?.rootProject?.tasks
         if (tasks) {
             def priorities = ['high', 'medium', 'low']
@@ -120,21 +122,31 @@ class TaskService {
             def after = [3, 4, 5, 6, 7, 28, 9, 10]
             def ratios = [0.0, 18.0, 20.0, 37.0, 85.0, 90.0, 50.0, 40.0]
             if (tasks.size() > 0) {
-                tasks.each { task ->
+                tasks.eachWithIndex { task, i ->
+
                     Collections.shuffle(before)
                     Collections.shuffle(after)
                     Collections.shuffle(ratios)
                     Collections.shuffle(priorities)
+
                     def bDiff = before.get(0)
                     def aDiff = after.get(0)
                     def ratio = ratios.get(0)
                     def priority = priorities.get(0)
-                    def newPlan = new TaskPlan(startDate: today - bDiff,
+
+                    def randomUser = User.list().getAt(i % 6)
+
+                    def randomProperties = [startDate: today - bDiff,
                             endDate: today + aDiff, completeRatio: ratio,
-                            assignedUser: userService.getOneAdmin(),
-                            author: userService.getOneAdmin(),
+                            assignedUser: randomUser,
+                            author: userService.getCurrentUser(),
                             participants: userService.getTwoRandomUsers(),
-                            priority: priority).save(failOnError: true, flush: true)
+                            priority: priority]
+
+
+                    def newPlan = task.currentPlan ?: new TaskPlan(randomProperties)
+                    newPlan.task = task
+                    newPlan.save(failOnError: true, flush: true)
                     task.status = 'planned'
                     task.currentPlan = newPlan
                     task.save(failOnError: true, flush: true)

@@ -31,6 +31,8 @@ class UserService {
         }
     }
 
+
+
     def getOneAdmin = {
         def role = Role.findByName(grailsApplication.config.junjie.default.adminrole)
         role.users.iterator().next()
@@ -55,7 +57,7 @@ class UserService {
 
         def r = grailsApplication.config.junjie.default.adminrole
         def adminRole = Role.findByName(r) ?: new Role(name: r).save(flush: true)
-        adminRole.addToPermissions('*:*')
+       // adminRole.addToPermissions('*:*')
         usernames.eachWithIndex { username, i ->
             def user1 =  User.findByUsername(username) ?: new User(username: username,
                     passwordHash: shiroSecurityService.encodePassword('password'),

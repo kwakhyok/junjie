@@ -32,10 +32,3 @@
 
 
 <div class="clearfix"></div>
-<r:script>
-    $(document).delegate("a.replyBtn", 'click', function (event, data) {
-
-    });
-
-
-</r:script>

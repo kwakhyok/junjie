@@ -24,12 +24,13 @@ junjie.default.testuser='test'
 junjie.default.adminuser='admin'
 junjie.default.password='password'
 
-junjie.data.import.settings.wbsExcelPath = '/Users/guo/Dropbox/AgileMaster/WBS.xlsx'
-junjie.data.import.settings.pbsExcelPath = '/Users/guo/Dropbox/AgileMaster/PBS.xlsx'
+junjie.data.import.settings.wbsExcelPath = '/usr/share/agilemaster/import/WBS.xlsx'
+junjie.data.import.settings.pbsExcelPath = '/usr/share/agilemaster/import/PBS.xlsx'
+junjie.data.import.settings.bidSectionExcelPath = '/usr/share/agilemaster/import/BIDSECTION.xlsx'
 
 
 junjie.permissions.admin =  ['*:*']
-junjie.permissions.user = ['home:*','message:*', 'task:*', 'newHome:*']
+junjie.permissions.user = ['message:*', 'task:*', 'newHome:*']
 
 //shared constraints
 grails.gorm.default.constraints = {

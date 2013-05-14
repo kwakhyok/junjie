@@ -141,6 +141,17 @@
        });
     }
 
+
+    function showSpinner(visible){
+        console.log('log my spinner');
+        $('img#spinner').style.display = visible ? 'inline' : 'none'
+    }
+    function clearMessage(e){
+        console.log('log my clear message');
+        $('div.message').empty();
+        $('div.message')
+    }
+
 </r:script>
 </body>
 </html>

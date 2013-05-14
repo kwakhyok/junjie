@@ -1,7 +1,9 @@
 <%@ page import="cn.com.agilemaster.MessageRecipient" %>
 <g:if test="${session.currentUser}">
     <%
-        def pms = MessageRecipient.findAllByRecipient(session.currentUser)?.collect {it.message}
+        def currentUser = session.currentUser
+        currentUser?.refresh()
+        def pms = MessageRecipient.findAllByRecipient(currentUser)?.collect {it.message}
     %>
     <li class="dropdown hidden-phone">
         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">

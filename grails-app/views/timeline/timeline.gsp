@@ -3,13 +3,14 @@
 <html lang="${session.'org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'}">
 <head>
     <title>${meta(name: 'app.name')} -- 时间轴</title>
-    <meta name="layout" content="loggedinacm"/>
-    <r:require module="acm"/>
+    <meta name="layout" content="main"/>
+    <r:require module="acme"/>
 </head>
 
 <body>
 
     <div class="span7">
+        <
         <g:render template="taskListWithPriority"/>
     </div>
 

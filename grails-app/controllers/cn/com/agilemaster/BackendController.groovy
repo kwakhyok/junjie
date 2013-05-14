@@ -1,6 +1,7 @@
 package cn.com.agilemaster
 
 import grails.converters.JSON
+import cn.com.agilemaster.utils.ImportException
 
 /**
  * BackendController
@@ -8,32 +9,59 @@ import grails.converters.JSON
  */
 class BackendController {
 
-  //  static scaffold = true
+    //  static scaffold = true
     def importService
-    static allowedMethods = [listUsers: 'POST', index:'GET']
+    static allowedMethods = [listUsers: 'POST', index: 'GET']
 
-	def index = {
-        render view:'index', model: [ users: User.list()]
+    def index = {
+        render view: 'index', model: [users: User.list()]
     }
 
     def listUsers = {
-        render (template: 'user', model: [users:  User.list()])
+        render(template: 'user', model: [users: User.list()])
     }
 
     def showUser = {
-       render template: 'showUser', model: [user: User.get(params.id)]
+        render template: 'showUser', model: [user: User.get(params.id)]
     }
 
     def postUser = {
         println params
-        def results = [sucess: false, msg:'hahahah']
+        def results = [sucess: false, msg: 'hahahah']
         render results as JSON
     }
 
+    def ajaxImportLocalWBS = {
+        try {
+            importService.importLocalWBS('ROOT', '医院建设项目');
+            render{
+                div(class:'alert alert-success', '医院建设工作分解导入完成！')
+            }
+        } catch (ImportException ie) {
+            render {
+                div(class: 'alert alert-error', ie.message)
+            }
+        }
 
-    def importFromLocalDefaultFile = {
-        importService.importLocalWBS('ROOT')
-        redirect(action: 'index')
+
+    }
+
+    def ajaxImportLocalPBS = {
+        try {
+            importService.importLocalPBS('ROOT')
+            render{
+                div(class:'alert alert-success', '医院建设项目分解导入完成！')
+            }
+        } catch (ImportException ie) {
+            render {
+                div(class: 'errors', ie.message)
+            }
+        }
+
+    }
+
+    def ajaxImportLocalBidSection = {
+
     }
 
 }

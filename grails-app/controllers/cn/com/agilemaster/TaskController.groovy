@@ -81,14 +81,6 @@ class TaskController {
     }
 
 
-    /* TODO: task Up and Down */
-    def upTask = {
-        taskService.upTask(params.taskId)
-    }
-
-    def downTask = {
-        taskService.downTask(params.taskId)
-    }
 
     def deleteTask = {
         taskService.deleteTask(params.taskId)
@@ -106,7 +98,7 @@ class TaskController {
            //wbs = Workbreakdown.find("from Workbreakdown as wbs order by wbs.dateCreated asc")
             wbs = Workbreakdown.list(max: 1, sort: "code", order: "desc").get(0)
         }
-        def tasks = wbs.tasks.sort{it.code}
+        def tasks = wbs?.tasks?.sort{it.code}
         render(template: 'taskList', model: [taskList:tasks])
     }
 
@@ -119,7 +111,7 @@ class TaskController {
         }else{
             pbs = Projectbreakdown.find(true)
         }
-        def tasks = pbs.tasks.sort{it.code}
+        def tasks = pbs?.tasks?.sort{it.code}
         render(template:'taskList', model: [taskList: tasks])
 
 

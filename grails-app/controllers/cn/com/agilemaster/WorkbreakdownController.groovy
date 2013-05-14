@@ -58,6 +58,7 @@ class WorkbreakdownController {
             def works = wbs?.works?.findAll {!it.isRootWork()}
             //works.each{println it.code}
             jsonMap.put('code', rootWork.code)
+            jsonMap.put('id', rootWork.id)
             jsonMap.put('title', rootWork.title)
             jsonMap.put('description', rootWork.description)
 
@@ -66,12 +67,14 @@ class WorkbreakdownController {
                 if (!work.subWorks?.isEmpty()) {
                     // A, B, C, D, E
                     def workMap = [:]
+                    workMap.put('id', work.id)
                     workMap.put('code', work.code)
                     workMap.put('title', work.title)
                     workMap.put('description', work.description)
                     def subWorks = []
                     work.subWorks.each {
                         def subWorkMap = [:]
+                        subWorkMap.put('id', it.id)
                         subWorkMap.put('code', it.code)
                         subWorkMap.put('title', it.title)
                         subWorkMap.put('description', it.description)
@@ -114,22 +117,35 @@ class WorkbreakdownController {
                 def jsonMap = [:]
                 def projectList = []
                 rootPrj = pbs.projects.find {it.isRootProject()}
-                def projects = pbs.projects.findAll {!it.isRootProject()}
+                //def projects = pbs.projects.findAll {!it.isRootProject()}
+                jsonMap.put('id', rootPrj.id)
                 jsonMap.put('code', rootPrj.code)
                 jsonMap.put('name', rootPrj.name)
                 jsonMap.put('description', rootPrj.description)
-                projects.each {project ->
+                rootPrj.subProjects?.each {project ->
                     if (!project.subProjects?.isEmpty()) {
                         def prjMap = [:]
+                        prjMap.put('id', project.id)
                         prjMap.put('code', project.code)
                         prjMap.put('name', project.name)
                         prjMap.put('description', project.description)
                         def subPrjs = []
                         project.subProjects?.each {sprj ->
                             def sPrjMap = [:]
+                            sPrjMap.put('id', sprj.id)
                             sPrjMap.put('code', sprj.code)
                             sPrjMap.put('name', sprj.name)
                             sPrjMap.put('description', sprj.description)
+                            def ssPrjs = []
+                            sprj.subProjects?.each {
+                                def ssPrjMap = [:]
+                                ssPrjMap.put('id', it.id)
+                                ssPrjMap.put('code', it.code)
+                                ssPrjMap.put('name', it.name)
+                                ssPrjMap.put('description', it.description)
+                                ssPrjs.add(ssPrjMap)
+                            }
+                            sPrjMap.put('subProjects', ssPrjs)
                             subPrjs.add(sPrjMap)
                         }
                         prjMap.put('subProjects', subPrjs)
@@ -195,21 +211,38 @@ class WorkbreakdownController {
     }
 
     def listLeafTasks = {
-        if(params.wbsCode){
+        if (params.wbsCode) {
             def taskList = []
             def wbs = Workbreakdown.findByCode(params.wbsCode)
             def rootPrj = wbs?.rootProject
-            def tasks = Task.findAllByProject(rootPrj, [sort:'code'])
-            tasks.each{
-                if(!it.subTasks || it.subTasks?.size() == 0){
+            def tasks = Task.findAllByProject(rootPrj, [sort: 'code'])
+            tasks.each {
+                if (!it.subTasks || it.subTasks?.size() == 0) {
                     taskList.add(it)
                 }
             }
             render template: 'taskList', model: [filteredTask: taskList]
-        }else{
+        } else {
             flash.message = "没找到工作分解模型：${params.wbsCode}"
             redirect(action: 'index')
         }
+    }
+
+    def listTopLevelTasks = {
+        if (params.wbsCode) {
+            def wbs = Workbreakdown.findByCode params.wbsCode
+            def rootPrj = wbs?.rootProject
+            render template: 'taskList',
+                    model:[filteredTask: Task.findAllByParentTaskIsNullAndProject(rootPrj)]
+        } else {
+            flash.message = "没找到工作分解模型：${params.wbsCode}"
+            redirect(action: 'index')
+        }
+    }
+
+    def planDemoTasks = {
+        taskService.planLastDemoTasks('ROOT')
+        render template: 'taskList', model: [filteredTask: Task.list()]
     }
 
 }

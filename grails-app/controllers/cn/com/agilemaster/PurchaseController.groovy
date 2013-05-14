@@ -7,5 +7,13 @@ package cn.com.agilemaster
 class PurchaseController {
 
     static scaffold = BidSection
-	def index = { }
+	def index = {
+        render view:'purchase'
+    }
+
+    def webpath={
+        String absolutePath = servletContext.getRealPath("newpath/1");
+        render "<h1>${absolutePath}</h1>"
+    }
+
 }

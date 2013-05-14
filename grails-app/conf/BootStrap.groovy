@@ -16,9 +16,9 @@ class BootStrap {
 
     def init = { servletContext ->
 
-        createPBS('ROOT', '医院建设管理');
+       // createPBS('ROOT', '医院建设管理');
 
-        importService.importLocalPBS('ROOT');
+       importService.importLocalPBS('ROOT');
 
         importService.importLocalWBS('ROOT', '医院建设管理');
 

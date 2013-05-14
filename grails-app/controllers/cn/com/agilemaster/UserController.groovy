@@ -67,7 +67,7 @@ class UserController {
             response.outputStream.write(user.profile.photo)
         }else{
             def file = new File('/Users/guo/Documents/Development/workspaces/grails2/junjie/web-app/images/anonymous.jpeg')
-            response.setContentLength(file.length())
+            response.setContentLength(file.getBytes().size())
             response.outputStream.write(file.getBytes())
         }
     }

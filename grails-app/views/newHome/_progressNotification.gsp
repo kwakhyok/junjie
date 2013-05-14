@@ -1,7 +1,9 @@
 <%@ page import="cn.com.agilemaster.TaskPlan" %>
 <g:if test="${session.currentUser}">
     <%
-        def myTaskList = TaskPlan.findAllByAssignedUser(session.currentUser).collect {it.task}.unique()
+        def currentUser = session.currentUser
+        currentUser?.refresh()
+        def myTaskList = TaskPlan.findAllByAssignedUser(currentUser).collect {it.task}.unique()
     %>
 
     <li class="dropdown hidden-phone">

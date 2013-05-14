@@ -14,7 +14,7 @@ package cn.com.agilemaster
     String code
     String title
     String description
-    String status = "drafted"
+    String status = "drafted"         // 'drafted','planned','processing','completed'
     TaskPlan currentPlan
 
   //  static TaskCategory  category = TaskCategory.GENERIC

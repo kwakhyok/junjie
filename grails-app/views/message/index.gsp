@@ -56,7 +56,13 @@
         if ($('#liOutbox').on('click', function () {
             $('table.messagesList thead tr th.from').text("发给...");
         }));
+
+        $('a.replyBtn').bind('click', function(event, data){
+            console.log($(this).html()) ;
+        });
     });
+
+
 
 </r:script>
 </html>
