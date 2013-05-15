@@ -23,6 +23,7 @@ class MessageRecipient {
 //	static mappedBy		= []	// specifies which property should be used in a mapping 
 	
     static mapping = {
+        message lazy: false
     }
     
 	static constraints = {

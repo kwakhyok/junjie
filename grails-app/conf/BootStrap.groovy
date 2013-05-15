@@ -16,11 +16,12 @@ class BootStrap {
 
     def init = { servletContext ->
 
-       // createPBS('ROOT', '医院建设管理');
+        // createPBS('ROOT', '医院建设管理');
 
-       importService.importLocalPBS('ROOT');
+        importService.importLocalPBS('ROOT');
 
         importService.importLocalWBS('ROOT', '医院建设管理');
+        importService.importLocalBidSections();
 
         // get the default roles defined in JunjieConfig.groovy
         def defaultAdminRole = grailsApplication.config.junjie.default.adminrole
@@ -97,9 +98,9 @@ class BootStrap {
     }
 
 
-    def createPBS(code, title){
-        def pbs = new Projectbreakdown(code:code ,title:title).save(flush: true, failOnError: true)
-        pbs.addToProjects(new Project(code:code, name:'xxxx' + title)).save(failOnError: true, flush: true)
+    def createPBS(code, title) {
+        def pbs = new Projectbreakdown(code: code, title: title).save(flush: true, failOnError: true)
+        pbs.addToProjects(new Project(code: code, name: 'xxxx' + title)).save(failOnError: true, flush: true)
     }
 
 

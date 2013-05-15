@@ -8,6 +8,10 @@ class User {
     
     static hasMany = [ roles: Role, permissions: String]
 
+    static mapping = {
+        profile lazy: false
+    }
+
     static constraints = {
         username(nullable: false, blank: false, unique: true)
     }

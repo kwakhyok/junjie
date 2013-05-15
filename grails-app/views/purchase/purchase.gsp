@@ -1,4 +1,4 @@
-<%@ page import="cn.com.agilemaster.BidSection" %>
+<%@ page import="cn.com.agilemaster.Organization; cn.com.agilemaster.BidSection" %>
 <%--
   Created by IntelliJ IDEA.
   User: guo
@@ -12,12 +12,13 @@
 <head>
     <title>${meta(name: 'app.name')} | 招标管理</title>
     <style type="text/css">
-    .timeslot .task:hover  {
+    .timeslot .task:hover {
         border: 2px solid #8c23ff;
         background: #aabffe;
         cursor: pointer;
     }
-    .timeslot .task:active  {
+
+    .timeslot .task:active {
         border: 2px solid #8c23ff;
         background: #aabffe;
         cursor: pointer;
@@ -36,55 +37,90 @@
             '发布评标结果公告', '三次四次报价', '选定中标单位', '最终发布中标结果']
 %>
 <div class="row-fluid">
-    <am:boxContainer icon="th" canFold="true" span="12" title="招标流程">
-        <div class="container-fluid" style="padding: 0">
-            <div class="row-fluid">
+    <div class="row-fluid">
+        <am:boxContainer icon="list" canFold="false" span="12" title="标段总览">
+            <ul class="nav tab-menu nav-tabs" id="myTab">
+                <li class="active" id="bidSectionTab"><a href="#bidSectionPanel"><i class="fa-icon-list"></i><span
+                        class="break"></span>招标标段</a></li>
+                <li id="intentOrgTab"><a href="#intentionOrgPanel"><i class="fa-icon-user-md"></i><span
+                        class="break"></span>意向企业</a></li>
+            </ul>
 
-                <div class="span5 noMargin">
-                    <div class="timeline">
-                        <g:each in="${stepList}" var="step" status="i">
-                            <div class="${i % 2 == 0 ? 'timeslot' : 'timeslot alt'}">
-                                <div class="task">
-                                    <span>
-                                        <span class="type">第${i + 1}步</span>
-                                        <span class="details">${step}</span>
-                                    </span>
-
-                                    <div class="arrow"></div>
-                                </div>
-
-                                <div class="icon"><i class="fa-icon-map-marker"></i></div>
-
-                                <div class="time">${i + 1}</div>
-                            </div>
-                        </g:each>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane active" id="bidSectionPanel">
+                    <div id="bidSectionListPanel">
+                        <g:render template="bidSectionList" model="[filteredBidSections: BidSection.list()]"/>
                     </div>
                 </div>
-                <div class="span7 noMargin">
-                    <h1 class="xxxx">SPAN7</h1>
+
+                <div class="tab-pane" id="intentionOrgPanel">
+                    <div id="intentionOrgListListPanel" class="span11">
+                        <g:render template="intentionOrgList" model="[orgs: Organization.list()]"/>
+                    </div>
                 </div>
-
             </div>
-        </div>
-    </am:boxContainer>
-</div>
 
-<div class="row-fluid">
-    <am:boxContainer icon="list" canFold="true" span="12" title="标段总览" id="bidSectionListPanel">
-        <g:render template="bidSectionList"  model="[filteredBidSections: BidSection.list()]"/>
-    </am:boxContainer>
+        </am:boxContainer>
+    </div>
+
+    <div class="row-fluid">
+        <am:boxContainer icon="th" canFold="false" span="12" title="招标流程">
+
+            <div class="container-fluid" style="padding: 0">
+                <div class="row-fluid">
+
+                    <div class="span5 noMargin">
+                        <div class="timeline">
+                            <g:each in="${stepList}" var="step" status="i">
+                                <div class="${i % 2 == 0 ? 'timeslot' : 'timeslot alt'}">
+                                    <div class="task">
+                                        <span>
+                                            <span class="type">第${i + 1}步</span>
+                                            <span class="details">${step}</span>
+                                        </span>
+
+                                        <div class="arrow"></div>
+                                    </div>
+
+                                    <div class="icon"><i class="fa-icon-map-marker"></i></div>
+
+                                    <div class="time">${i + 1}</div>
+                                </div>
+                            </g:each>
+                        </div>
+                    </div>
+
+                    <div class="span7 noMargin">
+                        <h1 class="xxxx">SPAN7</h1>
+                    </div>
+
+                </div>
+            </div>
+        </am:boxContainer>
+    </div>
 </div>
 
 </body>
 <r:script>
     $(function () {
-           $('div.task').bind('click',function(){
-                $('h1.xxxx').html($(this).html());
-           });
-        ReloadDataTable();
+
+        $('div.task').bind('click', function () {
+            $('h1.xxxx').html($(this).html());
+        });
+        reLoadBidSectionDataTable();
+        $('li#bidSectionTab').bind('click', function (event, data) {
+            //$('div#intentionOrgPanel').empty();
+            reLoadBidSectionDataTable();
+        });
+
+        $('li#intentOrgTab').bind('click', function (event, data) {
+            //$('div#bidSectionPanel').empty();
+            reLoadIntentionOrgDataTable();
+        });
+
     });
 
-    function ReloadDataTable() {
+    function reLoadBidSectionDataTable() {
         $.fn.editable.defaults.mode = 'popup';
         $('.editable-assignedUser').editable({
             value:1,
@@ -107,7 +143,7 @@
             }
         });
 
-        $('table#myDataTable').dataTable({
+        $('table#bidSectionDataTable').dataTable({
             "sDom":"<'row-fluid'<'span4 bidSectionOperation'><'span4'l><'span4'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
             "sPaginationType":"bootstrap",
             "oLanguage":{
@@ -124,5 +160,30 @@
                 $('div.tableMenu').html()
         );
     }
+
+    function reLoadIntentionOrgDataTable() {
+        $('table#intentionOrgDataTable').dataTable({
+            "sDom":"<'row-fluid'<'span4 intentionOrgOperation'><'span4'l><'span4'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
+            "sPaginationType":"bootstrap",
+            "oLanguage":{
+                "sLengthMenu":"_MENU_ 条记录/页",
+                "sSearch":"搜索:",
+                "sInfo":"从_START_到_END_, 共有_TOTAL_条记录",
+                "sInfoEmpty":"0条记录"
+            },
+            "bRetrieve":true,
+            "bDestroy":true
+        });
+        $('div.intentionOrgOperation').empty();
+        $('div.intentionOrgOperation').append(
+                $('div.intentionOrgTableMenu').html()
+        );
+    }
+
+    function showSpinner(visible){
+        $('#spinner').style.display = visible ? "inline" : "none";
+    }
+
+
 </r:script>
 </html>

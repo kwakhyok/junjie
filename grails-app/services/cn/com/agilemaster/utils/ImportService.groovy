@@ -39,7 +39,13 @@ class ImportService {
         Specialist.executeUpdate('delete from Specialist')
         DecimalFormat df = new DecimalFormat("0")
         def telephone
-        new ExcelBuilder(file, true).eachLine([labels: true]) {
+        def excelBuilder
+        if (file instanceof File) {
+            excelBuilder = new ExcelBuilder(file)
+        } else {
+            excelBuilder = new ExcelBuilder(file, true)
+        }
+        excelBuilder(file, true).eachLine([labels: true]) {
             //    println "${it.rowNum} : ${cell(0)}"
             if (it.rowNum > 1 && cell(0)) {
                 telephone = cell(2) instanceof Double ? df.format(cell(2)) : cell(2)
@@ -386,15 +392,119 @@ class ImportService {
 
     def importLocalBidSections = {
         def fpath = grailsApplication.config.junjie.data.import.settings.bidSectionExcelPath
-        try{
+        try {
             def file = new File(fpath?.toString())
-            println file.absoluteFile
-
-        } catch(IOException ie){
-
+            def rootPrj = Project.findByCode('ROOT')
+            if (!rootPrj) {
+                log.error("Root Project ROOT was not found!")
+                return
+            }
+            new ExcelBuilder(file).eachLine([labels: true]) {
+                if (cell(1) && cell(1) != '') {
+                    def bidSection = new BidSection(code: String.valueOf(it.rowNum),
+                            title: cell(1), subSectionSum: cell(2), bidCategory: cell(0))
+                    rootPrj.addToTasks(bidSection)
+                }
+            }
+            if (!rootPrj.save(flush: true, failOnError: true)) {
+                rootPrj.errors?.each {log.error it}
+            } /*else {
+                def bids = rootPrj.tasks.findAll {t -> t instanceof BidSection}
+                bids.each {println it}
+            }*/
+        } catch (IOException ie) {
+            log.error(ie.message)
         }
     }
 
 
 
+    def importIntentionOrgs = {
+        def rootPrj = Project.findByCode('ROOT')
+        if (!rootPrj) {
+            log.error('ROOT Prj was not found!')
+            return
+        } else {
+            def path = grailsApplication.config.junjie.data.import.settings.intentionOrgExcelPath
+            try {
+                def file = new File(path)
+                new ExcelBuilder(file).eachLine([labels: true]) {
+
+                    def properties = [:]
+                    if (cell(4) && cell(4) != '') {
+                        properties.name = cell(4)
+                        properties.contact = cell(12)
+                        properties.address = cell(5)
+                        properties.scope = cell(11)
+                        properties.qualification = cell(11)
+                        properties.brand = "无"
+                        properties.capital = 1
+                        properties.memo = "介绍：${cell(10)} \n备注: ${cell(15)}"
+                        properties.qq = cell(14)
+                        properties.contactTel = cell(13)
+                        properties.website = cell(8)
+                        properties.telephone = cell(6)
+                        properties.fax = cell(7)
+                        properties.email = cell(9)
+
+
+                        def organization = new Organization(properties)
+                        if (!organization.save(flush: true)) {
+                            organization.errors.each {log.error it}
+                        } else {
+                            def bidActivity = new BidActivity(organization: organization)
+                            def aProperties = [:]
+                            if (cell(0) && cell(1) && cell(2) && cell(3)) {
+                                aProperties.put('tags', 'intention')
+                                aProperties.put('memo', "资料标号： ${cell(0)} 项目标号：${cell(1)} 资料数量：${cell(3)} 意向标段：${cell(2)}")
+
+                                bidActivity.properties = aProperties
+                                if (!bidActivity.save(flush: true)) {
+                                    bidActivity.errors.each {log.error it}
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+            } catch (IOException ie) {
+                log.error ie.message
+            }
+
+        }
+
+
+    }
+
+
+    private Map buildOrgProperties(cell) {
+        def properties = [:]
+        if (cell(4) && cell(4) != '') {
+            properties.name = cell(4)
+            properties.contact = cell(12)
+            properties.address = cell(5)
+            properties.scope = cell(11)
+            properties.qualification = cell(11)
+            properties.brand = "无"
+            properties.capital = 1
+            properties.memo = "介绍：${cell(10)} \n备注: ${cell(15)}"
+            properties.qq = cell(14)
+            properties.contactTel = cell(13)
+            properties.website = cell(8)
+            properties.telephone = cell(6)
+            properties.fax = cell(7)
+            properties.email = cell(9)
+        }
+        return properties
+    }
+
+    private Map buildActivityProperties(cell, tags) {
+        def properties = [:]
+        if (cell(0) && cell(1) && cell(2) && cell(3)) {
+            properties.put('tags', tags)
+            properties.put('memo', "资料标号： ${cell(0)} 项目标号：${cell(1)} 资料数量：${cell(3)} 意向标段：${cell(2)}")
+        }
+        return properties
+    }
 }

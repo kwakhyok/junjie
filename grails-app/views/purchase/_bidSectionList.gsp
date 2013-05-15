@@ -8,40 +8,38 @@
     <ul class="nav nav-pills">
 
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">筛选标段...<b class="caret"></b></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">筛选标段..<b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><g:remoteLink action="listLeafBidSections" params="[wbsCode: 'ROOT']" update="[success: 'bidSectionListPanel']"
-                                  onSuccess="ReloadDataTable();">列出细化任务</g:remoteLink></li>
-                <li><g:remoteLink action="listTopLevelBidSections" params="[wbsCode: 'ROOT']" update="[success: 'bidSectionListPanel']"
-                                  onSuccess="ReloadDataTable();">列出总览任务</g:remoteLink></li>
-                <li><g:remoteLink action="listLeafBidSections" params="[wbsCode: 'ROOT']" update="[success: 'bidSectionListPanel']"
-                                  onSuccess="ReloadDataTable();">未计划任务</g:remoteLink></li>
+                <g:each in="${BidSection.list().collect{it.bidCategory}.unique()}" var="category">
+                    <li><g:remoteLink action="listBidSectionsByCat"
+                                      params="[cat:category]" onSuccess="reLoadBidSectionDataTable()"
+                                      update="[success:'bidSectionListPanel', error:'testDiv']">${category}</g:remoteLink> </li>
+                </g:each>
             </ul>
         </li>
         <li><g:remoteLink action="planDemoBidSections" params="[wbsId: 'ROOT']"
-                          update="[success: 'bidSectionListPanel']" onSuccess="ReloadDataTable();">开始计划</g:remoteLink></li>
+                          update="[success: 'bidSectionListPanel']" onSuccess="reLoadBidSectionDataTable();">开始计划</g:remoteLink></li>
+        <li class="disabled"><g:remoteLink action="ajaxImportBidSections"
+                          update="[success: 'bidSectionListPanel']"
+                          onSuccess="reLoadBidSectionDataTable();">导入标段</g:remoteLink></li>
         <li><g:remoteLink action="planDemoBidSections"
                           params="[wbsId: 'ROOT']" update="[success: 'bidSectionListPanel']"
-                          onSuccess="ReloadDataTable();">导入标段</g:remoteLink></li>
-        <li><g:remoteLink action="planDemoBidSections"
-                          params="[wbsId: 'ROOT']" update="[success: 'bidSectionListPanel']"
-                          onSuccess="ReloadDataTable();">恢复初始</g:remoteLink></li>
+                          onSuccess="reLoadBidSectionDataTable();">恢复初始</g:remoteLink></li>
     </ul>
 </div>
-
 <img id="bidSectionSpinner" src="${createLinkTo(dir:'images', file:'spinner.gif')}" style="display: none" alt=""/>
-<table class="table table-bordered" id="myDataTable">
+<table class="table table-bordered" id="bidSectionDataTable">
     <thead>
     <th>编号</th>
     <th>名称</th>
     <th>子标段数量</th>
-    <th>创建时间</th>
+    <th>开标时间</th>
     <th>负责人</th>
     <th>参与人</th>
     <th>截止时间</th>
     </thead>
     <tbody>
-    <g:each in="${filteredBidSection}" var="bidSection">
+    <g:each in="${filteredBidSections}" var="bidSection">
         <tr>
 
             <td >${bidSection.code}</td>

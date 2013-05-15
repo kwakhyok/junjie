@@ -7,11 +7,11 @@ package cn.com.agilemaster
 class BidActivity {
 
     /* Default (injected) attributes of GORM */
-	Long	id
+//	Long	id
 //	Long	version
 
-    String tags = '意向'
-
+    String tags
+    String memo
     /* Automatic timestamping of GORM */
 	Date	dateCreated
 	Date	lastUpdated
@@ -25,7 +25,9 @@ class BidActivity {
     }
 
     static constraints = {
-        tags size: 1..50, inList: ['意向','投标']
+        bidSection nullable: true
+        tags shared: 'BidActivityTag'
+        memo size: 1..100, nullable: true
     }
 
     /*

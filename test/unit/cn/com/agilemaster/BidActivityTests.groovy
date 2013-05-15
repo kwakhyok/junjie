@@ -11,7 +11,16 @@ import org.junit.*
 @TestFor(BidActivity)
 class BidActivityTests {
 
-    void testSomething() {
-       fail "Implement me"
+    void testConstraints() {
+        mockDomain(BidSection, [new BidSection(code: '1', title: '2')])
+        def org = new Organization(name: 'xxx')
+        mockDomain(Organization, [org])
+
+        def bc1 = new BidActivity(tags: 'intention',organization: org)
+        mockForConstraintsTests(BidActivity,[bc1])
+
+        assertTrue bc1.validate()
+
+
     }
 }

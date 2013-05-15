@@ -1,4 +1,4 @@
-<%@ page import="cn.com.agilemaster.MessageRecipient" %>
+<%@ page import="cn.com.agilemaster.Message; cn.com.agilemaster.MessageRecipient" %>
 <li class="dropdown hidden-phone">
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="halflings-icon white warning-sign"></i>
@@ -15,6 +15,7 @@
             def mTimes = [1, 3, 5, 10, 20]
             def currentUser = session.currentUser
             currentUser?.refresh()
+            def msg = Message.findAll(max:1)
 
         %>
         <g:if test="${currentUser}">

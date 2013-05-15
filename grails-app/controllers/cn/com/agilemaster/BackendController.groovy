@@ -11,7 +11,7 @@ class BackendController {
 
     //  static scaffold = true
     def importService
-    static allowedMethods = [listUsers: 'POST', index: 'GET']
+   // static allowedMethods = [listUsers: 'POST', index: 'GET']
 
     def index = {
         render view: 'index', model: [users: User.list()]
@@ -34,8 +34,8 @@ class BackendController {
     def ajaxImportLocalWBS = {
         try {
             importService.importLocalWBS('ROOT', '医院建设项目');
-            render{
-                div(class:'alert alert-success', '医院建设工作分解导入完成！')
+            render {
+                div(class: 'alert alert-success', '医院建设工作分解导入完成！')
             }
         } catch (ImportException ie) {
             render {
@@ -49,8 +49,8 @@ class BackendController {
     def ajaxImportLocalPBS = {
         try {
             importService.importLocalPBS('ROOT')
-            render{
-                div(class:'alert alert-success', '医院建设项目分解导入完成！')
+            render {
+                div(class: 'alert alert-success', '医院建设项目分解导入完成！')
             }
         } catch (ImportException ie) {
             render {
@@ -60,8 +60,5 @@ class BackendController {
 
     }
 
-    def ajaxImportLocalBidSection = {
-
-    }
 
 }

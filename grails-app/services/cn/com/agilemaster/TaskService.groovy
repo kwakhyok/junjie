@@ -48,6 +48,7 @@ class TaskService {
 
     def listTasksAsJson(project) {
         def tasks = Task.findAllByProjectAndParentTask(project, null, [sort: 'code']);
+        tasks = tasks.findAll{t -> !(t instanceof BidSection)}
         def prjTaskList = []
         tasks.each { aTask ->
             if (!aTask.parentTask && aTask.code.lastIndexOf('.') < 0) {
@@ -90,13 +91,6 @@ class TaskService {
     }
 
 
-    List<Task> getLastTaskList() {
-        def lastWork
-        lastWork = Workbreakdown.list(max: 1, sort: "code", order: "desc").get(0)
-        return lastWork?.tasks?.sort {it.code}
-    }
-
-
     def getTasksByCurrentUser() {
         //  def tasks = []
         def currentUser =
@@ -105,7 +99,6 @@ class TaskService {
 
 
     }
-
     def findAllTasksByPriority(priority) {
         return TaskPlan.findAllByPriority(priority).collect {it.task}
     }
@@ -116,6 +109,7 @@ class TaskService {
         def today = new Date()
         def wbs = Workbreakdown.findByCode(wbsId)
         def tasks = wbs?.rootProject?.tasks
+        tasks = tasks.findAll{t -> !(t instanceof BidSection)}
         if (tasks) {
             def priorities = ['high', 'medium', 'low']
             def before = [3, 4, 5, 6, 7, 8, 9, 10]

@@ -2879,7 +2879,7 @@ a#widgets-area-button {
 #widgets-area .tab-menu.nav-tabs  > .active  > a:hover {
   background: none;
 }
-#cpu-usage {
+#overview-percentage {
   width: 180px;
   height: 140px;
   margin: 0 auto !important;

@@ -29,6 +29,7 @@ class UserProfile {
 //	static mappedBy		= []	// specifies which property should be used in a mapping 
 
     static mapping = {
+        user lazy: false
     }
 
     static constraints = {

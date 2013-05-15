@@ -87,7 +87,8 @@ modules = {
         resource url: 'acm/js/raphael.2.1.0.min.js'
         resource url: 'acm/js/justgage.1.0.1.min.js'
         /*---------------------------END of JS part of ACME theme--------------------------------------------*/
-
+        resource url: 'acm/js/core.min.js'
+        resource url: 'acm/js/charts.js'
         resource url: 'acm/js/custom.js'
     }
 

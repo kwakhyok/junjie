@@ -1,8 +1,9 @@
-<%@ page import="cn.com.agilemaster.MessageRecipient" %>
+<%@ page import="cn.com.agilemaster.Message; cn.com.agilemaster.MessageRecipient" %>
 <g:if test="${session.currentUser}">
     <%
         def currentUser = session.currentUser
         currentUser?.refresh()
+        def msg = Message.findAll(max:1)
         def pms = MessageRecipient.findAllByRecipient(currentUser)?.collect {it.message}
     %>
     <li class="dropdown hidden-phone">
@@ -18,7 +19,7 @@
                 <li>
                     <a href="#">
                         <span class="avatar"><img src="${createLinkTo(dir: 'acm/img', file: 'avatar.jpg')}"></span>
-                        <span class="header"><span class="from">${pm.sender?.profile}</span></span>
+                        <span class="header"><span class="from">xxx</span></span>
                         <span class="time"><am:dateFromNow date="${pm.dateCreated}"/></span>
                         <span class="message">${pm.title}</span>
                     </a>

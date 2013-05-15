@@ -34,10 +34,11 @@ package cn.com.agilemaster
     static mapping = {
        sort 'dateCreated'
        subTasks cascade: 'all-delete-orphan'
+       tablePerHierarchy false
     }
 
     static constraints = {
-        code(size: 1..10, nullable: false, unique: 'project')
+        code(size: 1..10, nullable: false, unique: ['project','title'])
         title(size: 1..30, nullable: false)
         status(shared: 'taskStatus')
         description( nullable: true)

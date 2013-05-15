@@ -1,4 +1,4 @@
-
+import cn.com.agilemaster.BidActivity
 /**
  * Created with IntelliJ IDEA.
  * User: guo
@@ -27,6 +27,7 @@ junjie.default.password='password'
 junjie.data.import.settings.wbsExcelPath = '/usr/share/agilemaster/import/WBS.xlsx'
 junjie.data.import.settings.pbsExcelPath = '/usr/share/agilemaster/import/PBS.xlsx'
 junjie.data.import.settings.bidSectionExcelPath = '/usr/share/agilemaster/import/BIDSECTION.xlsx'
+junjie.data.import.settings.intentionOrgExcelPath = '/usr/share/agilemaster/import/BIDORG.xlsx'
 
 
 junjie.permissions.admin =  ['*:*']
@@ -43,5 +44,6 @@ grails.gorm.default.constraints = {
     ActivityType(inList: ['Replan','Completion'], blank: false)
     WBSStatus(inList: ['archived', 'on-progress'],blank: false)
     TaskPriority(inList:['high', 'medium','low'],blank: false)
+    BidActivityTag(inList: ['intention','registered','quote','qualified','getbidding'], blank: false)     /*意向，报名，报价，入围，中标*/
 }
 

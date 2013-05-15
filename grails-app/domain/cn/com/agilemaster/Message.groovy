@@ -29,6 +29,8 @@ class Message {
         recipients cascade:  "all-delete-orphan"
         reMessages cascade: "all-delete-orphan"
         fwdMessages cascade: "all-delete-orphan"
+        sender lazy: false
+        mainMessage lazy: false
     }
 
     static fetchMode = [recipients: 'eager']

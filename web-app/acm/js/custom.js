@@ -290,6 +290,70 @@ function chart() {
 
 }
 
+/* ---------- Widget Area Functions ---------- */
+function widget_area_functions() {
+
+    /* ---------- Just Gage Charts ---------- */
+
+    var g1;
+
+    setInterval(function() {
+        g1.refresh(getRandomInt(43, 68));
+    }, 2500);
+
+    var g1 = new JustGage({
+        id: "overview-percentage",
+        value: getRandomInt(43, 68),
+        min: 0,
+        max: 100,
+        title: "项目总体完成情况",
+        label: "百分比",
+        levelColorsGradient: false
+    });
+
+    /* ---------- Bar Stats ---------- */
+
+    if (retina()) {
+
+        $(".bar-stat > .chart").each(function(){
+
+            var chartColor = $(this).css('color');
+
+            $(this).sparkline('html', {
+                    type: 'bar',
+                    height: '80', // Double pixel number for retina display
+                    barWidth: '10', // Double pixel number for retina display
+                    barSpacing: '4', // Double pixel number for retina display
+                    barColor: chartColor,
+                    negBarColor: '#eeeeee'}
+            );
+
+            $(this).css('zoom',0.5);
+
+        });
+
+    } else {
+
+        $(".bar-stat > .chart").each(function(){
+
+            var chartColor = $(this).css('color');
+
+            $(this).sparkline('html', {
+                    type: 'bar',
+                    height: '40',
+                    barWidth: '5',
+                    barSpacing: '2',
+                    barColor: chartColor,
+                    negBarColor: '#eeeeee'}
+            );
+
+        });
+
+    }
+
+}
+
+
 /* ---------- Masonry Gallery ---------- */
 
 function init_masonry() {
