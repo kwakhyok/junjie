@@ -1,3 +1,4 @@
+<%@ page import="cn.com.agilemaster.BidSection" %>
 <%--
   Created by IntelliJ IDEA.
   User: guo
@@ -24,6 +25,7 @@
     </style>
     <meta content="main" name="layout"/>
     <r:require module="acme"/>
+    <r:require module="bootstrap_editable"/>
 </head>
 
 <body>
@@ -37,9 +39,6 @@
     <am:boxContainer icon="th" canFold="true" span="12" title="招标流程">
         <div class="container-fluid" style="padding: 0">
             <div class="row-fluid">
-                <div class="span7 noMargin">
-                    <h1 class="xxxx">SPAN7</h1>
-                </div>
 
                 <div class="span5 noMargin">
                     <div class="timeline">
@@ -61,14 +60,18 @@
                         </g:each>
                     </div>
                 </div>
+                <div class="span7 noMargin">
+                    <h1 class="xxxx">SPAN7</h1>
+                </div>
+
             </div>
         </div>
     </am:boxContainer>
 </div>
 
 <div class="row-fluid">
-    <am:boxContainer icon="list" canFold="true" span="12" title="标段总览">
-
+    <am:boxContainer icon="list" canFold="true" span="12" title="标段总览" id="bidSectionListPanel">
+        <g:render template="bidSectionList"  model="[filteredBidSections: BidSection.list()]"/>
     </am:boxContainer>
 </div>
 
@@ -78,6 +81,48 @@
            $('div.task').bind('click',function(){
                 $('h1.xxxx').html($(this).html());
            });
+        ReloadDataTable();
     });
+
+    function ReloadDataTable() {
+        $.fn.editable.defaults.mode = 'popup';
+        $('.editable-assignedUser').editable({
+            value:1,
+            source:[
+                {value:1, text:'郭奕'},
+                {value:2, text:'成仔'}
+            ]
+        });
+        $('.editable-participants').editable({
+            value:2,
+            source:[
+                {value:1, text:'郭奕'},
+                {value:2, text:'成仔'}
+            ]
+        });
+
+        $('.editable-endDate').editable({
+            datepicker:{
+                weekStart:1
+            }
+        });
+
+        $('table#myDataTable').dataTable({
+            "sDom":"<'row-fluid'<'span4 bidSectionOperation'><'span4'l><'span4'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
+            "sPaginationType":"bootstrap",
+            "oLanguage":{
+                "sLengthMenu":"_MENU_ 条记录/页",
+                "sSearch":"搜索:",
+                "sInfo":"从_START_到_END_, 共有_TOTAL_条记录",
+                "sInfoEmpty":"0条记录"
+            },
+            "bRetrieve":true,
+            "bDestroy":true
+        });
+        $('div.bidSectionOperation').empty();
+        $('div.bidSectionOperation').append(
+                $('div.tableMenu').html()
+        );
+    }
 </r:script>
 </html>

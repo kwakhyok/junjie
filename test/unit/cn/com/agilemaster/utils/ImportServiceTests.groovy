@@ -13,12 +13,7 @@ import cn.com.agilemaster.Project
 @TestFor(ImportService)
 class ImportServiceTests {
 
-    void testImportLocalWBS(){
-        mockFor(Project)
 
-        service.importLocalWBS('ROOT')
-        assert Task.list().size() > 0
-    }
 
 
 }

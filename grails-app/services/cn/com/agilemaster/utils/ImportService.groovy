@@ -384,4 +384,17 @@ class ImportService {
     }
 
 
+    def importLocalBidSections = {
+        def fpath = grailsApplication.config.junjie.data.import.settings.bidSectionExcelPath
+        try{
+            def file = new File(fpath?.toString())
+            println file.absoluteFile
+
+        } catch(IOException ie){
+
+        }
+    }
+
+
+
 }

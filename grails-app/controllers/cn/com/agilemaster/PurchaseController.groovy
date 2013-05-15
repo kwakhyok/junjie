@@ -16,4 +16,8 @@ class PurchaseController {
         render "<h1>${absolutePath}</h1>"
     }
 
+    def ajaxImportBidSections = {
+
+    }
+
 }

@@ -66,7 +66,7 @@ class BootStrap {
         assert testUser.addToRoles(userRole).save(failOnError: true, flush: true)
 
         createDemoMessages(adminUser)
-        userService.createOtherDemoUsers()
+        userService.createOtherDemoUsers(servletContext)
     }
 
     def createDemoMessages(sender) {
