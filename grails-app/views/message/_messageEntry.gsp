@@ -11,7 +11,7 @@
             <span class="glyphicons paperclip"><i></i></span>
         </g:if>
     </td>
-    <td class=" ">
+    <td class="messageTitle">
         <am:messageTagLabel tags="${message.tags}"/>
         ${message.title}
     </td>

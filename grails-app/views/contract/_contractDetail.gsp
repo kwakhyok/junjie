@@ -9,7 +9,6 @@
         <hr>
         <div class="menu">
             <g:link class="btn btn-mini" controller="contract" action="addDemoContract">AddDemo</g:link>
-            <g:link  class="btn btn-mini" controller="contract" action="printCurrentUser">PrintUser</g:link>
             <g:link  class="btn btn-mini" controller="auth" action="signIn">Log in</g:link>
         </div>
 
@@ -41,4 +40,23 @@
             </li>
         </ul>
     </div>
+
+    <div class="remarks">
+        <form class="replyForm"method="post" action="">
+
+            <fieldset>
+                <textarea tabindex="3" class="input-xlarge span12 cleditor" id="message" name="body" rows="12"
+                          placeholder="签订中总结的问题..."></textarea>
+
+                <div class="actions">
+
+                    <button tabindex="3" type="submit" class="btn btn-primary">提交 </button>
+
+                </div>
+
+            </fieldset>
+
+        </form>
+    </div>
+
 </div>

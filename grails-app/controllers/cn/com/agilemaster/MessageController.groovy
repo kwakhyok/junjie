@@ -21,7 +21,7 @@ class MessageController {
     }
 
     def create = {
-
+        render template: 'newMessage'
     }
 
     def sendAndSave = {

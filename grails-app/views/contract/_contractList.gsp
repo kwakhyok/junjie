@@ -1,5 +1,5 @@
 <%@ page import="cn.com.agilemaster.ContractDocument" %>
-<table class="table bootstrap-datatable datatable" id="contractListTable">
+<table class="table bootstrap-datatable datatable table-hover" id="contractListTable">
     <thead>
     <tr>
         <th class="hidden">id</th>
@@ -28,3 +28,4 @@
     </g:each>
     </tbody>
 </table>
+<button class="btn btn-primary">新合同</button>

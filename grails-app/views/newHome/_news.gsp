@@ -61,6 +61,7 @@
                 </li>
 
             </ul>
+            <g:link action="newsDetail" class="pull-right">更多新闻...</g:link>
         </div>
     </div>
 </div><!--/span-->

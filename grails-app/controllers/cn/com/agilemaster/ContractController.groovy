@@ -47,7 +47,7 @@ class ContractController {
     def addDemoContract = {
         ContractDocument.list().removeAll()
         def currentUser = userService.getCurrentUser();
-        (1..2).each {
+        (1..5).each {
             ContractDocument.findByCode("czbe${it}")?: new ContractDocument(code: "czbe${it}", title: "${it}合同副本",
                     signDate: new Date(),
                     partyB: "烟台市土地规划局${it}",
@@ -58,7 +58,7 @@ class ContractController {
             ).save(failOnError: true)
         }
 
-        (1..2).each {
+        (1..5).each {
             ContractDocument.findByCode("czbeq${it}")?:
             new ContractDocument(code: "czbeq${it}", title: "${it}付款合同副本",
                     signDate: new Date(),

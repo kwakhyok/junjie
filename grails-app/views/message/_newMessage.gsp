@@ -30,7 +30,7 @@
             <div class="control-group">
                 %{--<label class="control-label" for="recipients">发送给...</label>--}%
                 <div class="controls">
-                    <select id="tags" class="input-xxlarge" multiple data-rel="chosen"
+                    <select id="tags" class="input-xlarge" multiple data-rel="chosen"
                             data-placeholder="请选择标签..." name="tags">
                         <g:each in="${cn.com.agilemaster.MessageTag.list()}" var="tag">
                             <option>${tag}</option>

@@ -6,6 +6,23 @@
 <r:require module="acme"/>
 <r:require module="j_primitive"/>
 <r:require module="bootstrap_editable"/>
+
+<style type="text/css">
+table#myDataTable tr {
+    cursor: pointer;
+}
+
+tr.firstStage {
+    background-image: linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
+    background-image: -o-linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
+    background-image: -moz-linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
+    background-image: -webkit-linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
+    background-image: -ms-linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
+    background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0.33, rgb(240, 237, 240)), color-stop(0.67, rgb(245, 237, 245)), color-stop(0.84, rgb(250, 242, 250)));
+}
+</style>
+
+
 <r:script>
         var m_timer = null;
 
@@ -210,7 +227,7 @@
         var aImg = "${createLinkTo(dir: 'acm/img', file: 'avatar3.jpg')}";
         var bImg = "${createLinkTo(dir: 'acm/img', file: 'avatar4.jpg')}";
         var cImg = "${createLinkTo(dir: 'acm/img', file: 'avatar5.jpg')}";
-        var dImg = "${createLinkTo(dir: 'acm/img', file:'avatar7.jpg')}";
+        var dImg = "${createLinkTo(dir: 'acm/img', file: 'avatar7.jpg')}";
 
         function SetupPBSWidget(data) {
             var options = new primitives.orgdiagram.Config();
@@ -302,15 +319,19 @@
 <%
     def currentUser = session.currentUser
     currentUser.refresh()
-    %>
+%>
 <div class="row-fluid">
 
     <am:boxContainer icon="list" span="12" title="范围管理" canFold="false">
         <ul class="nav tab-menu nav-tabs" id="myTab">
-            <li id="wbsChartTab" class="active"><a href="#wbsPane"><i class="fa-icon-sitemap"></i><span class="break"></span>WBS</a></li>
-            <li id="taskListTab"><a href="#taskListPanel"><i class="fa-icon-list"></i><span class="break"></span>工作列表</a></li>
-            <li id="pbsChartTab"><a href="#pbsPane"><i class="fa-icon-sitemap"></i><span class="break"></span>PBS</a></li>
-            <li id="projectListTab"><a href="#projectListPanel"><i class="fa-icon-list-alt"></i><span class="break"></span>项目列表</a></li>
+            <li id="wbsChartTab" class="active"><a href="#wbsPane"><i class="fa-icon-sitemap"></i><span
+                    class="break"></span>WBS</a></li>
+            <li id="taskListTab"><a href="#taskListPanel"><i class="fa-icon-list"></i><span class="break"></span>工作列表
+            </a></li>
+            <li id="pbsChartTab"><a href="#pbsPane"><i class="fa-icon-sitemap"></i><span class="break"></span>PBS</a>
+            </li>
+            <li id="projectListTab"><a href="#projectListPanel"><i class="fa-icon-list-alt"></i><span
+                    class="break"></span>项目列表</a></li>
         </ul>
 
         <div id="myTabContent" class="tab-content">
@@ -368,7 +389,7 @@
             </div>
 
             <div class="tab-pane" id="projectListPanel">
-                 <g:render template="projectList" model="[filteredProjects: Project.list()]"/>
+                <g:render template="projectList" model="[filteredProjects: Project.list()]"/>
             </div>
 
         </div>
@@ -386,15 +407,73 @@
 <r:script>
 
 
-  //  $('div#taskListPanel').siblings().removeClass('active');
-  //  $('div#taskListPanel').addClass('active');
-    function showSpinner(visible){
+    //  $('div#taskListPanel').siblings().removeClass('active');
+    //  $('div#taskListPanel').addClass('active');
+    function showSpinner(visible) {
         var spinner = $('#taskSpinner');
-        if(visible) spinner.css("display", "inline");
+        if (visible) spinner.css("display", "inline");
         else spinner.css("display", "none");
     }
 
-    function ReloadProjectDataTable(){
+  function foldingTasks(){
+
+
+      $("table#myDataTable tbody tr").each(function(){
+          var taskCode = $(this).children("td").eq(0).text();
+          var taskStage = taskCode.length-taskCode.replace('.','').replace('.','').length;
+          if(taskStage==0){$(this).addClass("firstStage");}
+          else if(taskStage==1){$(this).addClass("secondStage");}
+          else {$(this).addClass("thirdStage");}
+      });
+
+      $("div.pagination ul,select").click(function(){
+          $("table#myDataTable tr").each(function(){
+              var taskCode = $(this).children("td").eq(0).text();
+              var taskStage = taskCode.length-taskCode.replace('.','').replace('.','').length;
+              if(taskStage==0){$(this).addClass("firstStage");}
+              else if(taskStage==1){$(this).addClass("secondStage");}
+              else {$(this).addClass("thirdStage");}
+          });
+
+      });
+      $("select").change(function(){
+          $("table#myDataTable tbody tr").each(function(){
+              var taskCode = $(this).children("td").eq(0).text();
+              var taskStage = taskCode.length-taskCode.replace('.','').replace('.','').length;
+              if(taskStage==0){$(this).addClass("firstStage");}
+              else if(taskStage==1){$(this).addClass("secondStage");}
+              else {$(this).addClass("thirdStage");}
+          });
+      });
+      $("table#myDataTable tbody tr").live("click",function(){
+          var taskCode = $(this).children("td").eq(0).text();
+          if($(this).children("td").eq(0).text().lastIndexOf(".")==-1){
+              $(this).siblings().each(function(){
+                  var stage= $(this).children("td").eq(0).text();
+                  var firstDot=stage.indexOf(".");
+                  var parentStage=stage.substring(0,firstDot);
+                  if(taskCode==parentStage)
+                  {$(this).toggleClass("hidden");}
+              });
+          }
+          else{
+              $(this).siblings().each(function(){
+                  var stage= $(this).children("td").eq(0).text();
+                  var lastDot=stage.lastIndexOf(".");
+                  var parentStage=stage.substring(0,lastDot);
+                  if(taskCode==parentStage)
+                  {$(this).toggleClass("hidden");}
+              });
+          }
+      });
+
+
+
+
+  }
+
+
+    function ReloadProjectDataTable() {
 
         $('table#projectDataTable').dataTable({
             "sDom":"<'row-fluid'<'span4 projectoperation'><'span4'l><'span4'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
@@ -418,7 +497,7 @@
 
     function ReloadDataTable() {
 
-       // $('ul#myTab li:first').next().trigger('click');
+        // $('ul#myTab li:first').next().trigger('click');
 
         $.fn.editable.defaults.mode = 'popup';
         $('.editable-assignedUser').editable({
@@ -463,25 +542,26 @@
     $(function () {
         var wbsPanel = $('div#wbsPane');
         var wbsDiagram = $('div#orgdiagram');
-        if(wbsPanel.hasClass('active')){
+        if (wbsPanel.hasClass('active')) {
             showTaskOrgChart();
-        }else{
-           wbsDiagram.remove();
+        } else {
+            wbsDiagram.remove();
         }
         ReloadDataTable();
-        $('#projectListTab').bind('click', function(event,data){
+        $('#projectListTab').bind('click', function (event, data) {
             ReloadProjectDataTable();
         });
 
-        $('#taskListTab').bind('click', function(event,data){
+        $('#taskListTab').bind('click', function (event, data) {
             ReloadDataTable();
+            foldingTasks();
         });
 
-        $('#wbsChartTab').bind('click', function(event,data){
+        $('#wbsChartTab').bind('click', function (event, data) {
             showTaskOrgChart();
         });
 
-        $('#pbsChartTab').bind('click', function(event,data){
+        $('#pbsChartTab').bind('click', function (event, data) {
             showProjectOrgChart();
         });
 

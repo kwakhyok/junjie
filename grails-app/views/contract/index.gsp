@@ -5,6 +5,17 @@
     <title>${meta(name: 'app.name')} -- 合同管理</title>
     <meta content="main" name="layout"/>
     <r:require module="acme"/>
+    <style type="text/css">
+    tr.contractClickRow {
+        cursor: pointer;
+    }
+
+    tr.contractClickRow:hover {
+        background: #3f3f3f;
+    }
+
+    </style>
+
 </head>
 
 <body>
@@ -45,11 +56,12 @@
         params: '\'id=\'+contractId', update: [success: 'contractDetail', error: 'errors'])}
     }
 
-    $('.contractClickRow').click(function(){
+    $('tr.contractClickRow').click(function(){
         var contractId =  $(this).children(".hidden-id").text();
         $(this).siblings().removeClass('highlightRow');
         $(this).toggleClass('highlightRow',this.clicked);
         remoteGetContract(contractId);
+
     });
 
 </r:script>

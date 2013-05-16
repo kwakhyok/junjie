@@ -19,4 +19,8 @@ class NewHomeController {
             render 'no user found'
         }
     }
+
+    def newsDetail = {
+        render view: 'newsDetail'
+    }
 }

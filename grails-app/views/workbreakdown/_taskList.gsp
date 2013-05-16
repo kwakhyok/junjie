@@ -27,7 +27,7 @@
 </div>
 
 <img id="taskSpinner" src="${createLinkTo(dir:'images', file:'spinner.gif')}" style="display: none" alt=""/>
-<table class="table table-bordered" id="myDataTable">
+<table class="table table-bordered table-hover" id="myDataTable">
     <thead>
     <th>编号</th>
     <th>名称</th>

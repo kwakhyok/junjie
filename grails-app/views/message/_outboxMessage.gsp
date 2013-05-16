@@ -1,6 +1,6 @@
 <%@ page import="cn.com.agilemaster.Message" %>
 <div class="row-fluid">
-    <g:link class="btn btn-small btn-primary" action="create"><i class="halflings-icon edit"></i>发信息</g:link>
+    <g:remoteLink class="btn btn-small btn-primary" action="create" update="[success:'newMessagePanel']"><i class="halflings-icon edit"></i>发信息</g:remoteLink>
     <g:link class="btn btn-small btn-primary" action="create"><i class="halflings-icon edit"></i>回复</g:link>
     <g:link class="btn btn-small btn-primary" action="create"><i class="halflings-icon edit"></i>转发信息</g:link>
     <g:link class="btn btn-small btn-primary" action="create"><i class="halflings-icon edit"></i>删除信息</g:link>
