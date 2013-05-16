@@ -116,7 +116,9 @@ modules = {
         resource url: 'js/bootstrap-editable.js'
     }
 
-
+    bootstrap_bootbox{
+        resource url: 'acm/js/bootbox.min.js'
+    }
 
 
 

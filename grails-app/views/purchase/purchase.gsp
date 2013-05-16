@@ -72,8 +72,9 @@
                     <div class="span5 noMargin">
                         <div class="timeline">
                             <g:each in="${stepList}" var="step" status="i">
+                                <g:set var="stepN" value="${i}"/>
                                 <div class="${i % 2 == 0 ? 'timeslot' : 'timeslot alt'}">
-                                    <div class="task">
+                                    <div class="task" onclick="task_click_handler(${i+1})">
                                         <span>
                                             <span class="type">第${i + 1}步</span>
                                             <span class="details">${step}</span>
@@ -90,7 +91,7 @@
                         </div>
                     </div>
 
-                    <div class="span7 noMargin">
+                    <div class="span7 noMargin" id="stepPanel">
                         <h1 class="xxxx">SPAN7</h1>
                     </div>
 
@@ -180,10 +181,21 @@
         );
     }
 
-    function showSpinner(visible){
-        $('#spinner').style.display = visible ? "inline" : "none";
+    function showSpinner(visible, mySpinner){
+        var spinner = $(mySpinner);
+        visible ? spinner.css("display","inline") : spinner.css("display", "none") ;
     }
 
+    var task_click_handler = function(step){
+        $.ajax({
+            type:'POST',
+            data:'step='+step,
+            url:'/purchase/step',
+            success:function(data, status){
+              $('#stepPanel').html(data);
+            }
+        });
+    };
 
 </r:script>
 </html>

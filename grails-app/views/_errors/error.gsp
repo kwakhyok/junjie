@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Grails Runtime Exception</title>
-    <meta name="layout" content="main"/>
+    <meta name="layout" content="acm"/>
     <r:require module="acme"/>
     <style type="text/css">
     body {

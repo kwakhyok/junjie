@@ -388,7 +388,11 @@
 
   //  $('div#taskListPanel').siblings().removeClass('active');
   //  $('div#taskListPanel').addClass('active');
-
+    function showSpinner(visible){
+        var spinner = $('#taskSpinner');
+        if(visible) spinner.css("display", "inline");
+        else spinner.css("display", "none");
+    }
 
     function ReloadProjectDataTable(){
 

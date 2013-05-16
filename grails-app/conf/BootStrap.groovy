@@ -13,6 +13,7 @@ class BootStrap {
     def grailsApplication
     def importService
     def userService
+   // def taskService
 
     def init = { servletContext ->
 
@@ -22,6 +23,7 @@ class BootStrap {
 
         importService.importLocalWBS('ROOT', '医院建设管理');
         importService.importLocalBidSections();
+     //   taskService.planLastDemoTasks('ROOT')
 
         // get the default roles defined in JunjieConfig.groovy
         def defaultAdminRole = grailsApplication.config.junjie.default.adminrole

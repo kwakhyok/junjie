@@ -19,7 +19,8 @@
             </ul>
         </li>
         <li><g:remoteLink action="planDemoTasks" params="[wbsId: 'ROOT']"
-                          update="[success: 'taskListPanel']" onSuccess="ReloadDataTable();">开始计划</g:remoteLink></li>
+                          update="[success: 'taskListPanel']" onSuccess="ReloadDataTable();"
+                          onLoading="showSpinner(true)" onComplete="showSpinner(false)">开始计划</g:remoteLink></li>
         <li><g:remoteLink action="planDemoTasks"
                           params="[wbsId: 'ROOT']" update="[success: 'taskListPanel']" onSuccess="ReloadDataTable();">恢复到初始</g:remoteLink></li>
     </ul>

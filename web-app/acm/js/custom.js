@@ -132,15 +132,6 @@ $(document).ready(function () {
 
     });
 
-    /* ---------- Submenu  ---------- */
-
-    $('.dropmenu').click(function (e) {
-
-        e.preventDefault();
-
-        $(this).parent().find('ul').slideToggle();
-
-    });
 
     /* ---------- Acivate Functions ---------- */
     template_functions();
@@ -303,7 +294,7 @@ function widget_area_functions() {
 
     var g1 = new JustGage({
         id: "overview-percentage",
-        value: getRandomInt(43, 68),
+        value: getRandomInt(65, 68),
         min: 0,
         max: 100,
         title: "项目总体完成情况",

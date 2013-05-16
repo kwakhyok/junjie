@@ -57,4 +57,11 @@ class PurchaseController {
             }
         }
     }
+
+   def step = {
+       if(params.step){
+           println "step" + params.step
+           render template: "steps/step${params.step}"
+       }
+   }
 }

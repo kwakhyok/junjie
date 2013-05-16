@@ -27,10 +27,9 @@ class AgilemasterTagLib {
         out << niceDate
     }
 
-
     /*
-    *   @attr date REQUIRED should be Date type
-    * */
+   *   @attr date REQUIRED should be Date type
+   * */
     def formatDate = { attrs ->
         def date = attrs.date
         out << date.format("yyyy-MM-dd")
@@ -199,6 +198,7 @@ class AgilemasterTagLib {
     }
 
 
+
     static String calculateFromNow(Date date) {
         def now = new Date()
         def diff = Math.abs(now.time - date.time)
@@ -224,7 +224,7 @@ class AgilemasterTagLib {
         }
 
         calc = Math.floor(diff / hour)
-        if(calc){
+        if (calc) {
             niceTime += calc + "小时"
             diff %= hour
         }

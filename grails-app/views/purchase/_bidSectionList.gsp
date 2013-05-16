@@ -12,7 +12,10 @@
             <ul class="dropdown-menu">
                 <g:each in="${BidSection.list().collect{it.bidCategory}.unique()}" var="category">
                     <li><g:remoteLink action="listBidSectionsByCat"
-                                      params="[cat:category]" onSuccess="reLoadBidSectionDataTable()"
+                                      params="[cat:category]"
+                                      onLoading="showSpinner(true,'#bidSectionSpinner')"
+                                      onComplete="showSpinner(false,'#bidSectionSpinner')"
+                                      onSuccess="reLoadBidSectionDataTable()"
                                       update="[success:'bidSectionListPanel', error:'testDiv']">${category}</g:remoteLink> </li>
                 </g:each>
             </ul>

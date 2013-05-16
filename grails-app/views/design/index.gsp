@@ -23,13 +23,16 @@
             </div>
         </g:each>
     </div>
+
     <div class="clearfix"></div>
 </div>
 <hr>
+
 <div class="row-fluid">
     <div class="box-header">
         <h2><i class="halflings-icon th"></i><span class="break"></span>信息汇总</h2>
     </div>
+
     <div class="box-content">
         <table class="table table-striped table-bordered bootstrap-datatable datatable">
             <thead>
@@ -57,6 +60,22 @@
             </g:each>
             </tbody>
         </table>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span4">
+        <am:boxContainer title="设计图纸" canFold="true" icon="list" span="12">
+            <h1>设计图纸</h1>
+        </am:boxContainer>
+    </div>
+
+    <div class="span4">
+        <h2>图纸交涉</h2>
+    </div>
+
+    <div class="span4">
+        <h2>交付物滞后</h2>
     </div>
 </div>
 </body>

@@ -1,7 +1,8 @@
 <html>
 	<head>
 		<title>404 - Page Not Found!</title>
-		<meta name="layout" content="main" />
+		<meta name="layout" content="acm" />
+        <r:require module="acme"/>
 	</head>
 
 <body>
