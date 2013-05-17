@@ -52,6 +52,7 @@ class BootStrap {
                         position: '计划科科长',
                         telephone: '18801123464',
                         email: 'pangyu@email.com',
+                        photo: new File(servletContext.getRealPath("")+"/images/avatar/avatar5.jpeg").getBytes(),
                         enabled: true)
         ).save(failOnError: true)
 
@@ -62,6 +63,7 @@ class BootStrap {
                         position: '项目部负责人',
                         telephone: '18801123464',
                         email: 'yupangyu@email.com',
+                        photo: new File(servletContext.getRealPath("") + "/images/avatar/avatar7.jpeg").getBytes(),
                         enabled: true)).save(failOnError: true)
 
 

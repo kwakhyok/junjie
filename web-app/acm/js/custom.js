@@ -47,38 +47,6 @@ jQuery(document).ready(function ($) {
 
 });
 
-/* -------------------- Buttons 3D Style --------------------- */
-
-jQuery(document).ready(function ($) {
-
-    $(':button').each(function () {
-
-
-        if ($(this).hasClass('btn3d')) {
-
-            if ($(this).parent().hasClass('input-append')) {
-
-                //do nothing
-
-            } else {
-
-                var inner = $(this).html();
-
-                if (browser()) {
-
-                    $(this).html('<span>' + inner + '</span>')
-
-                }
-
-            }
-
-        }
-
-    });
-
-    //$(':button').wrap('<div class="btn-overlay" />');
-
-});
 
 $(document).ready(function () {
 
@@ -135,7 +103,6 @@ $(document).ready(function () {
 
     /* ---------- Acivate Functions ---------- */
     template_functions();
-    init_masonry();
     sparkline_charts();
     charts();
     calendars();
@@ -289,7 +256,7 @@ function widget_area_functions() {
     var g1;
 
     setInterval(function() {
-        g1.refresh(getRandomInt(43, 68));
+        g1.refresh(getRandomInt(65, 68));
     }, 2500);
 
     var g1 = new JustGage({
@@ -345,34 +312,7 @@ function widget_area_functions() {
 }
 
 
-/* ---------- Masonry Gallery ---------- */
 
-function init_masonry() {
-    var $container = $('.masonry-gallery');
-
-    var gutter = 6;
-    var min_width = 250;
-    $container.imagesLoaded(function () {
-        $container.masonry({
-            itemSelector:'.masonry-thumb',
-            gutterWidth:gutter,
-            isAnimated:true,
-            columnWidth:function (containerWidth) {
-                var num_of_boxes = (containerWidth / min_width | 0);
-
-                var box_width = (((containerWidth - (num_of_boxes - 1) * gutter) / num_of_boxes) | 0);
-
-                if (containerWidth < min_width) {
-                    box_width = containerWidth;
-                }
-
-                $('.masonry-thumb').width(box_width);
-
-                return box_width;
-            }
-        });
-    });
-}
 
 /* ---------- Numbers Sepparator ---------- */
 
@@ -1559,257 +1499,6 @@ function charts() {
     }
 
     /* ---------- Chart with points ---------- */
-    if ($("#twitterChart").length) {
-        var followers = [
-            [1, 5 + randNumTW()],
-            [2, 10 + randNumTW()],
-            [3, 15 + randNumTW()],
-            [4, 20 + randNumTW()],
-            [5, 25 + randNumTW()],
-            [6, 30 + randNumTW()],
-            [7, 35 + randNumTW()],
-            [8, 40 + randNumTW()],
-            [9, 45 + randNumTW()],
-            [10, 50 + randNumTW()],
-            [11, 55 + randNumTW()],
-            [12, 60 + randNumTW()],
-            [13, 65 + randNumTW()],
-            [14, 70 + randNumTW()],
-            [15, 75 + randNumTW()],
-            [16, 80 + randNumTW()],
-            [17, 85 + randNumTW()],
-            [18, 90 + randNumTW()],
-            [19, 85 + randNumTW()],
-            [20, 80 + randNumTW()],
-            [21, 75 + randNumTW()],
-            [22, 80 + randNumTW()],
-            [23, 75 + randNumTW()],
-            [24, 70 + randNumTW()],
-            [25, 65 + randNumTW()],
-            [26, 75 + randNumTW()],
-            [27, 80 + randNumTW()],
-            [28, 85 + randNumTW()],
-            [29, 90 + randNumTW()],
-            [30, 95 + randNumTW()]
-        ];
-
-        var plot = $.plot($("#twitterChart"),
-            [
-                { data:followers, label:"Followers"}
-            ], {
-                series:{
-                    lines:{ show:true,
-                        lineWidth:2,
-                        fill:true, fillColor:{ colors:[
-                            { opacity:0.5 },
-                            { opacity:0.2 }
-                        ] }
-                    },
-                    points:{ show:true,
-                        lineWidth:2
-                    },
-                    shadowSize:0
-                },
-                grid:{ hoverable:true,
-                    clickable:true,
-                    tickColor:"#f9f9f9",
-                    borderWidth:0
-                },
-                colors:["#1BB2E9"],
-                xaxis:{ticks:6, tickDecimals:0},
-                yaxis:{ticks:3, tickDecimals:0}
-            });
-
-        function showTooltip(x, y, contents) {
-            $('<div id="tooltip">' + contents + '</div>').css({
-                position:'absolute',
-                display:'none',
-                top:y + 5,
-                left:x + 5,
-                border:'1px solid #fdd',
-                padding:'2px',
-                'background-color':'#dfeffc',
-                opacity:0.80
-            }).appendTo("body").fadeIn(200);
-        }
-
-        var previousPoint = null;
-        $("#twitterChart").bind("plothover", function (event, pos, item) {
-            $("#x").text(pos.x.toFixed(2));
-            $("#y").text(pos.y.toFixed(2));
-
-            if (item) {
-                if (previousPoint != item.dataIndex) {
-                    previousPoint = item.dataIndex;
-
-                    $("#tooltip").remove();
-                    var x = item.datapoint[0].toFixed(2),
-                        y = item.datapoint[1].toFixed(2);
-
-                    showTooltip(item.pageX, item.pageY,
-                        item.series.label + " of " + x + " = " + y);
-                }
-            }
-            else {
-                $("#tooltip").remove();
-                previousPoint = null;
-            }
-        });
-
-    }
-
-
-    if ($("#activeUsers").length) {
-        var d1 = [];
-
-        for (var i = 0; i <= 160; i += 1) {
-            d1.push([i, parseInt(Math.random() * 123123)]);
-        }
-
-        var stack = 0, bars = true, lines = false, steps = false;
-
-        function plotWithOptions2() {
-
-            $.plot($("#activeUsers"), [ d1 ], {
-                series:{
-                    bars:{ show:bars,
-                        fill:true,
-                        barWidth:0.1,
-                        align:"center",
-                        lineWidth:5,
-                        fillColor:{ colors:[
-                            { opacity:1 },
-                            { opacity:0.5 }
-                        ] }
-                    }
-                },
-                grid:{ hoverable:true,
-                    clickable:true,
-                    tickColor:"#f6f6f6",
-                    borderWidth:0
-                },
-                colors:["#CBE968"],
-                xaxis:{ticks:0, tickDecimals:0, tickFormatter:function (v, a) {
-                    return v
-                }},
-                yaxis:{ticks:5, tickDecimals:0, tickFormatter:function (v) {
-                    return v
-                }}
-
-            });
-        }
-
-        plotWithOptions2();
-
-    }
-
-    /* ---------- Chart with points ---------- */
-    if ($("#stats-chart").length) {
-        var visitors = [
-            [1, randNum() - 10],
-            [2, randNum() - 10],
-            [3, randNum() - 10],
-            [4, randNum()],
-            [5, randNum()],
-            [6, 4 + randNum()],
-            [7, 5 + randNum()],
-            [8, 6 + randNum()],
-            [9, 6 + randNum()],
-            [10, 8 + randNum()],
-            [11, 9 + randNum()],
-            [12, 10 + randNum()],
-            [13, 11 + randNum()],
-            [14, 12 + randNum()],
-            [15, 13 + randNum()],
-            [16, 14 + randNum()],
-            [17, 15 + randNum()],
-            [18, 15 + randNum()],
-            [19, 16 + randNum()],
-            [20, 17 + randNum()],
-            [21, 18 + randNum()],
-            [22, 19 + randNum()],
-            [23, 20 + randNum()],
-            [24, 21 + randNum()],
-            [25, 14 + randNum()],
-            [26, 24 + randNum()],
-            [27, 25 + randNum()],
-            [28, 26 + randNum()],
-            [29, 27 + randNum()],
-            [30, 31 + randNum()]
-        ];
-
-        var plot = $.plot($("#stats-chart"),
-            [
-                { data:visitors, label:"visitors" }
-            ], {
-                series:{
-                    lines:{ show:true,
-                        lineWidth:3,
-                        fill:true, fillColor:{ colors:[
-                            { opacity:0.5 },
-                            { opacity:0.2 }
-                        ] }
-                    },
-                    points:{ show:true },
-                    shadowSize:2
-                },
-                grid:{ hoverable:true,
-                    clickable:true,
-                    tickColor:"#eee",
-                    borderWidth:0
-                },
-                colors:["#b1d3d4"],
-                xaxis:{ticks:11, tickDecimals:0},
-                yaxis:{ticks:11, tickDecimals:0}
-            });
-
-        function showTooltip(x, y, contents) {
-            $('<div id="tooltip">' + contents + '</div>').css({
-                position:'absolute',
-                display:'none',
-                top:y + 5,
-                left:x + 5,
-                border:'1px solid #fdd',
-                padding:'2px',
-                'background-color':'#dfeffc',
-                opacity:0.80
-            }).appendTo("body").fadeIn(200);
-        }
-
-        var previousPoint = null;
-        $("#stats-chart").bind("plothover", function (event, pos, item) {
-            $("#x").text(pos.x.toFixed(2));
-            $("#y").text(pos.y.toFixed(2));
-
-            if (item) {
-                if (previousPoint != item.dataIndex) {
-                    previousPoint = item.dataIndex;
-
-                    $("#tooltip").remove();
-                    var x = item.datapoint[0].toFixed(2),
-                        y = item.datapoint[1].toFixed(2);
-
-                    showTooltip(item.pageX, item.pageY,
-                        item.series.label + " of " + x + " = " + y);
-                }
-            }
-            else {
-                $("#tooltip").remove();
-                previousPoint = null;
-            }
-        });
-
-
-        $("#sincos").bind("plotclick", function (event, pos, item) {
-            if (item) {
-                $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
-                plot.highlight(item.series, item.datapoint);
-            }
-        });
-    }
-
-
-    /* ---------- Chart with points ---------- */
     if ($("#sincos").length) {
         var sin = [], cos = [];
 
@@ -1884,43 +1573,6 @@ function charts() {
         });
     }
 
-    /* ---------- Flot chart ---------- */
-    if ($("#flotchart").length) {
-        var d1 = [];
-        for (var i = 0; i < Math.PI * 2; i += 0.25)
-            d1.push([i, Math.sin(i)]);
-
-        var d2 = [];
-        for (var i = 0; i < Math.PI * 2; i += 0.25)
-            d2.push([i, Math.cos(i)]);
-
-        var d3 = [];
-        for (var i = 0; i < Math.PI * 2; i += 0.1)
-            d3.push([i, Math.tan(i)]);
-
-        $.plot($("#flotchart"), [
-            { label:"sin(x)", data:d1},
-            { label:"cos(x)", data:d2},
-            { label:"tan(x)", data:d3}
-        ], {
-            series:{
-                lines:{ show:true },
-                points:{ show:true }
-            },
-            xaxis:{
-                ticks:[0, [Math.PI / 2, "\u03c0/2"], [Math.PI, "\u03c0"], [Math.PI * 3 / 2, "3\u03c0/2"], [Math.PI * 2, "2\u03c0"]]
-            },
-            yaxis:{
-                ticks:10,
-                min:-2,
-                max:2
-            },
-            grid:{    tickColor:"#dddddd",
-                borderWidth:0
-            },
-            colors:["#FA5833", "#2FABE9", "#FABB3D"]
-        });
-    }
 
     /* ---------- Stack chart ---------- */
     if ($("#stackchart").length) {
@@ -2109,62 +1761,6 @@ function charts() {
         }
     });
 
-    /* ---------- Realtime chart ---------- */
-    if ($("#serverLoad").length) {
-        var options = {
-            series:{ shadowSize:1 },
-            lines:{ show:true, lineWidth:3, fill:true, fillColor:{ colors:[
-                { opacity:0.9 },
-                { opacity:0.9 }
-            ] }},
-            yaxis:{ min:0, max:100, tickFormatter:function (v) {
-                return v + "%";
-            }},
-            xaxis:{ show:false },
-            colors:["#FA5833"],
-            grid:{    tickColor:"#f9f9f9",
-                borderWidth:0
-            }
-        };
-        var plot = $.plot($("#serverLoad"), [ getRandomData() ], options);
-
-        function update() {
-            plot.setData([ getRandomData() ]);
-            // since the axes don't change, we don't need to call plot.setupGrid()
-            plot.draw();
-
-            setTimeout(update, updateInterval);
-        }
-
-        update();
-    }
-
-    if ($("#realtimechart").length) {
-        var options = {
-            series:{ shadowSize:1 },
-            lines:{ fill:true, fillColor:{ colors:[
-                { opacity:1 },
-                { opacity:0.1 }
-            ] }},
-            yaxis:{ min:0, max:100 },
-            xaxis:{ show:false },
-            colors:["#F4A506"],
-            grid:{    tickColor:"#dddddd",
-                borderWidth:0
-            }
-        };
-        var plot = $.plot($("#realtimechart"), [ getRandomData() ], options);
-
-        function update() {
-            plot.setData([ getRandomData() ]);
-            // since the axes don't change, we don't need to call plot.setupGrid()
-            plot.draw();
-
-            setTimeout(update, updateInterval);
-        }
-
-        update();
-    }
 }
 
 function growlLikeNotifications() {

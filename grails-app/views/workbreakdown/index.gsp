@@ -120,10 +120,25 @@ tr.firstStage {
 
 
 
-        var rootImg = "${createLinkTo(dir: 'acm/img', file: 'avatar8.jpg')}";
-        var level1Img = "${createLinkTo(dir: 'acm/img', file: 'avatar6.jpg')}";
-        var level2Img = "${createLinkTo(dir: 'acm/img', file: 'avatar7.jpg')}";
-        var level3Img = "${createLinkTo(dir: 'acm/img', file: 'avatar2.jpg')}";
+
+       var peopleImgs = ["${createLinkTo(dir: 'images/avatar', file: 'avatar1.jpeg')}",
+        "${createLinkTo(dir: 'images/avatar', file: 'avatar2.jpeg')}",
+        "${createLinkTo(dir: 'images/avatar', file: 'avatar3.jpeg')}",
+        "${createLinkTo(dir: 'images/avatar', file: 'avatar4.jpeg')}",
+        "${createLinkTo(dir: 'images/avatar', file: 'avatar5.jpeg')}",
+        "${createLinkTo(dir: 'images/avatar', file: 'avatar6.jpeg')}",
+        "${createLinkTo(dir: 'images/avatar', file: 'avatar7.jpeg')}"
+        ];
+
+        var taskImgs = ["${createLinkTo(dir: 'images/tasks', file: 'task1.jpg')}",
+        "${createLinkTo(dir: 'images/tasks', file: 'task2.jpg')}",
+        "${createLinkTo(dir: 'images/tasks', file: 'task3.jpg')}",
+        "${createLinkTo(dir: 'images/tasks', file: 'task4.png')}"
+        ];
+
+        function getRandomOf(strings){
+            return strings[Math.floor(Math.random() * strings.length)]
+        }
 
 
 
@@ -140,7 +155,7 @@ tr.firstStage {
                 //console.log(subItem.code);
                 subItem.title = subTasks[index].code + " " + subTasks[index].title;
                 subItem.description = subTasks[index].description;
-                subItem.image = level1Img;
+                subItem.image = getRandomOf(taskImgs);
                 if (subTasks[index].hasOwnProperty('subTasks')) {
                     var subSubWorks = subTasks[index].subTasks;
                     for (var j = 0; j < subSubWorks.length; j++) {
@@ -149,7 +164,7 @@ tr.firstStage {
                         subSubItem.code = subSubWorks[j].code;
                         subSubItem.title = subSubWorks[j].code + " " + subSubWorks[j].title;
                         subSubItem.description = subSubWorks[j].description;
-                        subSubItem.image = level2Img;
+                        subSubItem.image = getRandomOf(taskImgs);
                         if(subTasks[index].subTasks[j].hasOwnProperty('subTasks')){
                           var sssWorks = subTasks[index].subTasks[j].subTasks;
                           for(var k=0; k < sssWorks.length; k++){
@@ -157,7 +172,7 @@ tr.firstStage {
                               kItem.code = sssWorks[k].code;
                               kItem.title =sssWorks[k].code + " " + sssWorks[k].title;
                               kItem.description = sssWorks[k].description;
-                              kItem.description = level3Img;
+                              kItem.description = getRandomOf(taskImgs);
                               subSubItem.items.push(kItem);
                           }
 
@@ -224,24 +239,21 @@ tr.firstStage {
        };
 
 
-        var aImg = "${createLinkTo(dir: 'acm/img', file: 'avatar3.jpg')}";
-        var bImg = "${createLinkTo(dir: 'acm/img', file: 'avatar4.jpg')}";
-        var cImg = "${createLinkTo(dir: 'acm/img', file: 'avatar5.jpg')}";
-        var dImg = "${createLinkTo(dir: 'acm/img', file: 'avatar7.jpg')}";
+
 
         function SetupPBSWidget(data) {
             var options = new primitives.orgdiagram.Config();
             var rootItem = new primitives.orgdiagram.ItemConfig();
             rootItem.title = data.name;
             rootItem.description = data.description;
-            rootItem.image = aImg;
+            rootItem.image = getRandomOf(taskImgs);
             var subProjects = data.subProjects;
             for (var index = 0; index < subProjects.length; index++) {
                 var subItem = new primitives.orgdiagram.ItemConfig();
                 subItem.code = subProjects[index].code;
                 subItem.title = subProjects[index].code + " " + subProjects[index].name;
                 subItem.description = subProjects[index].description;
-                subItem.image = bImg;
+                subItem.image = getRandomOf(taskImgs);
                 if (subProjects[index].hasOwnProperty('subProjects')) {
                     var subSubProjects = subProjects[index].subProjects;
                     for (var j = 0; j < subSubProjects.length; j++) {
@@ -249,7 +261,7 @@ tr.firstStage {
                         subSubItem.code = subSubProjects[j].code;
                         subSubItem.title = subSubProjects[j].code + " " + subSubProjects[j].name;
                         subSubItem.description = subSubProjects[j].description;
-                        subSubItem.image = cImg;
+                        subSubItem.image = getRandomOf(taskImgs);
                         if(subSubProjects[j].hasOwnProperty('subProjects')){
                             var sssProjects = subSubProjects[j].subProjects;
                             for(var k=0; k< sssProjects.length; k++){
@@ -257,7 +269,7 @@ tr.firstStage {
                                 sssItem.code = sssProjects[k].code;
                                 sssItem.title = sssProjects[k].code + " " + sssProjects[k].name;
                                 sssItem.description = sssProjects[k].description;
-                                sssItem.image = dImg;
+                                sssItem.image = getRandomOf(taskImgs);
                                 subSubItem.items.push(sssItem);
                             }
                         }
@@ -415,62 +427,82 @@ tr.firstStage {
         else spinner.css("display", "none");
     }
 
-  function foldingTasks(){
 
 
-      $("table#myDataTable tbody tr").each(function(){
-          var taskCode = $(this).children("td").eq(0).text();
-          var taskStage = taskCode.length-taskCode.replace('.','').replace('.','').length;
-          if(taskStage==0){$(this).addClass("firstStage");}
-          else if(taskStage==1){$(this).addClass("secondStage");}
-          else {$(this).addClass("thirdStage");}
-      });
-
-      $("div.pagination ul,select").click(function(){
-          $("table#myDataTable tr").each(function(){
-              var taskCode = $(this).children("td").eq(0).text();
-              var taskStage = taskCode.length-taskCode.replace('.','').replace('.','').length;
-              if(taskStage==0){$(this).addClass("firstStage");}
-              else if(taskStage==1){$(this).addClass("secondStage");}
-              else {$(this).addClass("thirdStage");}
-          });
-
-      });
-      $("select").change(function(){
-          $("table#myDataTable tbody tr").each(function(){
-              var taskCode = $(this).children("td").eq(0).text();
-              var taskStage = taskCode.length-taskCode.replace('.','').replace('.','').length;
-              if(taskStage==0){$(this).addClass("firstStage");}
-              else if(taskStage==1){$(this).addClass("secondStage");}
-              else {$(this).addClass("thirdStage");}
-          });
-      });
-      $("table#myDataTable tbody tr").live("click",function(){
-          var taskCode = $(this).children("td").eq(0).text();
-          if($(this).children("td").eq(0).text().lastIndexOf(".")==-1){
-              $(this).siblings().each(function(){
-                  var stage= $(this).children("td").eq(0).text();
-                  var firstDot=stage.indexOf(".");
-                  var parentStage=stage.substring(0,firstDot);
-                  if(taskCode==parentStage)
-                  {$(this).toggleClass("hidden");}
-              });
-          }
-          else{
-              $(this).siblings().each(function(){
-                  var stage= $(this).children("td").eq(0).text();
-                  var lastDot=stage.lastIndexOf(".");
-                  var parentStage=stage.substring(0,lastDot);
-                  if(taskCode==parentStage)
-                  {$(this).toggleClass("hidden");}
-              });
-          }
-      });
+    function foldingTasks() {
 
 
+        $("table#myDataTable tbody tr").each(function () {
+            var taskCode = $(this).children("td").eq(0).text();
+            var taskStage = taskCode.length - taskCode.replace('.', '').replace('.', '').length;
+            if (taskStage == 0) {
+                $(this).addClass("firstStage");
+            }
+            else if (taskStage == 1) {
+                $(this).addClass("secondStage");
+            }
+            else {
+                $(this).addClass("thirdStage");
+            }
+        });
+
+        $("div.pagination ul,select").click(function () {
+            $("table#myDataTable tr").each(function () {
+                var taskCode = $(this).children("td").eq(0).text();
+                var taskStage = taskCode.length - taskCode.replace('.', '').replace('.', '').length;
+                if (taskStage == 0) {
+                    $(this).addClass("firstStage");
+                }
+                else if (taskStage == 1) {
+                    $(this).addClass("secondStage");
+                }
+                else {
+                    $(this).addClass("thirdStage");
+                }
+            });
+
+        });
+        $("select").change(function () {
+            $("table#myDataTable tbody tr").each(function () {
+                var taskCode = $(this).children("td").eq(0).text();
+                var taskStage = taskCode.length - taskCode.replace('.', '').replace('.', '').length;
+                if (taskStage == 0) {
+                    $(this).addClass("firstStage");
+                }
+                else if (taskStage == 1) {
+                    $(this).addClass("secondStage");
+                }
+                else {
+                    $(this).addClass("thirdStage");
+                }
+            });
+        });
+        $("table#myDataTable tbody tr").live("click", function () {
+            var taskCode = $(this).children("td").eq(0).text();
+            if ($(this).children("td").eq(0).text().lastIndexOf(".") == -1) {
+                $(this).siblings().each(function () {
+                    var stage = $(this).children("td").eq(0).text();
+                    var firstDot = stage.indexOf(".");
+                    var parentStage = stage.substring(0, firstDot);
+                    if (taskCode == parentStage) {
+                        $(this).toggleClass("hidden");
+                    }
+                });
+            }
+            else {
+                $(this).siblings().each(function () {
+                    var stage = $(this).children("td").eq(0).text();
+                    var lastDot = stage.lastIndexOf(".");
+                    var parentStage = stage.substring(0, lastDot);
+                    if (taskCode == parentStage) {
+                        $(this).toggleClass("hidden");
+                    }
+                });
+            }
+        });
 
 
-  }
+    }
 
 
     function ReloadProjectDataTable() {

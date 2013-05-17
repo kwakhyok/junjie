@@ -52,10 +52,10 @@ class UserService {
         def telephones = ['18801123464', '18801123464', '18801123464', '18801123464']
         def emails = ['yupangyu@email.com', 'yupangyu@email.com', 'yupangyu@email.com', 'yupangyu@email.com']
 
-        def photos = ['acm/img/avatar7.jpg',
-                'acm/img/avatar8.jpg',
-                'acm/img/avatar5.jpg',
-                'acm/img/avatar3.jpg']
+        def photos = ['images/avatar/avatar7.jpeg',
+                'images/avatar/avatar2.jpeg',
+                'images/avatar/avatar3.jpeg',
+                'images/avatar/avatar4.jpeg']
 
 
 

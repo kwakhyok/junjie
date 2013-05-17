@@ -10,7 +10,6 @@
 <body>
 
     <div class="span7">
-        <
         <g:render template="taskListWithPriority"/>
     </div>
 
