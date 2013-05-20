@@ -1,0 +1,3 @@
+[submodule "localplugins/grails-ajax-uploader"]
+	path = localplugins/grails-ajax-uploader
+	url = git://github.com/kwakhyok/grails-ajax-uploader.git
