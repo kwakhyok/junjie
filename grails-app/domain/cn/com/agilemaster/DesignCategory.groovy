@@ -3,10 +3,10 @@ package cn.com.agilemaster
 class DesignCategory {
 
     String name
-    DesignCategory parentCategory = null
-
 
     static hasMany = [designs:Design]
+
+    static belongsTo = [parentCategory: DesignCategory]
 
     static constraints = {
         name size: 1..20, unique: true, nullable: false

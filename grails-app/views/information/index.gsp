@@ -24,11 +24,6 @@
                 <li><a href="#contact">通讯录</a></li>
                 <li><a href="#rule">规章制度</a></li>
                 <li><a href="#prerequisite">前期手续</a></li>
-
-
-
-
-
             </ul>
 
             <div id="myTabContent" class="tab-content">

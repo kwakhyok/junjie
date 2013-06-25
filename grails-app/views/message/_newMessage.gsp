@@ -5,6 +5,7 @@
 </div>
 
 <div class="box-content">
+
     <g:uploadForm action="sendAndSave">
         <fieldset>
             <div class="control-group">
@@ -43,9 +44,11 @@
                 %{--<label class="control-label" for="messageBody">正文</label>--}%
 
                 <div class="controls">
-                    <g:textArea class="cleditor input-xxlarge" id="messageBody" name="body"
-                                rows="4" cols="1"></g:textArea>
+                    <ckeditor:editor width="95%" height="300px" name="myeditor">
+                        ${initialValue}
+                    </ckeditor:editor>
                 </div>
+                <ckeditor:fileBrowser>Open file browser</ckeditor:fileBrowser>
             </div>
 
             <div class="control-group">
@@ -57,9 +60,20 @@
             </div>
 
             <div class="form-actions">
+                <g:submitToRemote value="Ajax发送并保存"
+                                  class="btn btn-primary"
+                                  onComplete="sendSuccessMsg();"
+                                  url="[controller:'message', action:'ajaxSend']"
+                                  update='newMessagePanel'/>
                 <g:actionSubmit action="sendAndSave" value="发送并保存" class="btn btn-primary"/>
                 <button type="reset" class="btn">取消</button>
             </div>
         </fieldset>
     </g:uploadForm>
+
+    <a href="${ckeditor.fileBrowserLink(type:'Image', userSpace:'userone')}" target="_blank">Open File</a>
+
+    <div><a id="ajaxtest" href="ajaxtest" class="btn btn-info">Ajax Test</a></div>
+
+    <div id="ajaxtestDiv" class="hide"> Hidden Me! </div>
 </div>

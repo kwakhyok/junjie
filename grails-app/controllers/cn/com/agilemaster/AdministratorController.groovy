@@ -10,6 +10,7 @@ class AdministratorController {
 
     def importService
 
+
     def index = { }
 
     def listUsers = {

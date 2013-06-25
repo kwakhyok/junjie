@@ -5,8 +5,12 @@
     <g:link class="btn btn-small btn-primary" action="create"><i class="halflings-icon edit"></i>转发信息</g:link>
     <g:link class="btn btn-small btn-primary" action="create"><i class="halflings-icon edit"></i>删除信息</g:link>
 </div>
+
+
+
+
 <hr/>
-<table class="table bootstrap-datatable datatable messagesList">
+<table class="table bootstrap-datatable datatable messagesList table-hover">
     <thead><tr>
         <th><input type="checkbox"></th>
         <th class="from">来自</th>
@@ -22,12 +26,6 @@
 </table>
 
 <div id="errorDiv">
-    <h2>ErrorDiv</h2>
-    <ul>
-    <g:each in="${cn.com.agilemaster.Message.list()}" var="msg">
-             <li>${msg.tags}</li>
-    </g:each>
-        </ul>
 </div>
 
 

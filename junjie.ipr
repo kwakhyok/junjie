@@ -39,6 +39,7 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/grailsAjaxUploader-inplacePlugin.iml" filepath="$PROJECT_DIR$/grailsAjaxUploader-inplacePlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/junjie.iml" filepath="$PROJECT_DIR$/junjie.iml" />
       <module fileurl="file://$PROJECT_DIR$/junjie-grailsPlugins.iml" filepath="$PROJECT_DIR$/junjie-grailsPlugins.iml" />
     </modules>

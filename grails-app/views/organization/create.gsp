@@ -4,7 +4,8 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="layout" content="kickstart" />
+	<meta name="layout" content="main" />
+    <r:require module="acme"/>
 	<g:set var="entityName" value="${message(code: 'organization.label', default: 'Organization')}" />
 	<title><g:message code="default.create.label" args="[entityName]" /></title>
 </head>

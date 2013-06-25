@@ -63,7 +63,7 @@
             <g:layoutBody/>
         </div>
 
-        <div id="widgets-area" class="span2 hidden-tablet hidden-phone" style="display:none;">
+        <div id="widgets-area" class="span11" style="display:none;">
             <ul class="nav tab-menu nav-tabs" id="myTab">
                 <li><a href="#charts"><i class="fa-icon-bar-chart"></i></a></li>
                 <li><a href="#users"><i class="fa-icon-group"></i></a></li>
@@ -187,7 +187,7 @@
                 </div>
             </div>
         </div>
-        <a id="widgets-area-button" class="hidden-tablet hidden-phone open">
+        <a id="widgets-area-button" class="hidden-phone open">
             <i class="fa-icon-reorder"></i></a>
     </div>
 </div>

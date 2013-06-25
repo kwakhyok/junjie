@@ -61,7 +61,7 @@ modules = {
         resource url: "acm/css/font-awesome-ie7.css";			/* Font Awesome Styles */
         resource url: "acm/css/glyphicons.css";				/* Glyphicons Font */
         resource url: "acm/css/halflings.css";				/* Glyphicons Halflings Font */
-        resource url: "acm/css/webfonts.css";					/* Google Web Fonts */
+        //resource url: "acm/css/webfonts.css";					/* Google Web Fonts */
     }
 
     acm_css{

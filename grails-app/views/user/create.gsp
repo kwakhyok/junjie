@@ -3,16 +3,13 @@
 <html lang="${session.'org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta content="loggedinacm" name="layout"/>
+    <meta content="main" name="layout"/>
     <!-- start: Favicon -->
     <link rel="shortcut icon" href="${createLinkTo(dir: 'acm/img', file: 'favicon.ico')}"/>
     <!-- end: Favicon -->
-    <r:require module="acm"/>
+    <r:require module="acme"/>
     <style type="text/css">
-    body {
-        background: url("${createLinkTo(dir:'acm/img', file:'bg-login.jpg')}") !important;
 
-    }
     .control-label-small {
         float:left;
         width:100px;

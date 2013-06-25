@@ -1,7 +1,7 @@
 <tr class="messagesListRow">
     <td>
         <div class="checker">
-            <span><input type="checkbox"></span>
+            <span><input type="checkbox" value="${message?.id}"></span>
         </div>
     </td>
     <td class="from ">

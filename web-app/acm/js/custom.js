@@ -75,8 +75,11 @@ $(document).ready(function () {
 
     });
 
+/*
 
-    /* ---------- Add class .active to current link  ---------- */
+    */
+/* ---------- Add class .active to current link  ---------- *//*
+
     $('ul.main-menu li a').each(function () {
 
         if ($(this).hasClass('submenu')) {
@@ -99,6 +102,7 @@ $(document).ready(function () {
 
 
     });
+*/
 
 
     /* ---------- Acivate Functions ---------- */

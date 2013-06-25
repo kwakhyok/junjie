@@ -10,6 +10,8 @@ class ContractController {
 
     def userService
 
+    static scaffold = ContractDocument
+
     def index = {
         def lastContract
         if(ContractDocument.count>0){

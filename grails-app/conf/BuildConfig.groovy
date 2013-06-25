@@ -12,7 +12,7 @@ grails.project.dependency.resolution = {
         // uncomment to disable ehcache
         // excludes 'ehcache'
     }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     checksums true // Whether to verify checksums on resolve
 
     repositories {
@@ -29,6 +29,7 @@ grails.project.dependency.resolution = {
         mavenRepo "http://repository.codehaus.org"
         mavenRepo "http://download.java.net/maven/2/"
         mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://repo.desirableobjects.co.uk/"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -36,8 +37,9 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.16'
 
         //compile 'org.apache.activemq:activemq-core:5.5.0'
-          compile 'org.apache.poi:poi:3.9'
-          compile 'org.apache.poi:poi-ooxml:3.9'
+        compile 'org.apache.poi:poi:3.9'
+        compile 'org.apache.poi:poi-ooxml:3.9'
+       // compile ":ajax-uploader:1.1"
 
     }
 
@@ -46,6 +48,7 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.7.1"
         runtime ":resources:1.1.6"
         compile ":shiro:1.1.4"
+        compile ":ckeditor:3.6.3.0"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
         //runtime ":cached-resources:1.0"
@@ -54,5 +57,6 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
     }
 
-   //grails.offline.mode = true
+    //grails.offline.mode = true
 }
+grails.plugin.location.'grails-ajax-uploader'="localplugins/grails-ajax-uploader"

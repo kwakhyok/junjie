@@ -15,6 +15,7 @@ class TaskController {
 
     def taskService
 
+    static scaffold = true
 
     def index() {
         def works = Workbreakdown.list(params)
@@ -50,10 +51,6 @@ class TaskController {
 
         [WBSList: works, PBSList: pbss, taskList: tasks, myTaskList: myTasks]
     }
-    def test(){
-       // TODO: ajax edit task and assign tasks
-    }
-
 
 
     def planTask = {

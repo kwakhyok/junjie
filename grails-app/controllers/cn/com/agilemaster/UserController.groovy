@@ -10,6 +10,8 @@ import grails.converters.JSON
  */
 class UserController {
 
+    static scaffold = true
+
     def shiroSecurityService
     def userService
     def grailsApplication

@@ -47,7 +47,6 @@ modules = {
         resource url: "acm/css/font-awesome-ie7.css";			/* Font Awesome Styles */
         resource url: "acm/css/glyphicons.css";				/* Glyphicons Font */
         resource url: "acm/css/halflings.css";				/* Glyphicons Halflings Font */
-        resource url: "acm/css/webfonts.css";					/* Google Web Fonts */
         /*-------------------------------END Import part of CSS ACME----------------------------------------*/
         resource url:"acm/css/retina.css"
         resource url:"acm/js/html5.js", wrapper: {s-> "<!--[if lt IE 9]>$s<![endif]-->"}
@@ -121,6 +120,9 @@ modules = {
     }
 
 
+    application{
+        resource url:'js/application.js'
+    }
 
 
 }

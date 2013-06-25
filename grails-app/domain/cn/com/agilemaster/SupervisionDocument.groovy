@@ -9,8 +9,7 @@ class SupervisionDocument {
     /* Default (injected) attributes of GORM */
 //	Long	id
 //	Long	version
-
-    /* Automatic timestamping of GORM */
+/* Automatic timestamping of GORM */
 //	Date	dateCreated
 //	Date	lastUpdated
 
@@ -19,7 +18,7 @@ class SupervisionDocument {
 //	static hasMany		= []	// tells GORM to associate other domain objects for a 1-n or n-m mapping
 //	static mappedBy		= []	// specifies which property should be used in a mapping 
     SuperVisionCategory category
-    public enum SuperVisionCategory { MEETING_BITS, MONTHLY_REPORTS, OUTLINE}
+    public enum SuperVisionCategory { MEETING_BITS, MONTHLY_REPORTS, OUTLINE }
 
     /*
       * Methods of the Domain Class
@@ -28,4 +27,5 @@ class SupervisionDocument {
 	public String toString() {
 		return "${title} ${category}";
 	}
+
 }

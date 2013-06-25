@@ -47,10 +47,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <g:each in="${categories}" var="cat">
+                <g:each in="${designCategories}" var="cat">
                     <tr>
                         <td>${cat.name}</td>
-                        <td> <span class="red" style="border: 1px solid">1 ${cat.num} </span></td>
+                        <td> <span class="red"> 1 </span></td>
                     </tr>
                 </g:each>
                 </tbody>

@@ -28,7 +28,7 @@
                 <h2>登录君捷项目管理系统 - 1.2</h2>
 
                 <g:if test="${flash.message}">
-                    <div class="message alert">${flash.message}</div>
+                    <div class="message alert alert-block">${flash.message}</div>
                 </g:if>
 
 
@@ -66,10 +66,16 @@
 
                 <h3>演示提示</h3>
                 <p>
-                    初始管理员: admin: [password]
+                    管理员用户：admin
                 </p>
                 <p>
-                    初始操作员：test: [password]
+                    密码: password
+                </p>
+                <p>
+                    操作员：test
+                </p>
+                <p>
+                    密码：password
                 </p>
             </div><!--/span-->
         </div><!--/row-->

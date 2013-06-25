@@ -177,6 +177,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="junjie-grailsPlugins" />
     <orderEntry type="library" name="grails-2.0.4" level="application" />
+    <orderEntry type="module" module-name="grailsAjaxUploader-inplacePlugin" exported="" />
   </component>
 </module>
 

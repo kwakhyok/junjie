@@ -5,12 +5,8 @@
     <title>${meta(name: 'app.name')} -- 沟通管理</title>
     <meta content="main" name="layout"/>
     <r:require module="acme"/>
-    <style type="text/css">
-    tr.highlightRow {
-        border-left: 2px solid red;
-        border-right: 2px solid red;
-    }
-    </style>
+    <ckeditor:resources/>
+
 </head>
 
 <body>
@@ -39,7 +35,6 @@
 
     <div class="span5 noMarginLeft hide" id="showMessagePanel">
         <g:render template="messageDetail"/>
-
     </div>
 
 </div>
@@ -47,79 +42,63 @@
 <r:script>
 
 
-    $('table.messagesList tr.messagesListRow').click(function () {
-        $(this).siblings().removeClass('highlightRow');
-        $(this).toggleClass('highlightRow', this.clicked);
-        console.log($(this).attr('class'));
+
+
+    function sendSuccessMsg(){
+        $.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title:'信息已经发送',
+                // (string | mandatory) the text inside the notification
+            text:'',
+            // (string | optional) the image to display on the left
+            sticky: false
+        }) ;
+    }
+
+    function remoteShowMessage(msgId){
+       ${remoteFunction(action:'ajaxShow', controller: 'message',
+            params: '\'id=\'+msgId', update: [success: 'showMessagePanel', error: 'errors'])}
+    }
+
+    $(function(){
+        $('tr.messagesListRow').bind('click',function(evet,data){
+            $('#newMessagePanel').hide();
+            $('#showMessagePanel').fadeIn('slow');
+            var msgId = $(this).find('input').first().val();
+            remoteShowMessage(msgId);
+        });
     });
 
 
+    $(function(){
+         $('a#ajaxtest').bind('click',function(event,data){
+            var link = $(this);
+            var content = $('div#ajaxtestDiv');
+            content.empty();
+            $.ajax({
+                url:link.attr("href"),
+                type:'post',
+                dataType: "html",
+                error: function(){
+                    console.log("AJAX - error() ") ;
+                },
+                beforeSend: function(){
+                    console.log('Before Sending... ');
+                },
+                complete: function(){
+                    console.log('completing...');
+                    content.fadeIn('slow');
+                },
+                success:function(data){
+                    console.log('success...');
+                    content.html(data);
 
-    $(function () {
-        if ($('#liInbox').on('click', function () {
-            $('table.messagesList thead tr th.from').text("来自...");
-        }));
-        if ($('#liOutbox').on('click', function () {
-            $('table.messagesList thead tr th.from').text("发给...");
-        }));
-
-        $('a.replyBtn').bind('click', function (event, data) {
-            console.log($(this).html());
-            $('newMessage').removeClass('hide');
-            $('messageDetail').addClass('hide');
-        });
-
-
-        $("li#liInbox").bind("click", function () {
-            $("div#inputBox").show();
-            $("div#outputBox").hide();
-        });
-        $("li#liOutbox").bind("click", function () {
-            $("div#inputBox").hide();
-            $("div#outputBox").show();
-        });
-        $("li select").hide();
-        $("div .box-content table.table tbody tr.messagesListRow td a.replyBtn").click(function () {
-            $('div#newMessagePanel').show();
-            $('div#showMessagePanel').hide();
-            //selectMail(回复);
-            var message = $(this).parent().parent();
-            var messageFrom = message.children("td.messageTitle").text().substr(19);
-            var messageTag = message.children("td.messageTitle").text().substring(9, 11);
-            $("div#newMessagePanel input#messageTitle").attr("value", "回复-" + messageFrom);
-            $("div ul.chzn-choices").children().remove();
-            $("div ul li").eq(0).removeClass("active-result").addClass("result-selected");
-            $("div#recipients_chzn ul.chzn-choices").prepend("<li class='search-choice' id='tags_chzn_c_0'><span>admin</span><a href='javascript:void(0)' class='search-choice-close' rel='0'></a></li>");
-            $("div#tags_chzn ul.chzn-choices").prepend("<li class='search-choice' id='tags_chzn_c_0'><span>" + messageTag + "</span><a href='javascript:void(0)' class='search-choice-close' rel='0'></a></li>");
-
-
-        });
-        $("div .box-content table.table tbody tr.messagesListRow td a.forwardBtn").click(function () {
-            $('div#newMessagePanel').show();
-            $('div#showMessagePanel').hide();
-            //selectMail(转发);
-            var message = $(this).parent().parent();
-            var messageFrom = message.children("td.messageTitle").text().substr(19);
-            var messageTag = message.children("td.messageTitle").text().substring(9, 11);
-            $("div#newMessagePanel input#messageTitle").attr("value", "转发-" + messageFrom);
-            $("div ul.chzn-choices").children().remove();
-            $("div ul li").eq(0).removeClass("active-result").addClass("result-selected");
-            $("div#recipients_chzn ul.chzn-choices").prepend("<li class='search-choice' id='tags_chzn_c_0'><span>admin</span><a href='javascript:void(0)' class='search-choice-close' rel='0'></a></li>");
-            $("div#tags_chzn ul.chzn-choices").prepend("<li class='search-choice' id='tags_chzn_c_0'><span>" + messageTag + "</span><a href='javascript:void(0)' class='search-choice-close' rel='0'></a></li>");
-
-
-        });
-        $("div .box-content table.table tbody tr.messagesListRow").click(function () {
-            $(".highlightRow").removeClass("highlightRow");
-            $(this).addClass("highlightRow");
-        });
-
-        $("div .box-content table.table tbody tr.messagesListRow td a.replyBtn").parent().siblings().click(function () {
-            $('div#newMessagePanel').hide();
-            $('div#showMessagePanel').show();
-        });
-
-
+                }
+            });
+            console.log('after completing...');
+            content.fadeIn('slow');
+            return (false);
+         });
     });
 
 

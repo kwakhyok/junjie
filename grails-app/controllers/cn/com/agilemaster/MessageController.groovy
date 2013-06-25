@@ -28,17 +28,62 @@ class MessageController {
 
         def user = session.currentUser
         def msg = new Message(title: params.title, body: params.body,
-                sender: user, tag: params.tag, uploadedFile: params.uploadedFile)
-        def recipients = params.recipients.split(',')
-        recipients.each { recipient ->
-            msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipient)))
+                sender: user, tags: params.tag, uploadedFile: params.uploadedFile)
+        println params.recipients
+        def recipients = params.recipients
+
+        if(recipients instanceof String){
+            msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipients)))
+        }else{
+            recipients.each { recipient ->
+                msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipient)))
+            }
         }
+
         if (msg.save(failOnError: true)) {
             redirect(action: 'index')
         } else {
             msg.errors.each {println it}
         }
     }
+
+
+    def ajaxShow = {
+        def msgId = params.id
+        if(!msgId){
+            flash.message = '没有您选择的信息需要显示啊'
+            redirect(action: 'index')
+        }else{
+           def msg = Message.get(msgId)
+           render(template: 'messageDetail', model: [msg:msg])
+        }
+    }
+
+
+    def ajaxtest = {
+        render template: 'ajaxtest'
+    }
+
+    def ajaxSend = {
+
+        def user = session.currentUser
+        def msg = new Message(title: params.title, body: params.body,
+                sender: user, tags: params.tag, uploadedFile: params.uploadedFile)
+        def recipients = params.recipients
+        if(recipients instanceof String){
+            msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipients)))
+        }else{
+            recipients.each { recipient ->
+                msg.addToRecipients(new MessageRecipient(message: msg, recipient: User.findByUsername(recipient)))
+            }
+        }
+        if (msg.save(failOnError: true)) {
+            render template: 'newMessage'
+        } else {
+            msg.errors.each {println it}
+        }
+    }
+
 
     def reply = {
 

@@ -6,6 +6,6 @@ package cn.com.agilemaster
  */
 class SupervisionController {
 
-    //static scaffold = true
-    def index = { }
+    static scaffold = SupervisionDocument
+    //def index = { }
 }

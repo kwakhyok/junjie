@@ -12,14 +12,6 @@ table#myDataTable tr {
     cursor: pointer;
 }
 
-tr.firstStage {
-    background-image: linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
-    background-image: -o-linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
-    background-image: -moz-linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
-    background-image: -webkit-linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
-    background-image: -ms-linear-gradient(left bottom, rgb(240, 237, 240) 33%, rgb(245, 237, 245) 67%, rgb(250, 242, 250) 84%);
-    background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0.33, rgb(240, 237, 240)), color-stop(0.67, rgb(245, 237, 245)), color-stop(0.84, rgb(250, 242, 250)));
-}
 </style>
 
 
@@ -69,43 +61,6 @@ tr.firstStage {
                 showProjectOrgChart();
              });
         });
-/*
-
-        jQuery(document).ready(function () {
-            */
-/*  == .live(), but in jquery 1.8 there's more preformant way! *//*
-
-            $(document).delegate('#wbsMenu li a', 'click', function (event, data) {
-                // console.log('this: ' + $(this).children('span.hidden').text() + ' type: ' + event.type);
-                var myWbsId = $(this).children('span.hidden').text();
-                $.getJSON("listTasksAsJson", {wbsId:myWbsId}, function (data) {
-                    ResizePlaceholder('#orgdiagram');
-                   // SetupWBSWidget(data);
-                    GetWBSTask(data);
-                    $(window).resize(function () {
-                        onWindowResize('#orgdiagram');
-                    });
-
-                    event.preventDefault();
-                });
-            });
-
-
-            $(document).delegate('#pbsMenu li a', 'click', function (event, data) {
-                var myPbsCode = $(this).children('span.hidden').text();
-                $.getJSON("listProjectsAsJson", {pbsCode:myPbsCode}, function (data) {
-                    ResizePlaceholder('#pbsdiagram');
-                    SetupPBSWidget(data);
-                    $(window).resize(function () {
-                        onWindowResize('#pbsdiagram');
-                    });
-                    event.preventDefault();
-                });
-            });
-
-        });
-
-*/
 
         function onWindowResize(diagramDiv) {
             if (m_timer == null) {
@@ -126,7 +81,7 @@ tr.firstStage {
         "${createLinkTo(dir: 'images/avatar', file: 'avatar3.jpeg')}",
         "${createLinkTo(dir: 'images/avatar', file: 'avatar4.jpeg')}",
         "${createLinkTo(dir: 'images/avatar', file: 'avatar5.jpeg')}",
-        "${createLinkTo(dir: 'images/avatar', file: 'avatar6.jpeg')}",
+        "${createLinkTo(dir: 'images/avatar', file: 'avatar8.jpeg')}",
         "${createLinkTo(dir: 'images/avatar', file: 'avatar7.jpeg')}"
         ];
 
@@ -218,6 +173,8 @@ tr.firstStage {
             options.cursorItem = rootItem;
             options.hasSelectorCheckbox = primitives.common.Enabled.False;
             options.orientationType = primitives.orgdiagram.OrientationType.Left;
+            options.onMouseClick = onMouseClick;
+            options.templates = [getCursorTemplate()];
             $("#orgdiagram").orgDiagram(options);
 
         }
@@ -324,6 +281,67 @@ tr.firstStage {
             });
         }
 
+        function getCursorTemplate(){
+                     var result = new primitives.orgdiagram.TemplateConfig();
+            result.name = "CursorTemplate";
+
+            result.itemSize = new primitives.common.Size(120, 100);
+            result.minimizedItemSize = new primitives.common.Size(3, 3);
+            result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);
+            result.cursorPadding = new primitives.common.Thickness(3, 3, 50, 8);
+
+            var cursorTemplate = jQuery("<div></div>")
+            .css({
+                position: "absolute",
+                overflow: "hidden",
+                width: (result.itemSize.width + result.cursorPadding.left + result.cursorPadding.right) + "px",
+                height: (result.itemSize.height + result.cursorPadding.top + result.cursorPadding.bottom) + "px"
+            });
+
+            var cursorBorder = jQuery("<div></div>")
+            .css({
+                width: (result.itemSize.width + result.cursorPadding.left + 1) + "px",
+                height: (result.itemSize.height + result.cursorPadding.top + 1) + "px"
+            }).addClass("bp-item bp-corner-all bp-cursor-frame");
+            cursorTemplate.append(cursorBorder);
+
+            var bootStrapVerticalButtonsGroup = jQuery("<div></div>")
+            .css({
+                position: "absolute",
+                overflow: "hidden",
+                top: result.cursorPadding.top + "px",
+                left: (result.itemSize.width + result.cursorPadding.left + 10) + "px",
+                width: "35px",
+                height: (result.itemSize.height + 1) + "px"
+            }).addClass("btn-group btn-group-vertical");
+
+            bootStrapVerticalButtonsGroup.append('<button class="btn btn-small" data-buttonname="info" type="button"><i class="icon-info-sign"></i></button>');
+            bootStrapVerticalButtonsGroup.append('<button class="btn btn-small" data-buttonname="edit" type="button"><i class="icon-edit"></i></button>');
+            bootStrapVerticalButtonsGroup.append('<button class="btn btn-small" data-buttonname="remove" type="button"><i class="icon-remove"></i></button>');
+            bootStrapVerticalButtonsGroup.append('<button class="btn btn-small" data-buttonname="user" type="button"><i class="icon-user"></i></button>');
+
+            cursorTemplate.append(bootStrapVerticalButtonsGroup);
+
+            result.cursorTemplate = cursorTemplate.wrap('<div>').parent().html();
+
+            return result;
+        }
+
+        function onMouseClick(event, data){
+             var target = jQuery(event.originalEvent.target);
+        if (target.hasClass("btn") || target.parent(".btn").length > 0)
+        {
+            var button = target.hasClass("btn") ? target : target.parent(".btn");
+            var buttonname = button.data("buttonname");
+
+            var message = "User clicked '" + buttonname + "' button for item '" + data.context.title + "'.";
+            message += (data.parentItem != null ? " Parent item '" + data.parentItem.title + "'" : "");
+            alert(message);
+
+            data.cancel = true;
+        }
+        }
+
 </r:script>
 </head>
 
@@ -338,12 +356,12 @@ tr.firstStage {
         <ul class="nav tab-menu nav-tabs" id="myTab">
             <li id="wbsChartTab" class="active"><a href="#wbsPane"><i class="fa-icon-sitemap"></i><span
                     class="break"></span>WBS</a></li>
-            <li id="taskListTab"><a href="#taskListPanel"><i class="fa-icon-list"></i><span class="break"></span>工作列表
+            <li id="taskListTab"><a href="#taskListPanel"><i class="fa-icon-list"></i><span class="break"></span>滚动工作列表
             </a></li>
             <li id="pbsChartTab"><a href="#pbsPane"><i class="fa-icon-sitemap"></i><span class="break"></span>PBS</a>
             </li>
             <li id="projectListTab"><a href="#projectListPanel"><i class="fa-icon-list-alt"></i><span
-                    class="break"></span>项目列表</a></li>
+                    class="break"></span>滚动项目列表</a></li>
         </ul>
 
         <div id="myTabContent" class="tab-content">
@@ -372,11 +390,6 @@ tr.firstStage {
 
             <div class="tab-pane" id="taskListPanel">
                 <g:render template="taskList" model="[filteredTask: Task.list()]"/>
-                <ul>
-                    <g:each in="${TaskPlan.list()}" var="plan">
-                        <li>${plan.task.title} ${plan.assignedUser}</li>
-                    </g:each>
-                </ul>
             </div>
 
             <div class="tab-pane" style="min-height: 600px" id="pbsPane">
@@ -406,15 +419,6 @@ tr.firstStage {
 
         </div>
     </am:boxContainer>
-    <div class="row-fluid">
-
-        <h2>${currentUser?.profile} has ${TaskPlan.list().size()} Tasks.</h2>
-        <ul>
-            <g:each in="${TaskPlan.findAllByAssignedUser(currentUser).collect {it.task}}" var="task">
-                <li>${task}</li>
-            </g:each>
-        </ul>
-    </div>
 </div>
 <r:script>
 
@@ -427,82 +431,6 @@ tr.firstStage {
         else spinner.css("display", "none");
     }
 
-
-
-    function foldingTasks() {
-
-
-        $("table#myDataTable tbody tr").each(function () {
-            var taskCode = $(this).children("td").eq(0).text();
-            var taskStage = taskCode.length - taskCode.replace('.', '').replace('.', '').length;
-            if (taskStage == 0) {
-                $(this).addClass("firstStage");
-            }
-            else if (taskStage == 1) {
-                $(this).addClass("secondStage");
-            }
-            else {
-                $(this).addClass("thirdStage");
-            }
-        });
-
-        $("div.pagination ul,select").click(function () {
-            $("table#myDataTable tr").each(function () {
-                var taskCode = $(this).children("td").eq(0).text();
-                var taskStage = taskCode.length - taskCode.replace('.', '').replace('.', '').length;
-                if (taskStage == 0) {
-                    $(this).addClass("firstStage");
-                }
-                else if (taskStage == 1) {
-                    $(this).addClass("secondStage");
-                }
-                else {
-                    $(this).addClass("thirdStage");
-                }
-            });
-
-        });
-        $("select").change(function () {
-            $("table#myDataTable tbody tr").each(function () {
-                var taskCode = $(this).children("td").eq(0).text();
-                var taskStage = taskCode.length - taskCode.replace('.', '').replace('.', '').length;
-                if (taskStage == 0) {
-                    $(this).addClass("firstStage");
-                }
-                else if (taskStage == 1) {
-                    $(this).addClass("secondStage");
-                }
-                else {
-                    $(this).addClass("thirdStage");
-                }
-            });
-        });
-        $("table#myDataTable tbody tr").live("click", function () {
-            var taskCode = $(this).children("td").eq(0).text();
-            if ($(this).children("td").eq(0).text().lastIndexOf(".") == -1) {
-                $(this).siblings().each(function () {
-                    var stage = $(this).children("td").eq(0).text();
-                    var firstDot = stage.indexOf(".");
-                    var parentStage = stage.substring(0, firstDot);
-                    if (taskCode == parentStage) {
-                        $(this).toggleClass("hidden");
-                    }
-                });
-            }
-            else {
-                $(this).siblings().each(function () {
-                    var stage = $(this).children("td").eq(0).text();
-                    var lastDot = stage.lastIndexOf(".");
-                    var parentStage = stage.substring(0, lastDot);
-                    if (taskCode == parentStage) {
-                        $(this).toggleClass("hidden");
-                    }
-                });
-            }
-        });
-
-
-    }
 
 
     function ReloadProjectDataTable() {
@@ -586,7 +514,7 @@ tr.firstStage {
 
         $('#taskListTab').bind('click', function (event, data) {
             ReloadDataTable();
-            foldingTasks();
+           // foldingTasks();
         });
 
         $('#wbsChartTab').bind('click', function (event, data) {

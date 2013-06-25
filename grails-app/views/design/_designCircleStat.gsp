@@ -1,5 +1,5 @@
 
-<div class="span2" onTablet="span4" onDesktop="span2">
+<div class="span3" onTablet="span4" onDesktop="span3">
     <div class="circleStatsItemBox">
         <div class="header">${category.name}</div>
         <span class="percent">百分之</span>
@@ -7,7 +7,7 @@
         <div class="circleStat">
             <input type="text" value="${category.completion}" class="whiteCircle"/>
         </div>
-        <div class="footer">
+        <div class="footer hidden">
             <span class="count">
                 <span class="number">${category.completionNum}</span>
                 <span class="unit">张</span>
