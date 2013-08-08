@@ -14,6 +14,7 @@ class UserService {
     def shiroSecurityService
 
 
+
     def getCurrentUser = {
         Subject subject = SecurityUtils.subject
         if(!subject.isAuthenticated()){

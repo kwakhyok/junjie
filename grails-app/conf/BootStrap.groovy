@@ -1,3 +1,4 @@
+
 import cn.com.agilemaster.Role
 import cn.com.agilemaster.User
 import cn.com.agilemaster.UserProfile
